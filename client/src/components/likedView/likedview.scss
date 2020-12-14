@@ -1,0 +1,102 @@
+.liked-view {
+    width: 100%;
+    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    &__nav {
+        flex: 0 0 60%;
+
+        @media only screen and (max-width: 56.25em) {
+            flex: 0 0 80%;
+        }
+    }
+
+    &__list {
+        width: 100%;
+        list-style: none;
+    }
+
+    &__item {
+        position: relative;
+        background: var(--color-grey-light-3);
+        width: 100%;
+        height: 12rem;
+        padding: 1rem 2rem;
+        transition: background .25s;
+
+        &:not(:last-child) {
+            border-bottom: solid .1rem grey;
+        }
+
+        &:hover {
+            background: var(--color-grey-light-4);
+        }
+    }
+
+    &__link {
+
+        width: 100%;
+        height: 100%;
+        text-decoration: none;
+        color: #000;
+        display: flex;
+
+        &:hover {
+            color: #000;
+        }
+    }
+
+    &__imgbox {
+        flex: 0 0 20%;
+    }
+
+    &__img {
+        width: 100%;
+        height: 100%;
+    }
+
+    &__descriptionbox {
+        flex: 1;
+        padding: 0 2rem;
+    }
+
+    &__title {}
+
+    &__channeltitle {
+        color: var(--color-grey-dark-2);
+        font-weight: 300;
+    }
+
+    &__windowbtn {
+        position: absolute;
+        top: .5rem;
+        right: 0rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__window {
+        text-align: center;
+    }
+
+    &__windowtitle {
+        font-size: 1.7rem !important;
+    }
+
+    &__deletebtn {
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
