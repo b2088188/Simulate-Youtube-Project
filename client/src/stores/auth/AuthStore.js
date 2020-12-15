@@ -8,6 +8,7 @@ import {
   LOGIN_SUCCESS,
   LOADUSER_SUCCESS,
   LOGOUT_SUCCESS,
+  UPDATE_USERDATASUCCESS,
   NOT_LOGIN,
   LOADING,
   AUTH_FAIL,
@@ -99,6 +100,22 @@ const AuthStore = ({
    }       
  }
 
+ async function updateUserData(values) {
+    try {
+       const {data} = await axios.patch('/api/v1/users/updateMe', values);
+       dispatch({
+        type: UPDATE_USERDATASUCCESS,
+        payload: {
+          user: data.data.user
+        }
+       })
+    }
+    catch(err) {
+            
+    }
+        
+ }
+
  function clearError() {
    dispatch({type: CLEAR_ERROR});
  }
@@ -114,6 +131,7 @@ const value = {
    login,
    loadUser,
    logout,
+   updateUserData,
    clearError
 };
    return (

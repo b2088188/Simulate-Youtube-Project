@@ -25,7 +25,7 @@ const UserNavigation = () => {
 		     	<button className="user-nav__btn" onClick = {logout}>
 		     		Logout
 		     	</button>		
-		     	<Link to = "/" className = "user-nav__info">
+		     	<Link to = "/accounts" className = "user-nav__info">
 		     		<img  className = "user-nav__infophoto" src="https://s.ytimg.com/yts/img/avatar_48-vfllY0UTT.png" alt="User image" />
 		     		<span  className = "user-nav__infoname">{username}</span>
 		     	</Link>

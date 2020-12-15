@@ -11,7 +11,7 @@ const Sidebar = () => {
     const { isAuth } = useContext(AuthContext);
     let location = useLocation();
     let history = useHistory();
-    if (location.pathname === '/signup' || location.pathname === '/login')
+    if (location.pathname === '/signup' || location.pathname === '/login' || location.pathname === '/accounts')
         return null;
 
     function renderSignIn() {

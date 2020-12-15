@@ -3,6 +3,7 @@ import {
   LOGIN_SUCCESS,
   LOADUSER_SUCCESS,
   LOGOUT_SUCCESS,
+  UPDATE_USERDATASUCCESS,
   NOT_LOGIN,
   AUTH_FAIL,
   CLEAR_ERROR,
@@ -28,6 +29,11 @@ function authReducer(currentState, action) {
       token: null,
       isAuthenticated: false
      }
+    case UPDATE_USERDATASUCCESS:
+      return {
+        ...currentState,
+        user: action.payload.user
+      }
     case NOT_LOGIN:
       return {
         ...currentState,

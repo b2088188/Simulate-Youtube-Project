@@ -20,6 +20,7 @@ import SearchView from './components/searchView/SearchView';
 import VideoView from './components/videoView/VideoView';
 import LikedView from './components/likedView/LikedView';
 import ChannelView from './components/channelView/ChannelView';
+import AccountView from './components/accountView/AccountView';
 
 
 
@@ -45,6 +46,7 @@ function App() {
        <Route exact path = "/login" component = {Login} />
         <main className = "main-view">          
         <Route exact path = "/" component = {Home} />  
+        <PrivateRoute exact path = "/accounts" component = {AccountView} />
         <PrivateRoute exact path = "/likelist" component = {LikedView} />               
         <Route exact path = "/results/:term" component = {SearchView} />
         <Route exact path = "/watch/:videoId" component = {VideoView} />
