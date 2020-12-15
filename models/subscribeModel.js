@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 
 const subscribeSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'users'
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: [true, 'Subscription must belong to a user']
     },
     channelId: {
         type: String,
@@ -20,6 +21,8 @@ const subscribeSchema = new mongoose.Schema({
         selected: false
     }
 })
+
+// subscribeSchema.index({channelId: 1}, {unique: true});
 
 const Subscribe = mongoose.model('Subscribe', subscribeSchema);
 

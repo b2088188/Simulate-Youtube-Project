@@ -3,13 +3,15 @@ const router = express.Router();
 const { protect } = require('../controllers/authController');
 const { addSubscribe, getSubscribes, checkSubscribeExist, deleteSubscribe } = require('../controllers/subscribeController');
 
+
+router.use(protect);
 router.route('/')
-    .get(protect, getSubscribes)
-    .post(protect, addSubscribe);
+    .get(getSubscribes)
+    .post(addSubscribe);
 
 // router.route('/:id')           
-router.get('/:channelId', protect, checkSubscribeExist);
-router.delete('/:id', protect, deleteSubscribe)
+router.get('/:channelId', checkSubscribeExist);
+router.delete('/:id', deleteSubscribe)
 
 
 module.exports = router;

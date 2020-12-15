@@ -3,13 +3,15 @@ const router = express.Router();
 const { protect } = require('../controllers/authController');
 const { getLikes, createLike, deleteLike, checkLikeExist } = require('../controllers/likeController');
 
+router.use(protect);
+
 router.route('/')
-    .get(protect, getLikes)
-    .post(protect, createLike);
+    .get(getLikes)
+    .post(createLike);
 
 router.route('/:id')
-    .delete(protect, deleteLike)
+    .delete(deleteLike)
 
-router.get('/:videoId', protect, checkLikeExist);    
+router.get('/:videoId', checkLikeExist);    
 
 module.exports = router;

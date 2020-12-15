@@ -3,13 +3,15 @@ const router = express.Router();
 const { addComment, getComments, updateComment, deleteComment } = require('../controllers/commentController')
 const { protect } = require('../controllers/authController')
 
-router.route('/')
-    .post(protect, addComment)
 router.route('/:videoId')
     .get(getComments)
 
-router.patch('/:id', protect, updateComment)
-router.delete('/:id', protect, deleteComment)
+router.use(protect);
+
+router.route('/')
+    .post(addComment)
+router.patch('/:id', updateComment)
+router.delete('/:id', deleteComment)
 
 
 
