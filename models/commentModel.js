@@ -5,14 +5,10 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Comment need a videoId']
     },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
         required: [true, 'Comment need a userId']
-    },
-    name: {
-        type: String,
-        required: [true, 'Comment need a name']
     },
     comment: {
         type: String,
@@ -22,6 +18,14 @@ const commentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     }
+})
+
+commentSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'user',
+        select: 'name'
+    })
+    next();
 })
 
 const Comment = mongoose.model('Comment', commentSchema);

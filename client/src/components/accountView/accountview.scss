@@ -64,6 +64,9 @@
    width: 7rem;
    border-radius: 50%;
 }
+&__upload{
+  display: none;
+}
 &__uploadbtn{
     margin-left: 2rem;
     padding:1rem;

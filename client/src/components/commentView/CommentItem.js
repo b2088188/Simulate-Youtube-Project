@@ -26,12 +26,12 @@ const CommentItem = ({
 
     return (
         <div className = "comment-view__box">
-                <img src="https://s.ytimg.com/yts/img/avatar_48-vfllY0UTT.png" alt="User 1" className = "comment-view__photo"/>
+                <img src = {require(`../../../../public/assets/users/${user.photo}`).default}  alt="User 1" className = "comment-view__photo"/>
                    <div className = "comment-view__user-box">
                        <p className = "comment-view__user-name">{comment.name}</p>
                        <p className = "comment-view__user-comment">{comment.comment}</p>                       
                     </div>
-                    {user&&user._id === comment.userId?renderActionBtn(comment):null}                       
+                    {user&&user._id === comment.user._id?renderActionBtn(comment):null}                       
       </div>
     )
 }

@@ -11,7 +11,7 @@ const AccountView = () => {
 
    function onSubmit(values) {
    	updateUserData(values);
-    reset();
+    //reset();
    }
 
 	return (
@@ -42,7 +42,8 @@ const AccountView = () => {
         </div>
         <div className = "account-form__imgbox">
         	<img src = "https://s.ytimg.com/yts/img/avatar_48-vfllY0UTT.png" className = "account-form__img" />
-        	<button className = "account-form__uploadbtn">Choose New Photo</button>
+            <input type="file" className = "account-form__upload" ref = {register} id = "photo" name = "photo" />
+        	<label htmlFor = "photo" className = "account-form__uploadbtn">Choose New Photo</label>
         </div>
         <button className = "account-form__savebtn">Save Settings</button>
      </form>

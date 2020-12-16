@@ -1,7 +1,7 @@
 /node_modules
 /client/node_modules
 bower_components
-package-lock.js
-/client/package-lock.js
+package-lock.json
+/client/package-lock.json
 config.env
 /client/.eslintcache

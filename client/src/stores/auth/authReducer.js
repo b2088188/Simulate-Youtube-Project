@@ -32,6 +32,7 @@ function authReducer(currentState, action) {
     case UPDATE_USERDATASUCCESS:
       return {
         ...currentState,
+        loading: false,
         user: action.payload.user
       }
     case NOT_LOGIN:

@@ -102,7 +102,12 @@ const AuthStore = ({
 
  async function updateUserData(values) {
     try {
-       const {data} = await axios.patch('/api/v1/users/updateMe', values);
+      dispatch({type: LOADING});
+      const formData = new FormData();
+      formData.append('name', values.name);
+      formData.append('email', values.email);
+      formData.append('photo', values.photo[0]);
+       const {data} = await axios.patch('/api/v1/users/updateMe', formData);
        dispatch({
         type: UPDATE_USERDATASUCCESS,
         payload: {

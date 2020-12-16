@@ -13,7 +13,6 @@ const CommentView = () => {
     const { comments, getComments, addComment, updateComment, current, clearCurrent } = useContext(CommentContext);
     const [showActionBtn, setShowActionBtn] = useState(false);
     let { videoId } = useParams();
-
     useEffect(() => {
         getComments(videoId);
     }, [videoId])
