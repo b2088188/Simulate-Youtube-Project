@@ -87,7 +87,7 @@ const VideoView = ({
         </div>
          <div className="video-view__info">
              <div className="video-view__channelbox">                
-             <Link to = {`/channel/${video.channelId}`} className="video-view__channelink">                 
+             <Link to = {`/channel/${video.channel.channelId}`} className="video-view__channelink">                 
                 <img src = {video.channel.image} alt="Author image" className="video-view__channelimg" />
              </Link>
             <h3 className="video-view__channeluser">{video.channel.title}</h3>

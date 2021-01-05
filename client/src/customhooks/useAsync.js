@@ -59,7 +59,7 @@ const useAsync = (initialState) => {
       }
      })
     }
-    catch({response: {data}}) {
+    catch({response: {data = 'error'}}) {
      unSafeDispatch({
       type: REQUEST_REJECTED,
       payload: {

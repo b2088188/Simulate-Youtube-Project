@@ -14,7 +14,7 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Comment must not be empty']
     },
-    createdDate: {
+    createdAt: {
         type: Date,
         default: Date.now()
     }

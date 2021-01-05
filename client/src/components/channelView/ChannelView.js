@@ -1,28 +1,31 @@
 import './channelview.scss';
 import React, { useEffect, useContext } from 'react';
+import {useParams} from 'react-router-dom';
 import AuthContext from '../../stores/auth/authContext';
-import ChannelContext from '../../stores/channel/channelContext';
+import {useChannelState} from '../../stores/channel/channelStateContext';
+import {useChannelActions} from '../../stores/channel/channelActionContext';
 import SubscribeContext from '../../stores/subscriptions/subscribeContext';
 import ChannelItem from './ChannelItem';
 import Spinner from '../../utils/spinner/Spinner';
+import axios from 'axios';
 
 const ChannelView = ({
-    match,
     history
 }) => {
     const {isAuth} = useContext(AuthContext);
-    const { getChannelVideos, results, channel, loading } = useContext(ChannelContext);
+    const {channel, channelVideos, statusChannel, errorChannel} = useChannelState();
+    const { fetchChannel } = useChannelActions();
     const {currentSubscribeStatus, checkSubscribeStatus, onSubscribeHandle} = useContext(SubscribeContext);
+    const {channelId} = useParams();
     useEffect(() => {
-        getChannelVideos(match.params.channelId);
-        checkSubscribeStatus(match.params.channelId);
-    }, [match.params.channelId]);
-
+        fetchChannel(axios.get(`/api/v1/channels/${channelId}/videos`));
+        //checkSubscribeStatus(match.params.channelId);
+    }, [channelId]);
 
 
     function renderChannelVideos(list) {
         return list.map(function generateItem(video) {
-            return <ChannelItem key = {video.id} video = {video} />
+            return <ChannelItem key = {video._id} video = {video} />
         })
     }
 
@@ -32,19 +35,17 @@ const ChannelView = ({
       }
     }
 
-    if(loading)
+    if(statusChannel === 'idle' || statusChannel === 'pending')
         return (
          <Spinner />
             )
-   if(!channel)
-    return null;
-
+    if(statusChannel === 'resolved')            
     return (
         <div className = "channel-view">
         <div className = "channel-view__info">
             <div className = "channel-view__userbox">
-                <img className = "channel-view__userphoto" src = {channel.snippet.thumbnails.medium.url} />
-                <h1 className = "channel-view__username">{channel.snippet.title}</h1>
+                <img className = "channel-view__userphoto" src = {channel.image} />
+                <h1 className = "channel-view__username">{channel.title}</h1>
             </div>
             <button className = {`channel-view__btnsubscribe ${currentSubscribeStatus && 'channel-view__btnsubscribe--active'}`}
                             onClick = {isAuth ? onSubscribeClick(channel) : () => history.push('/login')}            
@@ -53,7 +54,7 @@ const ChannelView = ({
             </button>
         </div>
         <div className = "channel-view__videobox">
-            {renderChannelVideos(results)}
+            {renderChannelVideos(channelVideos)}
         </div>
      </div>
     )

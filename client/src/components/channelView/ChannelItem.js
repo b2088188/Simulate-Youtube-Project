@@ -10,13 +10,13 @@ const ChannelItem = ({
 
  
     return (
-        <Link className = "channel-view__link" to = {`/watch/${video.snippet.resourceId.videoId}`}>
+        <Link className = "channel-view__link" to = {`/watch/${video.videoId}`}>
 		<div className = "channel-view__imgbox">
-			<img src = {video.snippet.thumbnails.high.url} alt = {video.snippet.title}  className = "channel-view__img"  />
+			<img src = {video.images} alt = {video.title}  className = "channel-view__img"  />
 		</div>
 		<div className = "channel-view__infobox">    				
-				<h2 className = "channel-view__title">{formatShortTitle(video.snippet.title)}</h2>
-				<h3 className = "channel-view__publishdate">{formatDate(video.snippet.publishedAt)}</h3>    				
+				<h2 className = "channel-view__title">{formatShortTitle(video.title)}</h2>
+				<h3 className = "channel-view__publishdate">{formatDate(video.publishedAt)}</h3>    				
 		</div>
 	</Link>
     )

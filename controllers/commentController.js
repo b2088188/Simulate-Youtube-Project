@@ -5,8 +5,6 @@ import {createOne} from './handlerFactory.js'
 
 export const getComments = catchAsync(async (req, res, next) => {
     const comments = await Comment.find({ videoId: req.params.videoId });
-    // if(comments.length<1)
-    //   return next(new AppError('Can\'t find any comments', 404));
     res.status(200).json({
         status: 'success',
         data: {
@@ -18,11 +16,11 @@ export const getComments = catchAsync(async (req, res, next) => {
 
 
 export const addComment = catchAsync(async (req, res, next) => {
-    const newComment = await Comment.create({ user: req.user._id, ...req.body });
-    res.status(200).json({
+    const comment = await Comment.create({ user: req.user._id, videoId: req.params.videoId, ...req.body });
+    res.status(201).json({
         status: 'success',
         data: {
-            comment: newComment
+            comment
         }
     })
 });
