@@ -2,7 +2,7 @@ import React, {useReducer, useContext, useRef} from 'react';
 import {CommentProvider} from './commentContext';
 import commentReducer from './commentReducer';
 import AuthContext from '../auth/authContext';
-import VideoContext from '../video/videoContext';
+// import VideoContext from '../video/videoContext';
 import axios from 'axios';
 import {
    GET_COMMENTS,
@@ -25,7 +25,7 @@ const CommentStore = ({
 }) => {
 	const [state, dispatch] = useReducer(commentReducer, InitialState);
     const {token} = useContext(AuthContext);
-    const {video} = useContext(VideoContext);
+    //const {video} = useContext(VideoContext);
     let config = useRef(null);
     config.current = {
 							   	   	 headers: {   	   	 	
@@ -50,22 +50,22 @@ const CommentStore = ({
   }
 
   async function addComment({comment}) {
-  	try {
-  		  let commentItem = {
-  		  	videoId: video.id,
-  		  	comment
-  		  }
-  	      const {data} = await axios.post('/api/v1/comments', commentItem, config.current);
-  	      dispatch({
-            type: ADD_COMMENT,
-            payload: {
-               comment: data.data.comment
-            }
-         })
-  	}
-  	catch(err) {
-  	   console.log(err.response);     
-  	}  			
+  	// try {
+  	// 	  let commentItem = {
+  	// 	  	videoId: video.id,
+  	// 	  	comment
+  	// 	  }
+  	//       const {data} = await axios.post('/api/v1/comments', commentItem, config.current);
+  	//       dispatch({
+   //          type: ADD_COMMENT,
+   //          payload: {
+   //             comment: data.data.comment
+   //          }
+   //       })
+  	// }
+  	// catch(err) {
+  	//    console.log(err.response);     
+  	// }  			
   }
 
   async function updateComment(currentId, {comment}) {

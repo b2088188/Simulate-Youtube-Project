@@ -11,7 +11,7 @@ const AccountView = () => {
 
    function onSubmit(values) {
    	updateUserData(values);
-    //reset();
+    reset();
    }
 
 	return (

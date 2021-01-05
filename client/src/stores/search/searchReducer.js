@@ -15,10 +15,7 @@ function searchReducer(currentState, action) {
 		  return {
 		  	...currentState,
 		  	loading: false,
-		  	results: action.payload.data,
-		  	page: 1,
-		  	pages: action.payload.pages,
-		  	nextPageToken: action.payload.nextPageToken
+		  	videos: action.payload.videos
 		  }  
 		case RESPONSE_ERROR:
 		  return {

@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express'
+import { addComment, getComments, updateComment, deleteComment } from '../controllers/commentController.js'
+import { protect } from '../controllers/authController.js'
 const router = express.Router();
-const { addComment, getComments, updateComment, deleteComment } = require('../controllers/commentController')
-const { protect } = require('../controllers/authController')
 
 router.route('/:videoId')
     .get(getComments)
@@ -15,4 +15,4 @@ router.delete('/:id', deleteComment)
 
 
 
-module.exports = router;
+export default router;

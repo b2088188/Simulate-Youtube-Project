@@ -1,10 +1,10 @@
-const express = require('express');
+import express from 'express'
+import { getHomeVideos, createHomeVideo } from '../controllers/homeController.js'
 const router = express.Router();
-const { getHomeVideos, createHomeVideo } = require('../controllers/homeController');
 
 router.route('/')
     .get(getHomeVideos)
     .post(createHomeVideo);
 
 
-module.exports = router;
+export default router;

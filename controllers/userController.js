@@ -1,9 +1,9 @@
-const multer = require('multer');
-const sharp = require('sharp');
-const User = require('../models/userModel');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
-const {getOne} = require('./handlerFactory');
+import multer from 'multer'
+import sharp from 'sharp'
+import User from '../models/userModel.js'
+import catchAsync from '../utils/catchAsync.js'
+import AppError from '../utils/appError.js'
+import {getOne} from './handlerFactory.js'
 
 const multerStorage = multer.memoryStorage();
 
@@ -18,9 +18,9 @@ const upload = multer({
    fileFilter: multerFilter
 })
 
-exports.uploadUserPhoto = upload.single('photo');
+export const uploadUserPhoto = upload.single('photo');
 
-exports.resizeUserPhoto = (req, res, next) => {
+export const resizeUserPhoto = (req, res, next) => {
    if(!req.file)
       return next();
    req.file.filename = `user-${req.user._id}-${Date.now()}.jpeg`;
@@ -35,7 +35,7 @@ function filterObj(obj, ...allowedFields) {
 	}, {})	
 }
 
-exports.updateMe = catchAsync(async (req, res, next) => {
+export const updateMe = catchAsync(async (req, res, next) => {
    if(req.body.password || req.body.passwordConfirm)
    	return next(new AppError('This route is not for password updates, pleaseuse /updateMyPassword', 400));
    let filteredBody = filterObj(req.body, 'name', 'email');
@@ -50,9 +50,9 @@ exports.updateMe = catchAsync(async (req, res, next) => {
    })
 });
 
-exports.getMe = catchAsync(async (req, res, next) => {
+export const getMe = catchAsync(async (req, res, next) => {
    req.params.id = req.user._id;
    next();
 })
 
-exports.getUser = getOne(User);
+export const getUser = getOne(User);

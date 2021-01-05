@@ -1,7 +1,7 @@
-const express = require('express');
+import express from'express'
+import { protect } from'../controllers/authController.js'
+import { getLikes, createLike, deleteLike, checkLikeExist } from'../controllers/likeController.js'
 const router = express.Router();
-const { protect } = require('../controllers/authController');
-const { getLikes, createLike, deleteLike, checkLikeExist } = require('../controllers/likeController');
 
 router.use(protect);
 
@@ -14,4 +14,4 @@ router.route('/:id')
 
 router.get('/:videoId', checkLikeExist);    
 
-module.exports = router;
+export default router;

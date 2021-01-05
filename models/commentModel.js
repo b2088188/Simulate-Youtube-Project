@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const commentSchema = new mongoose.Schema({
     videoId: {
@@ -30,4 +30,4 @@ commentSchema.pre(/^find/, function (next) {
 
 const Comment = mongoose.model('Comment', commentSchema);
 
-module.exports = Comment;
+export default Comment;

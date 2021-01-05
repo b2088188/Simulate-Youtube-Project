@@ -1,3 +1,7 @@
+export const REQUEST_PENDING = 'REQUEST_PENDING';
+export const REQUEST_RESOLVED = 'REQUEST_RESOLVED';
+export const REQUEST_REJECTED = 'REQUEST_REJECTED';
+
 //Search & Video
 export const LOADING = 'LOADING';
 export const RESPONSE_COMPLETE = 'RESPONSE_COMPLETE';

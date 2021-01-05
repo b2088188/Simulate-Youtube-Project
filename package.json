@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Simulate Youtube Project",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "server": "nodemon server.js",
     "client": "npm start --prefix client",

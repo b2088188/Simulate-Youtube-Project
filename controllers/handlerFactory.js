@@ -1,7 +1,7 @@
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
+import catchAsync from '../utils/catchAsync.js'
+import AppError from '../utils/appError.js'
 
-exports.createOne = Model => catchAsync(async function (req, res, next) {
+export const createOne = Model => catchAsync(async function (req, res, next) {
 	const doc = await Model.create(req.body);
 	   res.status(201).json({
              status: 'success',
@@ -11,7 +11,7 @@ exports.createOne = Model => catchAsync(async function (req, res, next) {
         });
 });
 
-exports.getOne = (Model, popOptions) => catchAsync(async function (req, res, next) {           
+export const getOne = (Model, popOptions) => catchAsync(async function (req, res, next) {           
        let query = Model.findById(req.params.id);
        if(popOptions)
         query = query.populate(popOptions);

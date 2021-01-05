@@ -1,8 +1,8 @@
-const Like = require('../models/likeModel');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
+import Like from '../models/likeModel.js'
+import catchAsync from '../utils/catchAsync.js'
+import AppError from '../utils/appError.js'
 
-exports.createLike = catchAsync(async (req, res, next) => {
+export const createLike = catchAsync(async (req, res, next) => {
     const newLike = await Like.create({ userId: req.user._id, ...req.body });
     res.status(201).json({
         status: 'success',
@@ -12,7 +12,7 @@ exports.createLike = catchAsync(async (req, res, next) => {
     })
 });
 
-exports.getLikes = catchAsync(async (req, res, next) => {
+export const getLikes = catchAsync(async (req, res, next) => {
     const user = req.user;
     const likes = await Like.find({ userId: user._id });
     res.status(200).json({
@@ -23,7 +23,7 @@ exports.getLikes = catchAsync(async (req, res, next) => {
     })
 })
 
-exports.deleteLike = catchAsync(async (req, res, next) => {
+export const deleteLike = catchAsync(async (req, res, next) => {
     const like = await Like.deleteOne({ userId: req.user._id, videoId: req.params.id });
     if (!like)
         return next(new AppError('No like found with that Id', 404));
@@ -34,7 +34,7 @@ exports.deleteLike = catchAsync(async (req, res, next) => {
 });
 
 
-exports.checkLikeExist = catchAsync(async (req, res, next) => {
+export const checkLikeExist = catchAsync(async (req, res, next) => {
     const user = req.user;
     const like = await Like.findOne({ userId: user._id, videoId: req.params.videoId });
     if (!like)

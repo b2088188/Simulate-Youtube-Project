@@ -5,10 +5,7 @@ import ChannelContext from '../../stores/channel/channelContext';
 import SubscribeContext from '../../stores/subscriptions/subscribeContext';
 import ChannelItem from './ChannelItem';
 import Spinner from '../../utils/spinner/Spinner';
-// currentSubscribeStatus
-// addSubscribe
-// getSubscribes
-//  setSubscribeStatus
+
 const ChannelView = ({
     match,
     history
@@ -20,6 +17,8 @@ const ChannelView = ({
         getChannelVideos(match.params.channelId);
         checkSubscribeStatus(match.params.channelId);
     }, [match.params.channelId]);
+
+
 
     function renderChannelVideos(list) {
         return list.map(function generateItem(video) {

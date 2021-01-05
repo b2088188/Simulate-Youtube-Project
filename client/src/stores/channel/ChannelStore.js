@@ -29,6 +29,12 @@ const ChannelStore = ({
 			        id
 			      }
 			     });
+    	      console.log({
+    	      	channelId: data.items[0].id,
+    	      	title: data.items[0].snippet.title,
+    	      	publishedAt: data.items[0].snippet.publishedAt,
+    	      	image: data.items[0].snippet.thumbnails.medium.url
+    	      })
     	      if(data.pageInfo.totalResults.length<1)
                  return setResponseError();
 		     const res = await getVideos(data.items[0].contentDetails.relatedPlaylists.uploads);		     

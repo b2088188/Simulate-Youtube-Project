@@ -1,15 +1,13 @@
 import React, {useContext} from 'react';
-import SearchContext from '../../stores/search/searchContext';
 import {useForm} from 'react-hook-form';
 import {useHistory} from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 const SearchForm = () => {
 	const {register, errors, handleSubmit, reset} = useForm();
-	const {search} = useContext(SearchContext);
 	const history = useHistory();
 
     function onSubmit({term}) {
-    	history.push(`/results/${term}`);
+    	history.push(`/results/?q=${term}`);
     }
 
 	return (

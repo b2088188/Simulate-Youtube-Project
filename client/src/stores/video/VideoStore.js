@@ -1,79 +1,64 @@
-import React, { useReducer, useContext } from 'react';
-import { VideoProvider } from './videoContext';
-import videoReducer from './videoReducer';
-import {
-    RESPONSE_COMPLETE,
-    RESPONSE_ERROR,
-    LOADING
-} from '../types';
+import React, { useMemo } from 'react';
+import { VideoStateProvider } from './videoStateContext';
+import {VideoActionProvider} from './videoActionContext';
 import Youtube from '../../apis/youtube';
-import axios from 'axios';
-
-const InitialState = {
-    video: null,
-    channel: null,
-    loading: null,
-    error: null
-}
-
-
+import useAsync from '../../customhooks/useAsync';
 
 const VideoStore = ({
     children
 }) => {
-    const [state, dispatch] = useReducer(videoReducer, InitialState);
+    const [stateVideo, fetchVideo] = useAsync({       
+      data: {}  
+    })
     
 
 
-    async function getVideo(id) {
-        try {
-            dispatch({ type: LOADING });
-            const { data } = await Youtube.get('/videos', {
-                params: {
-                    id
-                }
-            });
-            if (data.items.length < 1)
-                return dispatch({
-                    type: RESPONSE_ERROR,
-                    payload: {
-                        error: 'No video found with that Id'
-                    }
-                })
-            const res = await getChannel(data.items[0].snippet.channelId);
-            dispatch({
-                type: RESPONSE_COMPLETE,
-                payload: {
-                    video: data.items[0],
-                    channel: res.data.items[0]
-                }
-            })
-        } catch (err) {
-            console.log(err.response);
-        }
-    }
+    // async function getVideo(id) {
+    //     try {
+    //         dispatch({ type: LOADING });
+    //         const { data: {data} } = await axios.get(`/api/v1/videos/${id}`);
 
-    async function getChannel(channelId) {
-    return await Youtube.get('/channels', {
-                params: {
-                    id: channelId
-                }
-            });
-    }
+    //         dispatch({
+    //             type: RESPONSE_COMPLETE,
+    //             payload: {
+    //                 video: data.video
+    //             }
+    //         })
+    //     } catch (err) {
+    //         console.log(err.response);
+    //     }
+    // }
+
+
+    //Get Channel Image from Youtube
+            //const {data: data2} = await getChannel(data.video.channel.channelId);
+            //console.log(data2.items[0].snippet.thumbnails.medium.url)
+    // async function getChannel(channelId) {
+    // return await Youtube.get('/channels', {
+    //             params: {
+    //                 id: channelId
+    //             }
+    //         });
+    // }
 
 
 
-    const value = {
-        video: state.video,
-        channel: state.channel,
-        loading: state.loading,
-        getVideo
-    };
+    const value = useMemo(() => ({
+                video: stateVideo.data.video,
+                statusVideo: stateVideo.status,
+                errorVideo: stateVideo.error
+            }), [stateVideo]);
+
+    const actions = useMemo(() => ({
+                fetchVideo
+            }), [fetchVideo])
 
     return (
-        <VideoProvider value = {value}>
-     	{children}
-     </VideoProvider>
+        <VideoStateProvider value = {value}>
+            <VideoActionProvider value = {actions}>
+                {children}
+            </VideoActionProvider>
+        </VideoStateProvider>
     )
 }
 

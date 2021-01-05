@@ -1,10 +1,10 @@
-const User = require('../models/userModel')
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
-const jwt = require('jsonwebtoken');
-const { promisify } = require('util');
+import  User from '../models/userModel.js'
+import  catchAsync from '../utils/catchAsync.js'
+import  AppError from '../utils/appError.js'
+import  jwt from 'jsonwebtoken'
+import  { promisify } from 'util'
 
-exports.signup = catchAsync(async (req, res, next) => {
+export const signup = catchAsync(async (req, res, next) => {
     const newUser = await User.create(req.body);
     createSendToken(newUser, 201, res);
 })
@@ -38,7 +38,7 @@ function signToken(id) {
     })
 }
 
-exports.login = catchAsync(async (req, res, next) => {
+export const login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
     if (!email || !password)
         return next(new AppError('Please provide email and password', 400));
@@ -48,7 +48,7 @@ exports.login = catchAsync(async (req, res, next) => {
     createSendToken(user, 200, res);
 })
 
-exports.protect = catchAsync(async (req, res, next) => {
+export const protect = catchAsync(async (req, res, next) => {
     let token;
     // if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
     // 	token = req.headers.authorization.split(' ')[1];
@@ -66,7 +66,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     next();
 })
 
-exports.isLoggedIn = catchAsync(async (req, res, next) => {
+export const isLoggedIn = catchAsync(async (req, res, next) => {
     if (req.cookies.jwt)
         token = req.cookies.jwt;
     if (!token)
@@ -83,7 +83,7 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
     })
 })
 
-exports.logout = (req, res) => {
+export const logout = (req, res) => {
     res.cookie('jwt', 'Logged Out', {
         expires: new Date(Date.now() + 10 * 1000),
         httpOnly: true
@@ -93,8 +93,3 @@ exports.logout = (req, res) => {
     })
 }
 
-
-
-// catchAsync(async (req, res, next) => {
-
-// })

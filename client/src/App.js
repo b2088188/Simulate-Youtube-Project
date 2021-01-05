@@ -48,7 +48,7 @@ function App() {
         <Route exact path = "/" component = {Home} />  
         <PrivateRoute exact path = "/accounts" component = {AccountView} />
         <PrivateRoute exact path = "/likelist" component = {LikedView} />               
-        <Route exact path = "/results/:term" component = {SearchView} />
+        <Route exact path = "/results" component = {SearchView} />
         <Route exact path = "/watch/:videoId" component = {VideoView} />
         <Route exact path = "/channel/:channelId" component = {ChannelView} />               
         </main>

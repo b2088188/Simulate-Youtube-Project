@@ -1,7 +1,7 @@
-const express = require('express');
+import express from'express'
+import { protect } from'../controllers/authController.js'
+import { addSubscribe, getSubscribes, checkSubscribeExist, deleteSubscribe } from'../controllers/subscribeController.js'
 const router = express.Router();
-const { protect } = require('../controllers/authController');
-const { addSubscribe, getSubscribes, checkSubscribeExist, deleteSubscribe } = require('../controllers/subscribeController');
 
 
 router.use(protect);
@@ -14,4 +14,4 @@ router.get('/:channelId', checkSubscribeExist);
 router.delete('/:id', deleteSubscribe)
 
 
-module.exports = router;
+export default router;
