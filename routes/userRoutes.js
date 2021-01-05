@@ -1,7 +1,10 @@
 import express from'express'
+const router = express.Router();
+import likeRouter from './likeRoutes.js';
 import {updateMe, getMe, getUser, uploadUserPhoto, resizeUserPhoto} from'../controllers/userController.js'
 import {protect} from'../controllers/authController.js'
-const router = express.Router();
+
+router.use('/:userId/likes', likeRouter);
 
 router.use(protect);
 router.patch('/updateMe', uploadUserPhoto, resizeUserPhoto, updateMe);

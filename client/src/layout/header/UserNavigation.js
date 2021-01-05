@@ -1,11 +1,11 @@
 import React, {useContext, Fragment} from 'react';
 import {Link} from 'react-router-dom';
-import AuthContext from '../../stores/auth/authContext';
+import {useAuthState} from '../../stores/auth/authStateContext';
 import Spinner from '../../utils/spinner/Spinner';
 
 
 const UserNavigation = () => {
-	const {isAuth, user, logout, loading} = useContext(AuthContext);
+	const {user, statusAuth, errorAuth} = useAuthState();
   
   function renderSignIn() {
   	return (
@@ -21,10 +21,9 @@ const UserNavigation = () => {
   }
 
   function renderSignOut(user) {
-  	console.log(user)
   	return (	
   		<Fragment>
-		     	<button className="user-nav__btn" onClick = {logout}>
+		     	<button className="user-nav__btn">
 		     		Logout
 		     	</button>		
 		     	<Link to = "/accounts" className = "user-nav__info">
@@ -34,13 +33,13 @@ const UserNavigation = () => {
      	</Fragment>
   		)
   }
-    if(loading)
-    	return <Spinner />
+    
+  	
 
 	return (
 		<Fragment>			
 		     <nav className="user-nav">
-			         {isAuth ? renderSignOut(user) : renderSignIn()} 	
+			         {user ? renderSignOut(user) : renderSignIn()} 	
 		     </nav>
 		</Fragment>
 		)

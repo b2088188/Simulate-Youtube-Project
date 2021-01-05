@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
-import LikeContext from '../../stores/likes/likeContext';
+import {useLikeActions} from '../../stores/likes/likeActionContext';
 
 import {
     Button,
@@ -14,12 +14,12 @@ import {
 const LikedItem = ({
     like
 }) => {
-    const { deleteLikeItem } = useContext(LikeContext);
+    const { fetchLikes } = useLikeActions();
     const [open, setOpen] = useState(false);
 
     function onDeleteClick(id) {
         return function() {
-            deleteLikeItem(id)
+            fetchLikes(id);
         }
     }
 

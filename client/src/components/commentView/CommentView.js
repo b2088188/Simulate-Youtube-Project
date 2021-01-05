@@ -1,69 +1,58 @@
 import './commentview.scss'
 import * as R from 'ramda';
 import React, { useState, useEffect} from 'react';
+import {useAuthState} from '../../stores/auth/authStateContext';
 import {useCommentState} from '../../stores/comment/commentStateContext';
 import {useCommentActions} from '../../stores/comment/commentActionContext';
+import {addComment} from '../../stores/comment/CommentStore';
 import { useParams } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import CommentItem from './CommentItem';
-import Spinner from '../../utils/spinner/Spinner';
+import Spinner from '../../design/elements/Spinner';
 import axios from 'axios';
 
 
 const CommentView = () => {
-    const { register, handleSubmit, errors, setValue, reset, unregister } = useForm();
-    const {comments, statusComments, errorComments} = useCommentState();
-    const {fetchComments} = useCommentActions();
-    //const {getComments, addComment, updateComment, current, clearCurrent } = useContext(CommentContext);
+    const {user} = useAuthState();
+    const {comments, statusComments, statusComment, errorComments} = useCommentState();
+    const { register, handleSubmit, errors, setValue, reset} = useForm();
+    const {fetchComments, fetchComment} = useCommentActions();    
+    const [currentComment, setCurrentComment] = useState(null);
     const [showActionBtn, setShowActionBtn] = useState(false);
     let { videoId } = useParams();
+
+
+
     useEffect(() => {
-        fetchComments(axios.get(`/api/v1/videos/${videoId}/comments`))
-    }, [videoId])
+        if (currentComment)  
+            setValue('comment', currentComment.comment);
+    }, [currentComment])
 
-
-    // useEffect(() => {
-    //     if (current) {
-    //         setShowActionBtn(true);
-    //         setValue('comment', current.comment);
-    //     }
-    // }, [current])
-
-    function onCreateSubmit(values) {
-        // addComment(values);
-        // setShowActionBtn(false);
-        // reset();
-    }
-
-    const onUpdateSubmit = R.curry(function(current, values) {
-        // updateComment(current._id, values);
-        // setShowActionBtn(false);
-        // reset();
-        // clearCurrent();
-    }, 2);
 
     function onCancelClick() {
-        // setShowActionBtn(false);
-        // reset();
-        // clearCurrent();
+        reset();
+        setCurrentComment(null);
     }
 
-    function renderActionBtn() {
-        // return (
-        //     <div className = "comment-view__submitbox">
-        //        <button type="reset" className = "comment-view__btn comment-view__btn--cancel" onClick = {onCancelClick}>Cancel</button>
-        //        <button className = "comment-view__btn comment-view__btn--comment">Comment</button>
-        //       </div>
-        // )
-    }
+  async function onCreate(values) {
+       fetchComment(axios.post(`/api/v1/videos/${videoId}/comments`, values))       
+       setCurrentComment(null);
+   }
+
+   function onUpdate(values) {
+       fetchComment(axios.patch(`/api/v1/videos/${videoId}/comments/${currentComment._id}`, values))       
+       setCurrentComment(null);
+   }
 
     function renderComments(list) {
         return list?.map(function generateItem(comment) {
             return (
-                <CommentItem key = {comment._id} comment = {comment} />
+                <CommentItem key = {comment._id} comment = {comment} setCurrentComment = {setCurrentComment} />
             )
         })
     }
+
+    console.log(currentComment)
 
     if(statusComments === 'idle' || statusComments === 'pending')
         return <Spinner />
@@ -71,14 +60,19 @@ const CommentView = () => {
     if(statusComments === 'resolved')
     return (
         <div className="comment-view">
-           <form className = "comment-view__form" onSubmit = {handleSubmit(/*!current ? onCreateSubmit : onUpdateSubmit(current)*/)}>
-              <input type="text" name = "comment" placeholder = "Add a public comment..." className = "comment-view__input" onFocus = {() => setShowActionBtn(true)}  ref = {
+           {user ? 
+            (<form className = "comment-view__form" onSubmit = {handleSubmit(!currentComment ? onCreate : onUpdate)}>
+              <input type="text" name = "comment" placeholder = "Add a public comment..." className = "comment-view__input"  ref = {
                 register({
                     required: 'Please type your comment'
                 })
               } />
-              {showActionBtn&&renderActionBtn()}
-           </form>
+              <div className = "comment-view__submitbox">
+                <button type="reset" className = "comment-view__btn comment-view__btn--cancel" onClick = {onCancelClick}>Cancel</button>
+               <button className = "comment-view__btn comment-view__btn--comment">Comment</button>
+               </div>
+           </form>) :
+            null}
            <div className = "comment-view__container">
               {renderComments(comments)}
            </div>

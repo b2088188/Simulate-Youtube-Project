@@ -16,7 +16,7 @@ const SearchStore = ({
 	const [stateVideos, fetchVideos] = useAsync({		
       data: []            
 	})
-   //const [state, dispatch] = useReducer(searchReducer, InitialState);
+
 
 //    async function search(term) {	
 // 	try {
@@ -55,45 +55,7 @@ const SearchStore = ({
 // 	}			
 // }
 
-// async function nextPageResults(term) {
-// 	try {
-// 	   dispatch({type: LOADING});
-// 	   const {data} = await  Youtube.get('/search', {
-// 	   	  params: {
-// 	   	  	q: 'asmr',
-// 	   	  	maxResults:5,
-// 	   	  	pageToken: state.nextPageToken
-// 	   	  }
-// 	   });   
-// 	   const pages = calcPageAmount(data.items.length);	   
-// 	   dispatch({
-// 	   	type: RESPONSE_COMPLETE,
-// 	   	payload: {	   		
-// 	   		data: data.items,
-// 	   		pages,
-// 	   		nextPageToken: data.nextPageToken
-// 	   	}
-// 	   })
-// 	}
-// 	catch(err) {
-// 	 console.log(err.response);       
-// 	}			
-// }
 
-// function calcPageAmount(listLength, resPerPage = 10) {
-// 	return Math.ceil(listLength / resPerPage);
-// }
-
-// function changePage(page) {
-// 	return function () {
-// 		dispatch({
-// 			type: PAGE_CHANGE,
-// 			payload: {
-// 				page
-// 			}
-// 		})
-// 	}
-// }
 
 
 

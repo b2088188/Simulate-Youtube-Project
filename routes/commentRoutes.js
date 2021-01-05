@@ -4,7 +4,7 @@ import { addComment, getComments, updateComment, deleteComment } from '../contro
 import { protect } from '../controllers/authController.js'
 
 
-//router.use(protect);
+router.use(protect);
 
 router.route('/')
            .post(addComment)

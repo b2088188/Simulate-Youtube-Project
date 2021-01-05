@@ -3,12 +3,12 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 import { useLocation, useHistory } from 'react-router-dom';
-import AuthContext from '../../stores/auth/authContext';
+import {useAuthState} from '../../stores/auth/authStateContext';
 import SubscribeView from '../../components/subscribeView/SubscribeView';
 
 
 const Sidebar = () => {
-    const { isAuth } = useContext(AuthContext);
+    const { user } = useAuthState();
     let location = useLocation();
     let history = useHistory();
     if (location.pathname === '/signup' || location.pathname === '/login' || location.pathname === '/accounts')
@@ -45,10 +45,16 @@ const Sidebar = () => {
                     <span className = "side-nav__text">Home</span>
                 </Link>                
             </li>
-            {isAuth&&renderAuthItem()}
+            {user ? 
+            renderAuthItem() :
+            null}
           </ul>
-             {isAuth&&<SubscribeView />}
-              {!isAuth&&renderSignIn()}
+             {user ? 
+             <SubscribeView /> : 
+            null}
+              {!user ? 
+              renderSignIn() : 
+              null}
           <div className="legal">
             &copy; 2020 by Shunze Lin
           </div>    

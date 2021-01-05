@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const likeSchema = new mongoose.Schema({
-    userId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
@@ -22,13 +22,15 @@ const likeSchema = new mongoose.Schema({
         required: [true, 'A like must have a channel Title']
     },
     image: String,
-    publishDate: Date,
-    createdDate: {
+    publishAt: Date,
+    createdAt: {
         type: Date,
         default: Date.now(),
         selected: false
     }
 })
+
+likeSchema.index({user: 1, videoId: 1}, {unique: true});
 
 const Like = mongoose.model('Like', likeSchema);
 

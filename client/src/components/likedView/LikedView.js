@@ -1,27 +1,34 @@
 import './likedview.scss';
 import React, { useEffect, useContext } from 'react';
+import {useAuthState} from '../../stores/auth/authStateContext';
+import {useLikeState} from '../../stores/likes/likeStateContext';
+import {useLikeActions} from '../../stores/likes/likeActionContext';
 import LikedItem from './LikedItem';
-import LikeContext from '../../stores/likes/likeContext';
 import Spinner from '../../utils/spinner/Spinner';
+import axios from 'axios';
 
 const LikedView = () => {
-    const { likes, getLikes, loading } = useContext(LikeContext);
+    const {user} = useAuthState();
+    const {likes, statusLikes, errorLikes} = useLikeState();
+    const {fetchLikes} = useLikeActions();
 
     useEffect(() => {
-        getLikes();
-    }, [])
+        fetchLikes(axios.get(`/api/v1/users/${user._id}/likes`));
+    }, [fetchLikes, user])
+
+
 
     function renderLikeList(list) {
-        return list.map(function generateItem(like) {
+        return list?.map(function generateItem(like) {
             return <LikedItem like = {like} key = {like._id} />
         })
     }
 
-    if (loading)
+    if (statusLikes === 'idle' || statusLikes === 'pending')
         return (
             <Spinner classStyle = "center" />
         );
-
+    if(statusLikes === 'resolved')
     return (
         <div className = "liked-view">
         <nav className = "liked-view__nav">

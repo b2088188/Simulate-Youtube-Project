@@ -1,7 +1,7 @@
 import './channelview.scss';
-import React, { useEffect, useContext } from 'react';
-import {useParams} from 'react-router-dom';
-import AuthContext from '../../stores/auth/authContext';
+import React, { useState, useEffect, useContext } from 'react';
+import {useParams, Redirect} from 'react-router-dom';
+import {useAuthState} from '../../stores/auth/authStateContext';
 import {useChannelState} from '../../stores/channel/channelStateContext';
 import {useChannelActions} from '../../stores/channel/channelActionContext';
 import SubscribeContext from '../../stores/subscriptions/subscribeContext';
@@ -9,14 +9,14 @@ import ChannelItem from './ChannelItem';
 import Spinner from '../../utils/spinner/Spinner';
 import axios from 'axios';
 
-const ChannelView = ({
-    history
-}) => {
-    const {isAuth} = useContext(AuthContext);
+const ChannelView = () => {
+    const {user} = useAuthState();
     const {channel, channelVideos, statusChannel, errorChannel} = useChannelState();
     const { fetchChannel } = useChannelActions();
     const {currentSubscribeStatus, checkSubscribeStatus, onSubscribeHandle} = useContext(SubscribeContext);
     const {channelId} = useParams();
+    const [toLogin, setToLogin] = useState(false);
+
     useEffect(() => {
         fetchChannel(axios.get(`/api/v1/channels/${channelId}/videos`));
         //checkSubscribeStatus(match.params.channelId);
@@ -34,6 +34,8 @@ const ChannelView = ({
           onSubscribeHandle(channel);
       }
     }
+    if(toLogin)
+        return <Redirect to = '/login' />
 
     if(statusChannel === 'idle' || statusChannel === 'pending')
         return (
@@ -48,7 +50,7 @@ const ChannelView = ({
                 <h1 className = "channel-view__username">{channel.title}</h1>
             </div>
             <button className = {`channel-view__btnsubscribe ${currentSubscribeStatus && 'channel-view__btnsubscribe--active'}`}
-                            onClick = {isAuth ? onSubscribeClick(channel) : () => history.push('/login')}            
+                            onClick = {user ? onSubscribeClick(channel) : () => setToLogin(true)}            
             >
                 Subscribed
             </button>

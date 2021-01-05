@@ -1,32 +1,39 @@
 import * as R from 'ramda';
 import React, { useEffect, useContext, useRef } from 'react';
+import {useLocation, Redirect} from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import AuthContext from '../../stores/auth/authContext';
+import {useAuthState} from '../../stores/auth/authStateContext';
+import {useAuthActions} from '../../stores/auth/authActionContext';
 import AlertContext from '../../stores/alerts/alertContext';
 import Alerts from '../../utils/alerts/Alerts';
+import axios from 'axios';
 
 
-const Signup = ({
-    history
-}) => {
-    const { signUp, isAuth, error, clearError } = useContext(AuthContext);
+
+
+const Signup = () => {
+    const {user, statusAuth, errorAuth} = useAuthState();
+    const {fetchAuth} = useAuthActions();
     const { generateAlert } = useContext(AlertContext);
     const { register, errors, handleSubmit, reset, watch } = useForm();
     const password = useRef({});
     password.current = watch('password', '');
-    useEffect(() => {
-        if (isAuth)
-             history.goBack();
-    }, [isAuth])
-
-    useEffect(() => {
-        if (error) {
-            generateAlert(error);
-            clearError();
-        }
-    }, [error])
+    const location = useLocation();
 
 
+    // useEffect(() => {
+    //     if (error) {
+    //         generateAlert(error);
+    //         clearError();
+    //     }
+    // }, [error])
+
+    function onSignUp(values) {
+       fetchAuth(axios.post('/api/v1/auth/signup', values))
+    }
+
+      if(user)
+        return <Redirect to = {location.state?.from || '/'} />
 
     return (
         <div className = "form__container">     
@@ -34,7 +41,7 @@ const Signup = ({
       <h1 className="form__title">
          Account <span className = "form__title form__title--red">Signup</span>
       </h1>
-      <form className="form__box" onSubmit = {handleSubmit(signUp)}>
+      <form className="form__box" onSubmit = {handleSubmit(onSignUp)}>
          <div className="form__group">
             <label className="form__text">Name</label>
             <input name = "name" type="text" className = "form__input" ref = {register({

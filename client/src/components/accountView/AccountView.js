@@ -1,22 +1,22 @@
 import './accountview.scss';
 import React, {useContext} from 'react';
-import AuthContext from '../../stores/auth/authContext';
+import {useAuthActions} from '../../stores/auth/authActionContext';
 import {useForm} from 'react-hook-form';
-
+    
 
             
 const AccountView = () => {
 	const { register, errors, handleSubmit, reset } = useForm();
-    const {updateUserData} = useContext(AuthContext);
+    const {fetchAuth} = useAuthActions();
 
    function onSubmit(values) {
-   	updateUserData(values);
+   	//updateUserData(values);
     reset();
    }
 
 	return (
      <div className = "account-view">
-     	<form className = "account-form__container" onSubmit = {handleSubmit(onSubmit)}>
+     	<form className = "account-form__container" onSubmit = {handleSubmit}>{/*Update User Data*/}
      	<h1 className = "account-form__title">Your Account Settings</h1>     		 
      	<div className="account-form__group">
             <label className="account-form__text">Name</label>

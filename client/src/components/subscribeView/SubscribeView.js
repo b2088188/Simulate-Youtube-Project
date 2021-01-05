@@ -1,13 +1,12 @@
 import './subscribeview.scss';
 import React, { useEffect, useContext } from 'react';
-import AuthContext from '../../stores/auth/authContext';
+import {useAuthState} from '../../stores/auth/authStateContext';
 import SubscribeContext from '../../stores/subscriptions/subscribeContext';
 import SubscribeItem from './SubscribeItem';
 import Spinner from '../../utils/spinner/Spinner';
-
 const SubscribeView = () => {
     const { subscriptions, loading, getSubscribes } = useContext(SubscribeContext);
-    const { isAuth } = useContext(AuthContext);
+    const {user} = useAuthState();
     useEffect(() => {
         getSubscribes();
     }, [])
@@ -19,7 +18,7 @@ const SubscribeView = () => {
         })
     }
 
-    if (!isAuth)
+    if (!user)
         return null;
     if (loading)
         return (

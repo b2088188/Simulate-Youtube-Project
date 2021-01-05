@@ -1,17 +1,19 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
-import AuthContext from '../stores/auth/authContext';
-import Spinner from '../utils/spinner/Spinner';
+import {useAuthState} from '../stores/auth/authStateContext';
 
 const PrivateRoute = ({component: Component, ...rest}) => {
-	const {isAuth, loading} = useContext(AuthContext);
-	if(loading)
-		return null;
+	const {user} = useAuthState();
 	return (
-     <Route {...rest} render = {props => isAuth? 
-     	(<Component {...props} />) : (<Redirect to = "/login" />)}  />
+       <Route {...rest} render = 
+       {(props) => user ? 
+       <Component {...props} /> :        
+       <Redirect to = {{
+       	pathname: '/login',
+       	state: {from: props.location}
+       }} />        
+        } />
 		)
 }
 
 export default PrivateRoute;
-

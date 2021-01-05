@@ -11,15 +11,10 @@ import {
 function commentReducer(currentState, action) {
 	const {comments} = currentState;
 	switch(action.type) {
-		case GET_COMMENTS:
-		  return {
-		  	...currentState,
-		  	comments: action.payload.comments
-		  }
 		 case ADD_COMMENT:
 		   return {
 		   	...currentState,
-		   	comments: [...currentState.comments, action.payload.comment]
+		   	currentComment: action.payload.comment
 		   }
 		 case UPDATE_COMMENT:
 		   return {

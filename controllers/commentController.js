@@ -15,7 +15,7 @@ export const getComments = catchAsync(async (req, res, next) => {
 
 
 
-export const addComment = catchAsync(async (req, res, next) => {
+export const addComment = catchAsync(async (req, res, next) => { 
     const comment = await Comment.create({ user: req.user._id, videoId: req.params.videoId, ...req.body });
     res.status(201).json({
         status: 'success',
@@ -44,7 +44,7 @@ export const deleteComment = catchAsync(async (req, res, next) => {
     const comment = await Comment.findById(req.params.id);
     if (!comment)
         return next(new AppError('Comment not found', 404));
-    if (comment.userId.toString() != req.user._id)
+    if (comment.user._id.toString() != req.user._id)
         return next(new AppError('Not Authorized', 401));
     await Comment.findByIdAndRemove(req.params.id);
     res.status(204).json({
