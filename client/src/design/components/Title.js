@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {applyStyleModifiers} from 'styled-components-modifiers';
-import {colorGrey} from '../utils';
+import { applyStyleModifiers } from 'styled-components-modifiers';
+import { colorGrey, colorPrimary } from '../utils';
 
 const TITLE_MODIFIERS = {
 	huge: () => `
@@ -18,6 +18,9 @@ const TITLE_MODIFIERS = {
 	small: () => `
 		font-size: 1.5rem;
 	`,
+	mini: () => `
+	   font-size: 1.2rem;
+	`,
 	bold: () => `
 		font-weight: 700
 	`,
@@ -29,12 +32,18 @@ const TITLE_MODIFIERS = {
 	`,
 	exlight: () => `
 	  font-weight: 300
-	`
-}
+	`,
+	primary: () => `
+	color: ${colorPrimary.default};
+	`,
+};
 
 export const Title = styled.h1`
-	    color: ${colorGrey.greydark1}; 
-	    font-size: 1.7rem;       
-        line-height: 1.2;
-        ${applyStyleModifiers(TITLE_MODIFIERS)}
-`
+	color: ${colorGrey.greydark1};
+	font-size: 1.7rem;
+	line-height: 1.2;
+	letter-spacing: 0.1rem;
+	margin: 0;
+	text-transform: capitalize;
+	${applyStyleModifiers(TITLE_MODIFIERS)}
+`;

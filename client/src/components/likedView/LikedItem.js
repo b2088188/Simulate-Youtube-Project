@@ -1,65 +1,73 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Icon } from 'semantic-ui-react';
-import {useLikeActions} from '../../stores/likes/likeActionContext';
-
+import styled from 'styled-components';
 import {
-    Button,
-    Header,
-    Segment,
-    TransitionablePortal,
-} from 'semantic-ui-react';
+  List,
+  Link as SLink,
+  ImageContainer,
+  Image,
+  Title,
+  ListGroup,
+  Icon,
+  Button,
+  Span,
+} from '../../design/components';
+import { Close, Delete } from '@material-ui/icons';
+import { Modal } from '../../design/elements';
+import { useLikeActions } from '../../stores/likes/likeActionContext';
 
+const LikedItem = ({ like, className }) => {
+  const { fetchLikes } = useLikeActions();
+  const [open, setOpen] = useState(false);
 
-const LikedItem = ({
-    like
-}) => {
-    const { fetchLikes } = useLikeActions();
-    const [open, setOpen] = useState(false);
+  function onDeleteClick(id) {
+    return function () {
+      fetchLikes(id);
+    };
+  }
 
-    function onDeleteClick(id) {
-        return function() {
-            fetchLikes(id);
-        }
+  return (
+    <List.Item className={className}>
+      <Button modifiers='transparent' onClick={onDeleteClick(like.videoId)}>
+        <Icon as={Delete} />
+        <Span>Remove</Span>
+      </Button>
+      <Modal title='Are you sure you want to remove this item?' text='Yes' />
+      <SLink as={Link} to={`/watch/${like.videoId}`}>
+        <ListGroup ycenter>
+          <ListGroup.Item p20>
+            <ImageContainer>
+              <Image src={like.image} alt={like.title} />
+            </ImageContainer>
+          </ListGroup.Item>
+          <ListGroup.Item p75 mg={{ x: '1%' }}>
+            <Title as='h2' modifiers='small'>
+              {like.title}
+            </Title>
+            <Title as='h3' modifiers={['small', 'light']}>
+              {like.channelTitle}
+            </Title>
+          </ListGroup.Item>
+        </ListGroup>
+      </SLink>
+    </List.Item>
+  );
+};
+
+export default styled(LikedItem)`
+  position: relative;
+  background: var(--color-grey-light-2);
+  transition: background 0.25s;
+  &:hover {
+    background: var(--color-grey-light-3);
+  }
+  .like {
+    &__window {
+      text-align: center;
     }
 
-
-    return (
-        <li className="liked-view__item">
-      <TransitionablePortal    
-      closeOnTriggerClick
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-        openOnTriggerClick
-        trigger={
-            <button className = "liked-view__windowbtn" >                   
-                <Icon  name='close' size = 'large'  />
-            </button>          
-        }
-      >
-           <Segment 
-             style={{ left: '50%', position: 'absolute', top: '45%', zIndex: 1000 }}
-             className = "liked-view__window"
-           >
-           <Header  className = "liked-view__windowtitle">Are you sure you want to remove from liked videos?</Header>          
-          <button  className = "liked-view__deletebtn" onClick = {onDeleteClick(like.videoId)}>
-            <Icon  name='trash' size = 'large'  />
-            <span>Remove</span>
-          </button>
-        </Segment>
-      </TransitionablePortal>
-              <Link to = {`/watch/${like.videoId}`} className = "liked-view__link" >
-                <div className = "liked-view__imgbox">
-                  <img className = "liked-view__img" src = {like.image} alt = {like.title}/>
-                </div>
-                <div className = "liked-view__descriptionbox">
-                  <h2 className = "liked-view__title">{like.title}</h2>                        
-                  <h3  className = "liked-view__channeltitle">{like.channelTitle}</h3>
-                </div>                
-              </Link>
-            
-        </li>
-    )
-}
-
-export default LikedItem;
+    &__windowtitle {
+      font-size: 1.7rem !important;
+    }
+  }
+`;

@@ -1,6 +1,8 @@
-import './App.scss';
 import React, { useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import GlobalStyle from './design/GlobalStyle';
+import { StylesProvider } from '@material-ui/styles';
+import { Container, Row, Col } from './design/components';
 import AuthStore from './stores/auth/AuthStore';
 import HomeStore from './stores/home/HomeStore';
 import LikeStore from './stores/likes/LikeStore';
@@ -22,49 +24,68 @@ import LikedView from './components/likedView/LikedView';
 import ChannelView from './components/channelView/ChannelView';
 import AccountView from './components/accountView/AccountView';
 
-
-
-
 function App() {
-
-    return (
-     <AuthStore> 
-    <HomeStore>
-    <LikeStore>      
-    <SearchStore>      
-    <SubscribeStore>
-    <VideoStore>  
-    <ChannelStore>
-    <CommentStore> 
-    <AlertStore>      
-    <Router>
-    <div className="container">   
-      <Header />
-      <div className = "content">
-       <Sidebar />
-       <Route exact path = "/signup" component = {Signup} />
-       <Route exact path = "/login" component = {Login} />
-        <main className = "main-view">          
-        <Route exact path = "/" component = {Home} />  
-        <PrivateRoute exact path = "/accounts" component = {AccountView} />
-        <PrivateRoute exact path = "/likelist" component = {LikedView} />               
-        <Route exact path = "/results" component = {SearchView} />
-        <Route exact path = "/watch/:videoId" component = {VideoView} />
-        <Route exact path = "/channel/:channelId" component = {ChannelView} />               
-        </main>
-      </div>
-    </div>       
-    </Router>
-    </AlertStore>     
-    </CommentStore>    
-    </ChannelStore>
-    </VideoStore>
-    </SubscribeStore>
-    </SearchStore>
-    </LikeStore>
-    </HomeStore>    
-    </AuthStore>
-    );
+  return (
+    <StylesProvider injectFirst>
+      <GlobalStyle />
+      <AuthStore>
+        <HomeStore>
+          <LikeStore>
+            <SearchStore>
+              <SubscribeStore>
+                <VideoStore>
+                  <ChannelStore>
+                    <CommentStore>
+                      <AlertStore>
+                        <Router>
+                          <Header />
+                          <Container>
+                            <Row>
+                              <Sidebar />
+                              <Route exact path='/signup' component={Signup} />
+                              <Route exact path='/login' component={Login} />
+                              <Col col_10>
+                                <Route exact path='/' component={Home} />
+                                <PrivateRoute
+                                  exact
+                                  path='/accounts'
+                                  component={AccountView}
+                                />
+                                <PrivateRoute
+                                  exact
+                                  path='/likelist'
+                                  component={LikedView}
+                                />
+                                <Route
+                                  exact
+                                  path='/results'
+                                  component={SearchView}
+                                />
+                                <Route
+                                  exact
+                                  path='/watch/:videoId'
+                                  component={VideoView}
+                                />
+                                <Route
+                                  exact
+                                  path='/channel/:channelId'
+                                  component={ChannelView}
+                                />
+                              </Col>
+                            </Row>
+                          </Container>
+                        </Router>
+                      </AlertStore>
+                    </CommentStore>
+                  </ChannelStore>
+                </VideoStore>
+              </SubscribeStore>
+            </SearchStore>
+          </LikeStore>
+        </HomeStore>
+      </AuthStore>
+    </StylesProvider>
+  );
 }
 
 export default App;

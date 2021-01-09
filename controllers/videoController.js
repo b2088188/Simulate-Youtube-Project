@@ -1,6 +1,7 @@
 import Video from '../models/videoModel.js'
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
+import {getOne} from './handlerFactory.js';
 
 export const getAllVideos = catchAsync(async(req, res, next) => {	
 	let queryTitle = req.query.q ? {title: {$regex: `${req.query.q}`, $options: 'i'}} : {};

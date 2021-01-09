@@ -1,12 +1,15 @@
-import {createContext} from 'react';
-import useContextFactory from '../../customhooks/useContextFactory';
+import { createContext } from "react";
+import useContextFactory from "../../customhooks/useContextFactory";
 
 const ChannelActionContext = createContext();
-ChannelActionContext.displayName = 'ChannelActionContext';
+ChannelActionContext.displayName = "ChannelActionContext";
 
 export const ChannelActionProvider = ChannelActionContext.Provider;
 
 /* eslint-disable */
-export const useChannelActions = useContextFactory('ChannelActionContext', ChannelActionContext);
+export const useChannelActions = useContextFactory(
+  "ChannelActionContext",
+  ChannelActionContext
+);
 
 export default ChannelActionContext;

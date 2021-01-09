@@ -1,54 +1,103 @@
 import './accountview.scss';
-import React, {useContext} from 'react';
-import {useAuthActions} from '../../stores/auth/authActionContext';
-import {useForm} from 'react-hook-form';
-    
+import React, { useContext } from 'react';
+import styled from 'styled-components';
+import {
+  FormContainer,
+  Title,
+  Span,
+  Form,
+  Label,
+  Button,
+  Paragraph,
+  ImageContainer,
+  Image,
+} from '../../design/components';
+import { useAuthActions } from '../../stores/auth/authActionContext';
+import { useForm } from 'react-hook-form';
 
-            
-const AccountView = () => {
-	const { register, errors, handleSubmit, reset } = useForm();
-    const {fetchAuth} = useAuthActions();
+const AccountView = ({ className }) => {
+  const { register, errors, handleSubmit, reset } = useForm();
+  const { fetchAuth } = useAuthActions();
 
-   function onSubmit(values) {
-   	//updateUserData(values);
+  function onSubmit(values) {
+    //updateUserData(values);
     reset();
-   }
+  }
 
-	return (
-     <div className = "account-view">
-     	<form className = "account-form__container" onSubmit = {handleSubmit}>{/*Update User Data*/}
-     	<h1 className = "account-form__title">Your Account Settings</h1>     		 
-     	<div className="account-form__group">
-            <label className="account-form__text">Name</label>
-            <input type="text" name = "name" className = "account-form__input" ref = {register({
-               required: 'You must specify an name'
-            })}  />
-              <p className = "form__errormessage">
-               {errors.name&&errors.name.message}
-            </p>
-        </div>
-     	<div className="account-form__group">
-            <label className="account-form__text">Email</label>
-            <input type="text" name = "email" className = "account-form__input" ref = {register({
-               required: 'You must specify an email',
-               pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: 'Invalid email address'
-               }
-            })}  />
-              <p className = "form__errormessage">
-               {errors.email&&errors.email.message}
-            </p>
-        </div>
-        <div className = "account-form__imgbox">
-        	<img src = "https://s.ytimg.com/yts/img/avatar_48-vfllY0UTT.png" className = "account-form__img" />
-            <input type="file" className = "account-form__upload" ref = {register} id = "photo" name = "photo" />
-        	<label htmlFor = "photo" className = "account-form__uploadbtn">Choose New Photo</label>
-        </div>
-        <button className = "account-form__savebtn">Save Settings</button>
-     </form>
-     </div>
-		)
-}
+  return (
+    <FormContainer onSubmit={handleSubmit} className={className}>
+      {/*Update User Data*/}
+      <Title modifiers='big'>Your Account Settings</Title>
+      <Form.Group vertical>
+        <Label modifiers='large'>Name</Label>
+        <Form.Input
+          modifiers='outline'
+          type='text'
+          name='name'
+          ref={register({
+            required: 'You must specify an name',
+          })}
+        />
+        <Paragraph>{errors.name && errors.name.message}</Paragraph>
+      </Form.Group>
+      <Form.Group vertical>
+        <Label modifiers='large'>Email</Label>
+        <Form.Input
+          modifiers='outline'
+          type='text'
+          name='email'
+          ref={register({
+            required: 'You must specify an email',
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Invalid email address',
+            },
+          })}
+        />
+        <Paragraph>{errors.email && errors.email.message}</Paragraph>
+      </Form.Group>
+      <Form.Group horizontal>
+        <ImageContainer flexWidth='7.5'>
+          <Image
+            modifiers='round'
+            src='https://s.ytimg.com/yts/img/avatar_48-vfllY0UTT.png'
+          />
+        </ImageContainer>
+        <Form.Input
+          type='file'
+          ref={register}
+          id='photo'
+          name='photo'
+          className='form__file'
+        />
+        <Label
+          modifiers='bottomfill'
+          className='form__filelabel'
+          htmlFor='photo'
+        >
+          Choose New Photo
+        </Label>
+        <Button modifiers={['gradient', 'round']} className='form__submitbtn'>
+          Save Settings
+        </Button>
+      </Form.Group>
+    </FormContainer>
+  );
+};
 
-export default AccountView;
+export default styled(AccountView)`
+  .form {
+    &__file {
+      display: none;
+    }
+    &__filelabel {
+      align-self: center;
+      margin-left: 2rem;
+      padding: 1rem;
+      margin-right: auto;
+    }
+    &__submitbtn {
+      align-self: center;
+    }
+  }
+`;

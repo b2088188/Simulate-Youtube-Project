@@ -7,58 +7,58 @@ import {
   NOT_LOGIN,
   AUTH_FAIL,
   CLEAR_ERROR,
-  LOADING
-} from '../types';
+  LOADING,
+} from "../types";
 
 function authReducer(currentState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case SIGNUP_SUCCESS:
     case LOGIN_SUCCESS:
     case LOADUSER_SUCCESS:
-    return {
-      ...currentState,
-      user: action.payload.user,
-      //token: action.payload.token,
-      isAuthenticated: true,
-      loading: false
-    }
+      return {
+        ...currentState,
+        user: action.payload.user,
+        //token: action.payload.token,
+        isAuthenticated: true,
+        loading: false,
+      };
     case LOGOUT_SUCCESS:
-     return {
-      ...currentState,
-      user: null,
-      token: null,
-      isAuthenticated: false
-     }
+      return {
+        ...currentState,
+        user: null,
+        token: null,
+        isAuthenticated: false,
+      };
     case UPDATE_USERDATASUCCESS:
       return {
         ...currentState,
         loading: false,
-        user: action.payload.user
-      }
+        user: action.payload.user,
+      };
     case NOT_LOGIN:
       return {
         ...currentState,
         isAuthenticated: false,
-        loading: false
-      }
+        loading: false,
+      };
     case AUTH_FAIL:
-     return {
-       ...currentState,
-       loading: false,
-       error: action.payload.message
-     }
+      return {
+        ...currentState,
+        loading: false,
+        error: action.payload.message,
+      };
     case CLEAR_ERROR:
-     return {
-      ...currentState,
-      error: null
-     }
+      return {
+        ...currentState,
+        error: null,
+      };
     case LOADING:
       return {
         ...currentState,
-        loading: true
-      }
+        loading: true,
+      };
     default:
-     return currentState;
+      return currentState;
   }
 }
 export default authReducer;

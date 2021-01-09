@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorPrimary } from '../utils';
+import { colorPrimary, setTransition } from '../utils';
 
-const SPAN_MODIFIERS = {
+const LABEL_MODIFIERS = {
 	huge: () => `
 		font-size: 3rem;
 	`,
@@ -33,9 +33,24 @@ const SPAN_MODIFIERS = {
 	primary: () => `
 	color: ${colorPrimary.default};
 	`,
+	bottomfill: () => `
+    color: ${colorPrimary.default};
+    background:none;
+    border: none;
+    border-bottom: solid .1rem ${colorPrimary.default}; 
+    cursor: pointer;
+    ${setTransition()}
+    &:hover{
+      color:#fff;
+      background: ${colorPrimary.default};
+    }
+    &:focus{
+    outline: none;
+   }
+	`,
 };
 
-export const Span = styled.span`
+export const Label = styled.label`
 	text-transform: capitalize;
-	${applyStyleModifiers(SPAN_MODIFIERS)}
+	${applyStyleModifiers(LABEL_MODIFIERS)}
 `;

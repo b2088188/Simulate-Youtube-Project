@@ -1,25 +1,35 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 import {
-formatShortTitle,
-formatDate} from '../../utils/Format';
+  ListGroup,
+  Link as SLink,
+  ImageContainer,
+  Image,
+  Title,
+} from "../../design/components";
+import { formatShortTitle, formatDate } from "../../utils/Format";
 
-const ChannelItem = ({
-    video
-}) => {
+const ChannelItem = ({ video, className }) => {
+  return (
+    <ListGroup.Item p15 mg={{ x: "2.5%" }} className={className}>
+      <SLink as={Link} to={`/watch/${video.videoId}`}>
+        <ImageContainer>
+          <Image src={video.images} alt={video.title} />
+        </ImageContainer>
+        <div className="channelinfobox">
+          <Title as="h2" modifiers="small">
+            {formatShortTitle(video.title)}
+          </Title>
+          <Title as="h3" modifiers={["small", "exlight"]}>
+            {formatDate(video.publishedAt)}
+          </Title>
+        </div>
+      </SLink>
+    </ListGroup.Item>
+  );
+};
 
- 
-    return (
-        <Link className = "channel-view__link" to = {`/watch/${video.videoId}`}>
-		<div className = "channel-view__imgbox">
-			<img src = {video.images} alt = {video.title}  className = "channel-view__img"  />
-		</div>
-		<div className = "channel-view__infobox">    				
-				<h2 className = "channel-view__title">{formatShortTitle(video.title)}</h2>
-				<h3 className = "channel-view__publishdate">{formatDate(video.publishedAt)}</h3>    				
-		</div>
-	</Link>
-    )
-}
-
-export default ChannelItem;
+export default styled(ChannelItem)`
+  min-height: 25rem;
+`;

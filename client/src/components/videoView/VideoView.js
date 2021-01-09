@@ -1,144 +1,250 @@
-import './videoview.scss';
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import {useAuthState} from '../../stores/auth/authStateContext';
-import {useVideoState} from '../../stores/video/videoStateContext';
-import {useVideoActions} from '../../stores/video/videoActionContext';
-import {useLikeState} from '../../stores/likes/likeStateContext';
-import {useLikeActions} from '../../stores/likes/likeActionContext';
-import SubscribeContext from '../../stores/subscriptions/subscribeContext';
-import CommentView from '../commentView/CommentView';
-import { Embed } from 'semantic-ui-react';
-import { Icon, Accordion } from 'semantic-ui-react';
-import { formatDate } from '../../utils/Format';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import styled from "styled-components";
+import {
+  ImageContainer,
+  Link as SLink,
+  Video,
+  Title,
+  Paragraph,
+  ListGroup,
+  Button,
+  Icon,
+  Image,
+} from "../../design/components";
+import { setFlex, colorGrey } from "../../design/utils";
+import { useAuthState } from "../../stores/auth/authStateContext";
+import { useVideoState } from "../../stores/video/videoStateContext";
+import { useVideoActions } from "../../stores/video/videoActionContext";
+import { useLikeState } from "../../stores/likes/likeStateContext";
+import { useLikeActions } from "../../stores/likes/likeActionContext";
+import { useSubscribeState } from "../../stores/subscriptions/subscribeStateContext";
+import { useSubscribeActions } from "../../stores/subscriptions/subscribeActionContext";
+import CommentView from "../commentView/CommentView";
+import { Embed } from "semantic-ui-react";
+import { ThumbUp } from "@material-ui/icons";
+import { Accordion } from "semantic-ui-react";
+import { formatDate } from "../../utils/Format";
+import axios from "axios";
 
 //  let likeItem = {
-    //         videoId: video.id,
-    //         channelId: video.snippet.channelId,
-    //         title: video.snippet.title,
-    //         channelTitle: video.snippet.channelTitle,
-    //         image: video.snippet.thumbnails.high.url,
-    //         publishDate: video.snippet.publishedAt
-    //  }
-    //     const {data}  = await axios.post('/api/v1/likes', likeItem, config.current);
-    //     dispatch({
-    //      type: CREATE_LIKE,
-    //      payload: {
-    //          like: data.data.like
-    //      }
-    //     })
+//         videoId: video.id,
+//         channelId: video.snippet.channelId,
+//         title: video.snippet.title,
+//         channelTitle: video.snippet.channelTitle,
+//         image: video.snippet.thumbnails.high.url,
+//         publishDate: video.snippet.publishedAt
+//  }
+//     const {data}  = await axios.post('/api/v1/likes', likeItem, config.current);
+//     dispatch({
+//      type: CREATE_LIKE,
+//      payload: {
+//          like: data.data.like
+//      }
+//     })
 
+const VideoView = ({ history, className }) => {
+  const { user } = useAuthState();
+  const { videoId } = useParams();
+  const { video, statusVideo, errorVideo } = useVideoState();
+  const { fetchVideo } = useVideoActions();
+  const { likes, like, statusLikes, statusLike } = useLikeState();
+  const { fetchLikes, fetchLike } = useLikeActions();
+  const { fetchSubs } = useSubscribeActions();
+  //const { currentLikeStatus, checkLikeStatus, createLikeItem, deleteLikeItem, setLikeStatus } = useContext(LikeContext);
+  //const { currentSubscribeStatus, checkSubscribeStatus, onSubscribeHandle } = useContext(SubscribeContext);
+  const [descriptionShow, setDescriptionShow] = useState(false);
+  const [statusCurrentLike, setStatusCurrentLike] = useState(null);
+  useEffect(() => {
+    fetchVideo(axios.get(`/api/v1/videos/${videoId}`));
+  }, [videoId, fetchVideo, fetchLikes]);
 
-const VideoView = ({
-    history
-}) => {
-    const {user} = useAuthState();
-    const {videoId} = useParams();
-    const { video, statusVideo, errorVideo} = useVideoState();
-    const {fetchVideo} = useVideoActions();
-    const {likes, like, statusLikes, statusLike} = useLikeState();
-    const {fetchLikes, fetchLike} = useLikeActions();
-    //const { currentLikeStatus, checkLikeStatus, createLikeItem, deleteLikeItem, setLikeStatus } = useContext(LikeContext);
-    const { currentSubscribeStatus, checkSubscribeStatus, onSubscribeHandle } = useContext(SubscribeContext);
-    const [descriptionShow, setDescriptionShow] = useState(false);
-    const [statusCurrentLike, setStatusCurrentLike] = useState(null);
-    useEffect(() => {
-        fetchVideo(axios.get(`/api/v1/videos/${videoId}`))
-    }, [videoId,  fetchVideo, fetchLikes])
+  useEffect(() => {
+    if (user)
+      fetchLike(axios.get(`/api/v1/users/${user._id}/likes/${videoId}`));
+  }, [user, videoId]);
 
-    useEffect(() => {
-        if(user)
-            fetchLike(axios.get(`/api/v1/users/${user._id}/likes/${videoId}`))
-    }, [user, videoId])
+  useEffect(() => {
+    if (statusLike === "resolved") setStatusCurrentLike(like ? true : false);
+  }, [statusLike]);
 
-    useEffect(() => {
-        console.log(statusLike)
-        if(statusLike === 'resolved')
-            setStatusCurrentLike(like ? true : false);
-    }, [statusLike])
+  // useEffect(() => {
 
-    // useEffect(() => {
-    //     if (channel)
-    //         checkSubscribeStatus(channel.id);
-    // }, [channel])
+  // }, [video.channel._id])
 
-    const videoSrc = `https://www.youtube.com/embed/${videoId}`;
+  // useEffect(() => {
+  //     if (channel)
+  //         checkSubscribeStatus(channel.id);
+  // }, [channel])
 
+  const videoSrc = `https://www.youtube.com/embed/${videoId}`;
 
-    function onLikeHandle(video) {
-        return function() {
-            if(!statusCurrentLike) {
-            fetchLikes(axios.post(`/api/v1/users/${user._id}/likes`, {
-           videoId: video.videoId,
-           title: video.title,
-           channelId: video.channel.channelId,
-           channelTitle: video.channel.title,
-           image: video.images,
-           publishedAt: video.publishedAt
-               }))
-          setStatusCurrentLike(true);    
-           }
-        else{
-              fetchLikes(axios.delete(`/api/v1/users/${user._id}/likes/${video.videoId}`))
-              setStatusCurrentLike(null);            
-        }
-   }
-    }
+  function onLikeHandle(video) {
+    return function () {
+      if (!statusCurrentLike) {
+        fetchLikes(
+          axios.post(`/api/v1/users/${user._id}/likes`, {
+            videoId: video.videoId,
+            title: video.title,
+            channelId: video.channel.channelId,
+            channelTitle: video.channel.title,
+            image: video.images,
+            publishedAt: video.publishedAt,
+          })
+        );
+        setStatusCurrentLike(true);
+      } else {
+        fetchLikes(
+          axios.delete(`/api/v1/users/${user._id}/likes/${video.videoId}`)
+        );
+        setStatusCurrentLike(null);
+      }
+    };
+  }
 
-    function onSubscribeClick(channel) {
-        return function() {
-            onSubscribeHandle(channel)
-        }
-    }
+  function onSubscribeClick(channel) {
+    return function () {
+      //fetchSubscriptions(axios.post('/api/v1/subscriptions', channel));
+    };
+  }
 
-  
-
-
-    if (statusVideo === 'idle' || statusVideo === 'pending')
-        return (
-            <Icon loading name='spinner' size = 'huge' className = "search-view__spinner"  />
-        )
-
-    if (!video)
-        return null;
- if(statusVideo === 'resolved')
+  if (statusVideo === "idle" || statusVideo === "pending")
     return (
-        <div className="video-view">
-        <div className="video-view__videobox">
-            <iframe src={videoSrc} title="video player" className = "video-view__video" />
-        </div>
-        <div className="video-view__titlebox">
-            <div className="video-view__titleinfo">               
-            <h1 className = "video-view__title">{video.title}</h1>
-            <p className="video-view__publishdate">{formatDate(video.publishedAt)}</p>
-            </div>
-            <div className = "video-view__shareinfo">
-               <button className = "video-view__like" onClick = {user ? onLikeHandle(video) : () => history.push('/login')}>                  
-               <Icon  name='thumbs up' size = 'large'  />
-               </button>
-               <button className = {`video-view__subscribebtn ${currentSubscribeStatus && 'video-view__subscribebtn--active'}`} onClick = {user ? onSubscribeClick(video.channel) : () => history.push('/login')}>Subscribe</button>
-            </div>
-        </div>
-         <div className="video-view__info">
-             <div className="video-view__channelbox">                
-             <Link to = {`/channel/${video.channel.channelId}`} className="video-view__channelink">                 
-                <img src = {video.channel.image} alt="Author image" className="video-view__channelimg" />
-             </Link>
-            <h3 className="video-view__channeluser">{video.channel.title}</h3>
-             </div>
-            <div className = "video-view__descriptionbox">            
-            {descriptionShow ? 
-                (<div className = "video-view__description">
-                 <p>{video.description}</p>
-                </div>) : 
-                null}   
-            <button type="button" className="video-view__descriptionbtn" onClick = {() => setDescriptionShow(!descriptionShow)}>{descriptionShow?'Show Less':'Show More'}</button>               
-            </div>
-         </div>                          
-           <CommentView />
-       </div>
-    )
-}
+      <Icon
+        loading
+        name="spinner"
+        size="huge"
+        className="search-view__spinner"
+      />
+    );
 
-export default VideoView;
+  if (!video) return null;
+  if (statusVideo === "resolved")
+    return (
+      <div className={className}>
+        <div className="video__videobox">
+          <Video src={videoSrc} title="video player" />
+        </div>
+        <ListGroup ycenter className="video__titlebox">
+          <ListGroup.Item p70>
+            <Title modifiers="medium">{video.title}</Title>
+            <Paragraph modifiers="small">
+              {formatDate(video.publishedAt)}
+            </Paragraph>
+          </ListGroup.Item>
+          <ListGroup.Item p30 className="video__shareinfo">
+            <Button
+              modifiers="transparent"
+              className="video__likebtn"
+              onClick={
+                user ? onLikeHandle(video) : () => history.push("/login")
+              }
+            >
+              <Icon as={ThumbUp} />
+            </Button>
+            <Button
+              modifiers="primary"
+              className="video__subscribebtn"
+              onClick={
+                user
+                  ? onSubscribeClick(video.channel)
+                  : () => history.push("/login")
+              }
+            >
+              Subscribe
+            </Button>
+          </ListGroup.Item>
+        </ListGroup>
+        <ListGroup modifiers="vertical" className="video__info">
+          <ListGroup.Item className="video__channelbox">
+            <SLink
+              as={Link}
+              className="video__channellink"
+              to={`/channel/${video.channel.channelId}`}
+            >
+              <ImageContainer>
+                <Image
+                  modifiers="round"
+                  src={video.channel.image}
+                  alt="Author image"
+                />
+              </ImageContainer>
+            </SLink>
+            <Title as="h2" modifiers="bold">
+              {video.channel.title}
+            </Title>
+          </ListGroup.Item>
+          <ListGroup.Item>
+            {descriptionShow ? (
+              <Paragraph modifiers="small">{video.description}</Paragraph>
+            ) : null}
+            <Button
+              modifiers={["medium", "transparent"]}
+              onClick={() => setDescriptionShow(!descriptionShow)}
+            >
+              {descriptionShow ? "Show Less" : "Show More"}
+            </Button>
+          </ListGroup.Item>
+        </ListGroup>
+        <CommentView />
+      </div>
+    );
+};
+
+export default styled(VideoView)`
+  width: 80%;
+  margin: 0 auto;
+  padding: 2rem 0rem;
+  .video {
+    &__videobox {
+      box-shadow: var(--shadow-dark-shallow);
+      height: 70rem;
+      @media only screen and (max-width: 56.25em) {
+        height: 50rem;
+      }
+
+      @media only screen and (max-width: 37.5em) {
+        height: 35rem;
+      }
+    }
+
+    &__titlebox {
+      border-bottom: solid 0.1rem #000;
+      padding: 2rem 1rem;
+      @media only screen and (max-width: 56.25em) {
+        flex: 0 0 90%;
+        padding: 1rem 0;
+      }
+    }
+
+    &__shareinfo {
+      ${setFlex()}
+    }
+
+    &__likebtn {
+      flex: 0 0 5%;
+    }
+
+    &__subscribebtn {
+      flex: 0 0 15%;
+    }
+
+    &__info {
+      padding: 2rem 0;
+      border-bottom: solid 0.1rem #000;
+      @media only screen and (max-width: 56.25em) {
+        flex: 0 0 90%;
+        padding: 1rem 0;
+      }
+    }
+
+    &__channelbox {
+      ${setFlex({ y: "center" })}
+      margin-bottom: .5rem;
+    }
+    &__channellink {
+      flex: 0 0 5%;
+      margin-right: 1rem;
+    }
+  }
+`;

@@ -1,26 +1,23 @@
-import React, {useMemo} from 'react';
-import {ChannelStateProvider} from './channelStateContext';
-import {ChannelActionProvider} from './channelActionContext';
-import Youtube from '../../apis/youtube';
-import useAsync from '../../customhooks/useAsync';
+import React, { useMemo } from "react";
+import { ChannelStateProvider } from "./channelStateContext";
+import { ChannelActionProvider } from "./channelActionContext";
+import Youtube from "../../apis/youtube";
+import useAsync from "../../customhooks/useAsync";
 
-
-const ChannelStore = ({
-	children
-}) => {
-	const [stateChannel, fetchChannel] = useAsync({       
-      data: {}
-    })
+const ChannelStore = ({ children }) => {
+  const [stateChannel, fetchChannel] = useAsync({
+    data: {},
+  });
 
   //   async function getChannelVideos(id) {
   //   	try {
   //   		  dispatch({type: LOADING});
   //   	      const {data} = await Youtube.get('/channels', {
-		// 	      params: {
-		// 	      	part: 'snippet,contentDetails',
-		// 	        id
-		// 	      }
-		// 	     });
+  // 	      params: {
+  // 	      	part: 'snippet,contentDetails',
+  // 	        id
+  // 	      }
+  // 	     });
   //   	      console.log({
   //   	      	channelId: data.items[0].id,
   //   	      	title: data.items[0].snippet.title,
@@ -29,14 +26,14 @@ const ChannelStore = ({
   //   	      })
   //   	      if(data.pageInfo.totalResults.length<1)
   //                return setResponseError();
-		//      const res = await getVideos(data.items[0].contentDetails.relatedPlaylists.uploads);		     
-		//      dispatch({
-		//      	type: RESPONSE_COMPLETE,
-		//      	payload: {
-		//      		channel: data.items[0],
-		//      		videos: res.data.items
-		//      	}
-		//      })
+  //      const res = await getVideos(data.items[0].contentDetails.relatedPlaylists.uploads);
+  //      dispatch({
+  //      	type: RESPONSE_COMPLETE,
+  //      	payload: {
+  //      		channel: data.items[0],
+  //      		videos: res.data.items
+  //      	}
+  //      })
   //   	}
   //   	catch(err) {
   //         console.log(err.response)
@@ -45,11 +42,11 @@ const ChannelStore = ({
 
   //  async function getVideos(playlistId) {
   //  	return  await Youtube.get('/playlistItems', {
-		//      	params: {
-		//      		playlistId,
-		//      		maxResults: 15     		
-		//      	}
-		//      })
+  //      	params: {
+  //      		playlistId,
+  //      		maxResults: 15
+  //      	}
+  //      })
   //  }
 
   // function setResponseError() {
@@ -59,24 +56,28 @@ const ChannelStore = ({
   // 	})
   // }
 
-const value = useMemo(() => ({
-	channel: stateChannel.data.channel,
-	channelVideos: stateChannel.data.videos,
-	statusChannel: stateChannel.status,
-	errorChannel: stateChannel.error
-}), [stateChannel]);
+  const value = useMemo(
+    () => ({
+      channel: stateChannel.data.channel,
+      channelVideos: stateChannel.data.videos,
+      statusChannel: stateChannel.status,
+      errorChannel: stateChannel.error,
+    }),
+    [stateChannel]
+  );
 
-const actions = useMemo(() => ({
-	fetchChannel
-}), [fetchChannel])
+  const actions = useMemo(
+    () => ({
+      fetchChannel,
+    }),
+    [fetchChannel]
+  );
 
-	return (
-     <ChannelStateProvider value = {value}>
-     	<ChannelActionProvider value = {actions}>
-     		{children}
-     	</ChannelActionProvider>
-     </ChannelStateProvider>
-		)
-}
+  return (
+    <ChannelStateProvider value={value}>
+      <ChannelActionProvider value={actions}>{children}</ChannelActionProvider>
+    </ChannelStateProvider>
+  );
+};
 
 export default ChannelStore;

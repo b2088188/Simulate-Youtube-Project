@@ -1,34 +1,27 @@
-import React, {useState} from 'react';
-import {AlertProvider} from './alertContext';
-import alertReducer from './alertReducer';
-import { v4 as uuidv4 } from 'uuid';
-import {
-SET_ALERT,
-CLEAR_ALERT
-} from '../types';
+import React, { useState } from "react";
+import { AlertProvider } from "./alertContext";
+import alertReducer from "./alertReducer";
+import { v4 as uuidv4 } from "uuid";
+import { SET_ALERT, CLEAR_ALERT } from "../types";
 
 const InitialState = [];
 
-const AlertStore = ({children}) => {
+const AlertStore = ({ children }) => {
   const [alerts, setAlert] = useState(null);
 
- function generateAlert(message) {
-   setAlert(message);
-   setTimeout(() => {
-     setAlert(null);
-   }, 2000);
- }
+  function generateAlert(message) {
+    setAlert(message);
+    setTimeout(() => {
+      setAlert(null);
+    }, 2000);
+  }
 
- const value = {
+  const value = {
     alerts,
-    generateAlert
- };
+    generateAlert,
+  };
 
-	return (
-     <AlertProvider value = {value}>
-     	{children}
-     </AlertProvider>
-		)
-}
+  return <AlertProvider value={value}>{children}</AlertProvider>;
+};
 
 export default AlertStore;

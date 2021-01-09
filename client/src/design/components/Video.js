@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { applyStyleModifiers } from "styled-components-modifiers";
 
-const IMAGE_MODIFIERS = {
+const VIDEO_MODIFIERS = {
   round: () => `
 	 border-radius: 50%;
 	`,
 };
 
-export const Image = styled.img`
+export const Video = styled.iframe`
   width: 100%;
-  height: auto;
-  ${applyStyleModifiers(IMAGE_MODIFIERS)}
+  height: 100%;
+  ${applyStyleModifiers(VIDEO_MODIFIERS)}
 `;

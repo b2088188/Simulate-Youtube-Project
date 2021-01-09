@@ -1,25 +1,77 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import {
+  Link as SLink,
+  Paragraph,
+  Title,
+  List,
+  Image,
+} from "../../design/components";
+import { setFlex } from "../../design/components";
 
+const SearchItem = ({ result, className }) => {
+  return (
+    <List.Item className={className}>
+      <SLink as={Link} to={`/watch/${result.videoId}`} className="search__link">
+        <div className="search__imgbox">
+          <Image src={result.images} alt={result.title} />
+        </div>
+        <div className="search__descriptionbox">
+          <Title as="h2">{result.title}</Title>
+          <Paragraph modifiers="small">{result.publishedAt}</Paragraph>
+          <Title as="h3" modifiers="small">
+            {result.channel.title}
+          </Title>
+          <Paragraph modifiers="small" className="search__descripton">
+            {result.description}
+          </Paragraph>
+        </div>
+      </SLink>
+    </List.Item>
+  );
+};
 
-const SearchItem = ({ result }) => {
-  
+export default styled(SearchItem)`
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+  .search {
+    &__link {
+      text-decoration: none;
+      color: var(--color-grey-dark);
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: var(--shadow-light);
+      display: flex;
 
-    return (
-        <li className="search-view__item">
-                    <Link to = {`/watch/${result.videoId}`} className = "search-view__link" >
-                        <div className = "search-view__imgbox">
-                            <img className = "search-view__img" src={result.images} alt={result.title}/>
-                        </div>
-                        <div className = "search-view__descriptionbox">
-                            <h2 className = "search-view__title">{result.title}</h2>
-                        <p className = "search-view__publishdate">{result.publishedAt}</p>
-                        <h3  className = "search-view__channeltitle">{result.channel.title}</h3>
-                        <p  className = "search-view__description">{result.description}</p>
-                        </div>
-                    </Link>
-         </li>
-    )
-}
+      &:hover {
+        color: currentColor;
+      }
+    }
 
-export default SearchItem;
+    &__imgbox {
+      flex: 0 0 35%;
+    }
+
+    &__descriptionbox {
+      flex: 1;
+      padding: 2rem 2rem;
+
+      @media only screen and (max-width: 75em) {
+        font-size: 50%;
+        padding: 1rem 1rem;
+      }
+    }
+
+    &__description {
+      @media only screen and (max-width: 75em) {
+        line-height: 1.5;
+      }
+      @media only screen and (max-width: 37.5em) {
+        display: none;
+      }
+    }
+  }
+`;

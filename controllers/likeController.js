@@ -2,6 +2,7 @@ import Like from '../models/likeModel.js'
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
+
 export const createLike = catchAsync(async (req, res, next) => {
     const like = await Like.create({ user: req.user._id, ...req.body });
     res.status(201).json({
