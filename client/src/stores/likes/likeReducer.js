@@ -1,47 +1,39 @@
-import * as R from "ramda";
+import * as R from 'ramda';
 import {
-  CREATE_LIKE,
-  GET_LIKES,
-  DELETE_LIKE,
-  LOADING,
-  SET_LIKESTATUS,
-} from "../types";
+   CREATE_USERLIKE,
+   GET_USERLIKES,
+   DELETE_USERLIKE,
+   LOADING,
+   SET_LIKESTATUS,
+} from '../types';
+import { fetchReducer } from '../../customhooks/useAsync';
 
 function likeReducer(currentState, action) {
-  const { likes } = currentState;
-  switch (action.type) {
-    case LOADING:
-      return {
-        ...currentState,
-        loading: true,
-      };
-    case CREATE_LIKE:
-      return {
-        ...currentState,
-        likes: [...likes, action.payload.like],
-      };
-    case GET_LIKES:
-      return {
-        ...currentState,
-        likes: action.payload.likes,
-        loading: false,
-      };
-    case SET_LIKESTATUS:
-      return {
-        ...currentState,
-        currentLikeStatus: action.payload.status,
-      };
-    case DELETE_LIKE:
-      return {
-        ...currentState,
-        likes: R.reject(
-          (el) => el.videoId === action.payload.videoId,
-          currentState.likes
-        ),
-      };
-    default:
-      return currentState;
-  }
+   switch (action.type) {
+      case CREATE_USERLIKE:
+         return {
+            ...currentState,
+            likes: [...currentState.likes, currentState.data.like],
+         };
+      case GET_USERLIKES:
+         return {
+            ...currentState,
+            likes: currentState.data.likes,
+         };
+      case SET_LIKESTATUS:
+         return {
+            ...currentState,
+            currentLikeStatus: action.payload.status,
+         };
+      case DELETE_USERLIKE:
+         return {
+            ...currentState,
+            likes: R.reject(
+               (el) => el.videoId === action.payload.videoId,
+               currentState.likes
+            ),
+         };
+   }
 }
 
 export default likeReducer;

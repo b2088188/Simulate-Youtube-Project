@@ -1,109 +1,88 @@
-import * as R from "ramda";
-import React, { useReducer, useMemo } from "react";
-import { LikeStateProvider } from "./likeStateContext";
-import { LikeActionProvider } from "./likeActionContext";
-import likeReducer from "./likeReducer";
-import axios from "axios";
-import useAsync from "../../customhooks/useAsync";
-
-const InitialState = {
-  currentLikeStatus: null,
-  loading: null,
-  error: null,
-};
+import * as R from 'ramda';
+import React, { useReducer, useMemo, useCallback } from 'react';
+import { LikeStateProvider } from './likeStateContext';
+import { LikeActionProvider } from './likeActionContext';
+import likeReducer from './likeReducer';
+import axios from 'axios';
+import useAsync from '../../customhooks/useAsync';
 
 const LikeStore = ({ children }) => {
-  const [stateLikes, fetchLikes] = useAsync({
-    data: [],
-  });
+   const [stateUserLikes, fetchUserLikes] = useAsync({
+      data: [],
+   });
 
-  const [stateLike, fetchLike] = useAsync({
-    data: {},
-  });
+   const [stateCurrentLike, fetchCurrentLike] = useAsync({
+      data: {},
+   });
 
-  async function checkLikeStatus(videoId) {
-    // const { data } = await axios.get(`/api/v1/likes/${videoId}`);
-    //   if (data.status === 'not found')
-    //       return setLikeStatus(false);
-    //   setLikeStatus(true);
-  }
+   const getUserLikes = useCallback(
+      async function (action, userId) {
+         fetchUserLikes(axios.get(`/api/v1/users/${userId}/likes`));
+      },
+      [fetchUserLikes]
+   );
 
-  function setLikeStatus(status) {
-    // dispatch({
-    //  type: SET_LIKESTATUS,
-    //  payload: {
-    //    status
-    //  }
-    // })
-  }
+   const getCurrentLike = useCallback(
+      async function (userId, videoId) {
+         fetchCurrentLike(
+            axios.get(`/api/v1/users/${userId}/likes/${videoId}`)
+         );
+      },
+      [fetchCurrentLike]
+   );
 
-  async function getLikes() {
-    // try {
-    //    dispatch({type: LOADING});
-    //    const {data} = await axios.get('/api/v1/likes', config.current);
-    //    dispatch({
-    //     type: GET_LIKES,
-    //     payload: {
-    //       likes: data.data.likes
-    //     }
-    //    })
-    // }
-    // catch(err) {
-    //      console.log(err.response);
-    // }
-  }
+   const deleteLike = useCallback(
+      async function (userId, videoId) {
+         fetchCurrentLike(
+            axios.delete(`/api/v1/users/${userId}/likes/${videoId}`)
+         );
+      },
+      [fetchCurrentLike]
+   );
 
-  async function deleteLikeItem(id) {
-    // try {
-    //     const {data} = await axios.delete(`/api/v1/likes/${id}`, config.current);
-    //     dispatch({
-    //       type: DELETE_LIKE,
-    //       payload: {
-    //         videoId: id
-    //       }
-    //     })
-    // }
-    // catch(err) {
-    //    console.log(err.response);
-    // }
-  }
+   const createLike = useCallback(
+      async function (userId, video) {
+         fetchCurrentLike(
+            axios.post(`/api/v1/users/${userId}/likes`, {
+               videoId: video.videoId,
+               title: video.title,
+               channelId: video.channel.channelId,
+               channelTitle: video.channel.title,
+               image: video.images,
+               publishedAt: video.publishedAt,
+            })
+         );
+      },
+      [fetchCurrentLike]
+   );
 
-  // const value = {
-  //   likes: state.likes,
-  //   loading: state.loading,
-  //   currentLikeStatus: state.currentLikeStatus,
-  //   getLikes,
-  //   createLikeItem,
-  //   deleteLikeItem,
-  //   checkLikeStatus,
-  //   setLikeStatus
-  // };
+   const value = useMemo(
+      () => ({
+         userLikes: stateUserLikes.data.likes,
+         statusUserLikes: stateUserLikes.status,
+         errorUserLikes: stateUserLikes.error,
+         currentLike: stateCurrentLike.data.like,
+         statusCurrentLike: stateCurrentLike.status,
+         errorCurrentLike: stateCurrentLike.error,
+      }),
+      [stateUserLikes, stateCurrentLike]
+   );
 
-  const value = useMemo(
-    () => ({
-      likes: stateLikes.data.likes,
-      statusLikes: stateLikes.status,
-      errorLikes: stateLikes.error,
-      like: stateLike.data?.like || {},
-      statusLike: stateLike.status,
-      errorLike: stateLike.error,
-    }),
-    [stateLikes, stateLike]
-  );
+   const actions = useMemo(
+      () => ({
+         getUserLikes,
+         getCurrentLike,
+         createLike,
+         deleteLike,
+      }),
+      [getUserLikes, getCurrentLike, createLike, deleteLike]
+   );
 
-  const actions = useMemo(
-    () => ({
-      fetchLikes,
-      fetchLike,
-    }),
-    [fetchLikes, fetchLike]
-  );
-
-  return (
-    <LikeStateProvider value={value}>
-      <LikeActionProvider value={actions}>{children}</LikeActionProvider>
-    </LikeStateProvider>
-  );
+   return (
+      <LikeStateProvider value={value}>
+         <LikeActionProvider value={actions}>{children}</LikeActionProvider>
+      </LikeStateProvider>
+   );
 };
 
 export default LikeStore;

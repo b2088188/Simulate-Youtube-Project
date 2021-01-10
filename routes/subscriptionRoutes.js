@@ -11,7 +11,8 @@ router.route('/')
    
 router.route('/:channelId')
             .get(getSubscribe)
-router.delete('/:id', deleteSubscribe)
+            .delete(deleteSubscribe)
+
 
 
 export default router;

@@ -67,6 +67,7 @@ export const protect = catchAsync(async (req, res, next) => {
 })
 
 export const isLoggedIn = catchAsync(async (req, res, next) => {
+    let token;
     if (req.cookies.jwt)
         token = req.cookies.jwt;
     if (!token)

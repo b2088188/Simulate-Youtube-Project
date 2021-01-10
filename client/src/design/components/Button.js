@@ -1,46 +1,50 @@
 import styled from 'styled-components';
 import {
-  colorGrey,
-  colorNormal,
-  colorPrimary,
-  setBorder,
-  setTransition,
+   colorGrey,
+   colorNormal,
+   colorPrimary,
+   setBorder,
+   setTransition,
 } from '../utils';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
 const BUTTON_MODIFIERS = {
-  huge: () => `
+   huge: () => `
     font-size: 3rem;
   `,
-  big: () => `
+   big: () => `
     font-size: 2.5rem;
   `,
-  large: () => `
+   large: () => `
     font-size: 2rem;
   `,
-  medium: () => `
+   medium: () => `
     font-size: 1.5rem;
   `,
-  small: () => `
+   small: () => `
    font-size: 1.2rem;
   `,
-  full: () => `
+   full: () => `
     width: 100%;
     height: 100%;
     `,
-  transparent: () => `
+   transparent: () => `
      background: none;
      color: ${colorGrey.dark1};
     `,
-  outline: () => `
+   outline: () => `
     background: none;
-     color: ${colorGrey.light1};
+     color: ${colorGrey.light2};
     border: solid .1rem currentColor;
     `,
-  round: () => `
+   round: () => `
     border-radius: 10rem;
     `,
-  primary: () => `
+   disable: () => `
+     color: ${colorGrey.dark3};
+     background: ${colorGrey.light4};
+    `,
+   primary: () => `
         color: ${colorNormal.white};
         background: ${colorPrimary.dark};
         ${setTransition()}
@@ -49,19 +53,19 @@ const BUTTON_MODIFIERS = {
             background:var(--color-grey-light-4);
         }
     `,
-  secondary: () => `
+   secondary: () => `
       background: #0053B6;
        &:hover {
                 background: #0086D8;
        }
     `,
-  seablue: () => `
+   seablue: () => `
           background: #006994;
           &:hover {
               background: #008ab6;
           }
     `,
-  gradient: () => `
+   gradient: () => `
     color: #fff;
     background-image: linear-gradient(to right, var(--color-primary-light), var(--color-primary-dark));
     transition: all .25s;
@@ -74,19 +78,19 @@ const BUTTON_MODIFIERS = {
 };
 
 export const Button = styled.button`
-  background: ${colorGrey.dark1};
-  color: ${colorNormal.white};
-  text-decoration: none;
-  font-size: 1.7rem;
-  font-weight: 300;
-  padding: 0.75rem 1.25rem;
-  border: none;
-  cursor: pointer;
-  ${(props) => (props.color ? `background: ${props.color};` : null)}
-  ${(props) => props.btop && setBorder({ position: 'border-top' })}
+   background: ${colorGrey.dark1};
+   color: ${colorNormal.white};
+   text-decoration: none;
+   font-size: 1.7rem;
+   font-weight: 300;
+   padding: 0.75rem 1.25rem;
+   border: none;
+   cursor: pointer;
+   ${(props) => (props.color ? `background: ${props.color};` : null)}
+   ${(props) => props.btop && setBorder({ position: 'border-top' })}
 
     &:focus {
-    outline: none;
-  }
-  ${applyStyleModifiers(BUTTON_MODIFIERS)}
+      outline: none;
+   }
+   ${applyStyleModifiers(BUTTON_MODIFIERS)}
 `;

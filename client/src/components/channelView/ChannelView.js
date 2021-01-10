@@ -27,16 +27,31 @@ const ChannelView = ({ className }) => {
       errorChannel,
    } = useChannelState();
    const { fetchChannel } = useChannelActions();
-   const { fetchSubscriptions } = useSubscribeActions();
+   const {
+      getCurrentSubscribe,
+      createSubscribe,
+      deleteSubscribe,
+   } = useSubscribeActions();
+   const {
+      currentSubscribe,
+      stateCurrentSubscribe,
+      errorCurrentSubscribe,
+   } = useSubscribeState();
    //const {currentSubscribeStatus, checkSubscribeStatus, onSubscribeHandle} = useContext(SubscribeContext);
    const { channelId } = useParams();
    const [toLogin, setToLogin] = useState(false);
+   const [isSubscribe, setIsSubscribe] = useState(null);
 
    useEffect(() => {
       fetchChannel(axios.get(`/api/v1/channels/${channelId}/videos`));
-      //checkSubscribeStatus(match.params.channelId);
    }, [channelId]);
-   console.log(channel);
+   useEffect(() => {
+      if (user && channel) getCurrentSubscribe(user._id, channel._id);
+   }, [user, channel, getCurrentSubscribe]);
+
+   useEffect(() => {
+      setIsSubscribe(currentSubscribe ? true : false);
+   }, [currentSubscribe]);
 
    function renderChannelVideos(list) {
       return list.map(function generateItem(video) {
@@ -44,9 +59,10 @@ const ChannelView = ({ className }) => {
       });
    }
 
-   function onSubscribeClick(channel) {
+   function onSubscribeHandle(isSubscribe, user, channel) {
       return function () {
-         //fetchSubscriptions();
+         if (!isSubscribe) return createSubscribe(user._id, channel._id);
+         deleteSubscribe(user._id, channel._id);
       };
    }
    if (toLogin) return <Redirect to='/login' />;
@@ -64,9 +80,14 @@ const ChannelView = ({ className }) => {
                   <Title modifiers={['medium', 'light']}>{channel.title}</Title>
                </div>
                <Button
-                  modifiers={['outline', 'light']}
+                  modifiers={[
+                     'light',
+                     `${isSubscribe ? 'disable' : 'outline'}`,
+                  ]}
                   onClick={
-                     user ? onSubscribeClick(channel) : () => setToLogin(true)
+                     user
+                        ? onSubscribeHandle(isSubscribe, user, channel)
+                        : () => setToLogin(true)
                   }
                >
                   Subscribed

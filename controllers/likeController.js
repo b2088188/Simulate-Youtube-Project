@@ -38,8 +38,7 @@ export const deleteLike = catchAsync(async (req, res, next) => {
     if (!like)
         return next(new AppError('No like found with that Id', 404));
     res.status(204).json({
-        status: 'success',
-        message: null
+        status: 'success'
     })
 });
 

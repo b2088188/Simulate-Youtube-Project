@@ -44,7 +44,7 @@ export const getSubscribe = catchAsync(async (req, res, next) => {
 })
 
 export const deleteSubscribe = catchAsync(async (req, res, next) => {
-    const subscribe = await Subscribe.findOneAndRemove({user: req.user._id, channelId: req.params.id});
+    const subscribe = await Subscribe.findOneAndRemove({user: req.user._id, channel: req.params.channelId});
     if (!subscribe)
         return next(new AppError('Subscribe not found', 404));  
     res.status(204).json({
