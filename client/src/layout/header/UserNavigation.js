@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Link, Button, Image, Span } from '../../design/components';
 import { setFlex, colorGrey } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import Spinner from '../../design/elements';
+import { Spinner } from '../../design/elements';
 
 const UserNavigation = ({ className }) => {
    const { user, statusAuth, errorAuth } = useAuthState();
@@ -40,10 +40,7 @@ const UserNavigation = ({ className }) => {
                <div className='user__imgbox'>
                   <Image
                      modifiers='round'
-                     src={
-                        require(`../../../../public/assets/users/${user.photo}`)
-                           .default
-                     }
+                     src={`http://127.0.0.1:8000/${user.photo}`}
                      alt='User image'
                   />
                </div>
@@ -57,7 +54,13 @@ const UserNavigation = ({ className }) => {
 
    return (
       <nav className={className}>
-         {user ? renderSignOut(user) : renderSignIn()}
+         {statusAuth === 'pending' ? (
+            <Spinner modifiers='dark' />
+         ) : user ? (
+            renderSignOut(user)
+         ) : (
+            renderSignIn()
+         )}
       </nav>
    );
 };

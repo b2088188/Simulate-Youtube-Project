@@ -1,6 +1,9 @@
 import express from 'express'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 if (process.env.NODE_ENV === 'development')
@@ -8,6 +11,7 @@ if (process.env.NODE_ENV === 'development')
 //Body parser, reading data from body into req.body
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static(join(__dirname, 'public')));
 
 import videoRouter from './routes/videoRoutes.js';
 import authRouter from './routes/authRoutes.js'

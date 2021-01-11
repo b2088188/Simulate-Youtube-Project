@@ -26,13 +26,13 @@ import { ThumbUp } from '@material-ui/icons';
 import { Accordion } from 'semantic-ui-react';
 import { formatDate } from '../../utils/Format';
 import axios from 'axios';
-import Spinner from '../../design/elements/Spinner';
+import { Message, Spinner } from '../../design/elements';
 
 const VideoView = ({ history, className }) => {
    const { user } = useAuthState();
    const { videoId } = useParams();
    const { video, statusVideo, errorVideo } = useVideoState();
-   const { fetchVideo } = useVideoActions();
+   const { fetchVideo, getVideoById } = useVideoActions();
    const {
       userLikes,
       currentLike,
@@ -57,16 +57,14 @@ const VideoView = ({ history, className }) => {
       errorCurrentSubscribe,
    } = useSubscribeState();
    const { fetchSubs } = useSubscribeActions();
-   //const { currentLikeStatus, checkLikeStatus, createLikeItem, deleteLikeItem, setLikeStatus } = useContext(LikeContext);
-   //const { currentSubscribeStatus, checkSubscribeStatus, onSubscribeHandle } = useContext(SubscribeContext);
    const [descriptionShow, setDescriptionShow] = useState(false);
    const [isLiked, setIsLiked] = useState(null);
    const [isSubscribe, setIsSubscribe] = useState(null);
 
    useEffect(() => {
       //Fetch Video Info
-      fetchVideo(axios.get(`/api/v1/videos/${videoId}`));
-   }, [videoId, fetchVideo, fetchLikes]);
+      getVideoById(videoId);
+   }, [videoId, getVideoById]);
 
    useEffect(() => {
       //Fetch Particular Like
@@ -102,7 +100,8 @@ const VideoView = ({ history, className }) => {
    }
 
    if (statusVideo === 'idle' || statusVideo === 'pending') return <Spinner />;
-
+   if (statusVideo === 'rejected' && errorVideo)
+      return <Message text={errorVideo} />;
    if (statusVideo === 'resolved')
       return (
          <div className={className}>

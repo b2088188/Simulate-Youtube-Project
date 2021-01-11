@@ -1,37 +1,20 @@
 import {
-  LOADING,
-  RESPONSE_COMPLETE,
-  RESPONSE_ERROR,
-  PAGE_CHANGE,
-} from "../types";
+   LOADING,
+   RESPONSE_COMPLETE,
+   RESPONSE_ERROR,
+   PAGE_CHANGE,
+} from '../types';
 
 function searchReducer(currentState, action) {
-  switch (action.type) {
-    case LOADING:
-      return {
-        ...currentState,
-        loading: true,
-      };
-    case RESPONSE_COMPLETE:
-      return {
-        ...currentState,
-        loading: false,
-        videos: action.payload.videos,
-      };
-    case RESPONSE_ERROR:
-      return {
-        ...currentState,
-        loading: false,
-        error: action.payload.error,
-      };
-    case PAGE_CHANGE:
-      return {
-        ...currentState,
-        page: action.payload.page,
-      };
-    default:
-      return currentState;
-  }
+   switch (action.type) {
+      case 'GET_VIDEOS':
+         return {
+            ...currentState,
+            videos: action.payload.videos,
+         };
+      default:
+         return currentState;
+   }
 }
 
 export default searchReducer;

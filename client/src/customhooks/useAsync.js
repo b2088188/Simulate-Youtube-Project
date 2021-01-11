@@ -49,6 +49,7 @@ const useAsync = (initialState, reducer = fetchReducer) => {
                const {
                   data: { data },
                } = await promise;
+               console.log(data);
                unSafeDispatch({
                   type: REQUEST_RESOLVED,
                   payload: {
@@ -70,7 +71,5 @@ const useAsync = (initialState, reducer = fetchReducer) => {
 
    return [state, run];
 };
-
-export { fetchReducer };
 
 export default useAsync;

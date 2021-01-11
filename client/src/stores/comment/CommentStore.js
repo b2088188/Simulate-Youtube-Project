@@ -1,49 +1,87 @@
-import React, { useReducer, useMemo } from "react";
-import { CommentStateProvider } from "./commentStateContext";
-import { CommentActionProvider } from "./commentActionContext";
-import commentReducer from "./commentReducer";
-import {
-  GET_COMMENTS,
-  ADD_COMMENT,
-  UPDATE_COMMENT,
-  DELETE_COMMENT,
-  SET_CURRENT,
-  CLEAR_CURRENT,
-} from "../types";
-import useAsync from "../../customhooks/useAsync";
-import axios from "axios";
+import React, { useReducer, useMemo, useCallback } from 'react';
+import { CommentStateProvider } from './commentStateContext';
+import { CommentActionProvider } from './commentActionContext';
+import commentReducer from './commentReducer';
+import useAsync from '../../customhooks/useAsync';
+import axios from 'axios';
 
 const CommentStore = ({ children }) => {
-  const [stateComments, fetchComments] = useAsync({
-    data: [],
-  });
-  const [stateComment, fetchComment] = useAsync({
-    data: {},
-  });
+   const [stateComments, fetchComments] = useAsync({
+      data: [],
+   });
+   const [stateComment, fetchComment] = useAsync({
+      data: {},
+   });
 
-  const value = useMemo(
-    () => ({
-      comments: stateComments.data.comments,
-      statusComments: stateComments.status,
-      errorComments: stateComments.error,
-      statusComment: stateComment.status,
-    }),
-    [stateComments, stateComment]
-  );
+   const getVideoComments = useCallback(
+      async function (videoId) {
+         fetchComments(axios.get(`/api/v1/videos/${videoId}/comments`));
+      },
+      [fetchComments]
+   );
 
-  const actions = useMemo(
-    () => ({
-      fetchComments,
-      fetchComment,
-    }),
-    [fetchComments, fetchComment]
-  );
+   const createComment = useCallback(
+      async function (videoId, values) {
+         fetchComment(axios.post(`/api/v1/videos/${videoId}/comments`, values));
+      },
+      [fetchComment]
+   );
 
-  return (
-    <CommentStateProvider value={value}>
-      <CommentActionProvider value={actions}>{children}</CommentActionProvider>
-    </CommentStateProvider>
-  );
+   const updateComment = useCallback(
+      async function (videoId, commentId, values) {
+         fetchComment(
+            axios.patch(
+               `/api/v1/videos/${videoId}/comments/${commentId}`,
+               values
+            )
+         );
+      },
+      [fetchComment]
+   );
+
+   const deleteComment = useCallback(
+      async function (videoId, commentId) {
+         fetchComment(
+            axios.delete(`/api/v1/videos/${videoId}/comments/${commentId}`)
+         );
+      },
+      [fetchComment]
+   );
+
+   const value = useMemo(
+      () => ({
+         comments: stateComments.data.comments,
+         statusComments: stateComments.status,
+         errorComments: stateComments.error,
+         statusComment: stateComment.status,
+      }),
+      [stateComments, stateComment]
+   );
+
+   const actions = useMemo(
+      () => ({
+         fetchComments,
+         getVideoComments,
+         createComment,
+         updateComment,
+         deleteComment,
+      }),
+      [
+         fetchComments,
+         getVideoComments,
+         createComment,
+         updateComment,
+         deleteComment,
+      ]
+   );
+
+   return (
+      <CommentStateProvider value={value}>
+         <CommentActionProvider value={actions}>
+            {children}
+         </CommentActionProvider>
+      </CommentStateProvider>
+   );
 };
 
 export default CommentStore;

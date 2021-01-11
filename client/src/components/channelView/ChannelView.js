@@ -15,7 +15,7 @@ import { useChannelActions } from '../../stores/channel/channelActionContext';
 import { useSubscribeState } from '../../stores/subscriptions/subscribeStateContext';
 import { useSubscribeActions } from '../../stores/subscriptions/subscribeActionContext';
 import ChannelItem from './ChannelItem';
-import Spinner from '../../utils/spinner/Spinner';
+import { Spinner, Message } from '../../design/elements';
 import axios from 'axios';
 
 const ChannelView = ({ className }) => {
@@ -68,7 +68,9 @@ const ChannelView = ({ className }) => {
    if (toLogin) return <Redirect to='/login' />;
 
    if (statusChannel === 'idle' || statusChannel === 'pending')
-      return <Spinner />;
+      return <Spinner modifiers='dark' />;
+   if (statusChannel === 'rejected' && errorChannel)
+      return <Message text={errorChannel} />;
    if (statusChannel === 'resolved')
       return (
          <div className={className}>
