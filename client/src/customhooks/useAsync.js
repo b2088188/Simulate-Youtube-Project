@@ -14,7 +14,7 @@ const fetchReducer = (currentState, action) => {
          return {
             ...currentState,
             status: 'resolved',
-            data: action.payload.data ? action.payload.data : {},
+            data: action.payload.data || {},
             error: null
          };
       case REQUEST_REJECTED:
@@ -41,8 +41,7 @@ const useAsync = (initialState, reducer = fetchReducer) => {
 
    const run = useCallback(
       async (promise) => {
-         const { status, data } = await fetchData();
-         return { status, data };
+         return await fetchData();
          async function fetchData() {
             dispatch({ type: REQUEST_PENDING });
             try {

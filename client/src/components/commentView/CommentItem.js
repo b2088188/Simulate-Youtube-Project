@@ -1,13 +1,7 @@
 import React, { useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-   Button,
-   Paragraph,
-   ImageContainer,
-   Image,
-   ListGroup,
-} from '../../design/components';
+import { Button, Paragraph, ImageContainer, Image, ListGroup } from '../../design/components';
 import { setFlex } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useCommentState } from '../../stores/comment/commentStateContext';
@@ -28,10 +22,7 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
    function renderActionBtn(comment) {
       return (
          <ListGroup.Item p15 className='comment__actionbox'>
-            <Button
-               modifiers='seablue'
-               onClick={() => setCurrentTypedComment(comment)}
-            >
+            <Button modifiers='seablue' onClick={() => setCurrentTypedComment(comment)}>
                Edit
             </Button>
             <Button modifiers='primary' onClick={onDeleteClick(comment._id)}>
@@ -47,20 +38,16 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
             <ImageContainer>
                <Image
                   modifiers='round'
-                  src={`http://127.0.0.1:8000/${user.photo}`}
+                  src={`http://127.0.0.1:8000/${comment.user.photo}`}
                   alt='User Image'
                />
             </ImageContainer>
          </ListGroup.Item>
          <ListGroup.Item p75 className='comment__commentbox'>
-            <Paragraph modifiers={['small', 'bold']}>
-               {comment.user.name}
-            </Paragraph>
+            <Paragraph modifiers={['small', 'bold']}>{comment.user.name}</Paragraph>
             <Paragraph modifiers='small'>{comment.comment}</Paragraph>
          </ListGroup.Item>
-         {user && user._id === comment.user._id
-            ? renderActionBtn(comment)
-            : null}
+         {user && user._id === comment.user._id ? renderActionBtn(comment) : null}
       </ListGroup>
    );
 };

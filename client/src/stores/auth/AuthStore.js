@@ -1,41 +1,48 @@
 import * as R from 'ramda';
-import React, {
-   useState,
-   useEffect,
-   useReducer,
-   useMemo,
-   useCallback,
-} from 'react';
+import React, { useState, useEffect, useReducer, useMemo, useCallback } from 'react';
 import { AuthStateProvider } from './authStateContext';
 import { AuthActionProvider } from './authActionContext';
 import useAsync from '../../customhooks/useAsync';
-import axios from 'axios';
 import { Spinner } from '../../design/elements';
+import axios from 'axios';
 
 const AuthStore = ({ children }) => {
    const [stateAuth, fetchAuth] = useAsync({
-      data: {},
+      data: {}
    });
    const [initialAuthCheck, setInitialAuthCheck] = useState(false);
 
+   const getInitialAuth = useCallback(
+      async function () {
+         await fetchAuth(axios.get('/api/v1/auth'));
+         setInitialAuthCheck(true);
+      },
+      [fetchAuth]
+   );
    useEffect(() => {
-      fetchAuth(axios.get('/api/v1/auth'));
-   }, [fetchAuth]);
+      getInitialAuth();
+   }, [getInitialAuth]);
 
-   // async function logout() {
-   //   try {
-   //    const res =  await axios.get('/api/v1/auth/logout');
-   //   dispatch({type: LOGOUT_SUCCESS});
-   //   }
-   //   catch(err) {
-   //      dispatch({
-   //          type: AUTH_FAIL,
-   //          payload: {
-   //            message: err.response.data.message
-   //          }
-   //        })
-   //   }
-   // }
+   const login = useCallback(
+      async function (values) {
+         fetchAuth(axios.post('/api/v1/auth/login', values));
+      },
+      [fetchAuth]
+   );
+
+   const signup = useCallback(
+      async function (values) {
+         fetchAuth(axios.post('/api/v1/auth/signup', values));
+      },
+      [fetchAuth]
+   );
+
+   const logout = useCallback(
+      async function (values) {
+         fetchAuth(axios.get('/api/v1/auth/logout'));
+      },
+      [fetchAuth]
+   );
 
    const updateUserData = useCallback(
       async function (values) {
@@ -52,7 +59,7 @@ const AuthStore = ({ children }) => {
       () => ({
          user: stateAuth.data.user,
          statusAuth: stateAuth.status,
-         errorAuth: stateAuth.error,
+         errorAuth: stateAuth.error
       }),
       [stateAuth]
    );
@@ -60,13 +67,15 @@ const AuthStore = ({ children }) => {
    const actions = useMemo(
       () => ({
          fetchAuth,
+         login,
+         signup,
          updateUserData,
+         logout
       }),
-      [fetchAuth, updateUserData]
+      [login, signup, updateUserData, logout]
    );
 
-   if (!stateAuth.data.user && stateAuth.status === 'pending')
-      return <Spinner modifiers='dark' />;
+   if (!initialAuthCheck) return <Spinner modifiers='dark' />;
 
    return (
       <AuthStateProvider value={value}>

@@ -2,22 +2,15 @@ export const REQUEST_PENDING = 'REQUEST_PENDING';
 export const REQUEST_RESOLVED = 'REQUEST_RESOLVED';
 export const REQUEST_REJECTED = 'REQUEST_REJECTED';
 
-//Search & Video
-export const LOADING = 'LOADING';
-export const RESPONSE_COMPLETE = 'RESPONSE_COMPLETE';
-export const RESPONSE_ERROR = 'RESPONSE_ERROR';
+//Search
+export const GET_SEARCHRESULTS = 'GET_SEARCHRESULTS';
+export const SEARCH_RESET = 'SEARCH_RESET';
 export const PAGE_CHANGE = 'PAGE_CHANGE';
-export const SET_VIDEO = 'SET_VIDEO';
 
 //Auth
-export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOADUSER_SUCCESS = 'LOADUSER_SUCCESS';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const UPDATE_USERDATASUCCESS = 'UPDATE_USERDATASUCCESS';
-export const AUTH_FAIL = 'AUTH_FAIL';
-export const NOT_LOGIN = 'NOT_LOGIN';
-export const CLEAR_ERROR = 'CLEAR_ERROR';
+export const GET_AUTHINFO = 'GET_AUTHINFO';
+export const LOGOUT_AUTH = 'LOGOUT_AUTH';
+export const UPDATE_USERDATA = 'UPDATE_USERDATA';
 
 //Like
 export const GET_USERLIKES = 'GET_USERLIKES';

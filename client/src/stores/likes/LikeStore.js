@@ -10,16 +10,11 @@ import axios from 'axios';
 const LikeStore = ({ children }) => {
    const [stateUserLikes, fetchUserLikes, dispatchUserLikes] = useAsync(
       {
-         data: [],
          userLikes: [],
          currentUserLike: null
       },
       likeReducer
    );
-
-   const [stateCurrentLike, fetchCurrentLike] = useAsync({
-      data: {}
-   });
 
    const getUserLikes = useCallback(
       async function (action, userId) {

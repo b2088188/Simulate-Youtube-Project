@@ -1,20 +1,51 @@
 import React, { useReducer, useMemo, useCallback } from 'react';
 import { SearchStateProvider } from './searchStateContext';
 import { SearchActionProvider } from './searchActionContext';
+import searchReducer from './searchReducer';
 import Youtube from '../../apis/youtube';
-import { LOADING, RESPONSE_COMPLETE, RESPONSE_ERROR, PAGE_CHANGE } from '../types';
+import { GET_SEARCHRESULTS, PAGE_CHANGE, SEARCH_RESET } from '../types';
 import useAsync from '../../customhooks/useAsync';
 import axios from 'axios';
 
 const SearchStore = ({ children }) => {
-   const [stateVideos, fetchVideos] = useAsync({
-      data: []
-   });
+   const [stateSearchResults, fetchSearchResults, dispatchSearchResults] = useAsync(
+      {
+         data: [],
+         videos: [],
+         page: 1,
+         hasMore: false
+      },
+      searchReducer
+   );
    const getSearchVideos = useCallback(
       async function (q, page) {
-         fetchVideos(axios.get(`/api/v1/videos/?q=${q}&limit=${page ? page * 5 : 5}`));
+         console.log(page);
+         const { data, status } = await fetchSearchResults(
+            axios.get(`/api/v1/videos/?q=${q}&page=${page}`)
+         );
+         if (status === 'success')
+            dispatchSearchResults({
+               type: GET_SEARCHRESULTS,
+               payload: {
+                  videos: data.videos
+               }
+            });
       },
-      [fetchVideos]
+      [fetchSearchResults, dispatchSearchResults]
+   );
+
+   const pageChange = useCallback(
+      function () {
+         dispatchSearchResults({ type: PAGE_CHANGE });
+      },
+      [dispatchSearchResults]
+   );
+
+   const searchReset = useCallback(
+      function () {
+         dispatchSearchResults({ type: SEARCH_RESET });
+      },
+      [dispatchSearchResults]
    );
 
    // async function search(term) {
@@ -54,17 +85,21 @@ const SearchStore = ({ children }) => {
 
    const value = useMemo(
       () => ({
-         videos: stateVideos.data.videos,
-         statusVideos: stateVideos.status,
-         errorVideos: stateVideos.error
+         videos: stateSearchResults.videos,
+         statusVideos: stateSearchResults.status,
+         page: stateSearchResults.page,
+         hasMore: stateSearchResults.hasMore,
+         errorVideos: stateSearchResults.error
       }),
-      [stateVideos]
+      [stateSearchResults]
    );
    const actions = useMemo(
       () => ({
-         getSearchVideos
+         getSearchVideos,
+         pageChange,
+         searchReset
       }),
-      [getSearchVideos]
+      [getSearchVideos, pageChange, searchReset]
    );
 
    return (

@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import { Link, Button, Image, Span } from '../../design/components';
 import { setFlex, colorGrey } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
+import { useAuthActions } from '../../stores/auth/authActionContext';
 import { Spinner } from '../../design/elements';
 
 const UserNavigation = ({ className }) => {
    const { user, statusAuth, errorAuth } = useAuthState();
-
+   const { logout } = useAuthActions();
    function renderSignIn() {
       return (
          <Fragment>
@@ -35,7 +36,9 @@ const UserNavigation = ({ className }) => {
    function renderSignOut(user) {
       return (
          <Fragment>
-            <Button className='logout'>Logout</Button>
+            <Button className='logout' onClick={logout}>
+               Logout
+            </Button>
             <ReactLink to='/accounts' className='info'>
                <div className='user__imgbox'>
                   <Image

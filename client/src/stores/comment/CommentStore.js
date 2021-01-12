@@ -16,7 +16,6 @@ import axios from 'axios';
 const CommentStore = ({ children }) => {
    const [stateComments, fetchComments, dispatchComments] = useAsync(
       {
-         data: {},
          comments: []
       },
       commentsReducer

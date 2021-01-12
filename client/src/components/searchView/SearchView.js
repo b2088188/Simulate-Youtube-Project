@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,24 +13,33 @@ import { Spinner, Message } from '../../design/elements';
 import InfiniteScroll from 'react-infinite-scroller';
 
 const SearchView = ({ className }) => {
-   const { videos, statusVideos, errorVideos } = useSearchState();
-   const { getSearchVideos } = useSearchActions();
-   const [page, setPage] = useState(1);
+   const { videos, page, hasMore, statusVideos, errorVideos } = useSearchState();
+   const { getSearchVideos, pageChange, searchReset } = useSearchActions();
    const { search } = useLocation();
+   const observer = useRef();
+   const lastSearchElementRef = useCallback(
+      (node) => {
+         if (statusVideos === 'pending') return;
+         if (observer.current) observer.current.disconnect();
+         observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasMore) {
+               pageChange();
+            }
+         });
+         if (node) observer.current.observe(node);
+      },
+      [statusVideos, hasMore]
+   );
    const searchParams = new URLSearchParams(search);
    const q = searchParams.get('q');
-   useEffect(() => {
-      getSearchVideos(q);
-      setPage(1);
-   }, [q, getSearchVideos]);
 
-   function fetchNext(q, page) {
-      return function () {
-         console.log(page);
-         getSearchVideos(q, page + 1);
-         setPage((prev) => prev + 1);
-      };
-   }
+   useEffect(() => {
+      searchReset();
+   }, [q]);
+
+   useEffect(() => {
+      getSearchVideos(q, page);
+   }, [q, page, getSearchVideos]);
 
    function calcPage(list, page, resPerPage = 5) {
       const end = page * resPerPage;
@@ -38,42 +47,39 @@ const SearchView = ({ className }) => {
    }
 
    function renderList(list) {
-      return list?.map(function generateItem(result) {
+      return list?.map(function generateItem(result, i, arr) {
+         return (
+            <SearchItem
+               key={result._id}
+               result={result}
+               lastSearchElementRef={lastSearchElementRef}
+               isLast={i + 1 === arr.length}
+            />
+         );
          return <SearchItem key={result._id} result={result} />;
       });
    }
    const renderSearchList = R.pipe(calcPage, renderList);
 
-   if (statusVideos === 'idle' || statusVideos === 'pending') return <Spinner modifiers='dark' />;
    if (statusVideos === 'resolved' && videos.length < 1)
       return <Message text='No video found, please try another search.' />;
-   if (statusVideos === 'resolved')
-      return (
-         <div className={className}>
-            <nav className='navigation'>
-               <List>
-                  {
-                     <InfiniteScroll
-                        pageStart={page}
-                        loadMore={fetchNext(q, page)}
-                        hasMore={videos.length >= 5}
-                        initialLoad={false}
-                     >
-                        {renderList(videos)}
-                     </InfiniteScroll>
-                  }
-                  {/*renderSearchList(videos, page)*/}
-               </List>
-            </nav>
-            {/*videos.length > 1 ? (
+   return (
+      <div className={className}>
+         <nav className='navigation'>
+            <List>{renderList(videos)}</List>
+            {statusVideos === 'idle' || statusVideos === 'pending' ? (
+               <Spinner modifiers='dark' />
+            ) : null}
+         </nav>
+         {/*videos.length > 1 ? (
                <Pagination
                   pages={Math.ceil(videos.length / 5)}
                   page={page}
                   changePage={setPage}
                />
             ) : null*/}
-         </div>
-      );
+      </div>
+   );
 };
 
 export default styled(SearchView)`
