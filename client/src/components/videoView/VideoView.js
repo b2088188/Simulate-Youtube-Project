@@ -33,8 +33,8 @@ const VideoView = ({ history, className }) => {
    const { videoId } = useParams();
    const { video, statusVideo, errorVideo } = useVideoState();
    const { fetchVideo, getVideoById } = useVideoActions();
-   const { userLikes, currentLike, statusUserLikes, statusCurrentLike } = useLikeState();
-   const { fetchLikes, fetchLike, getCurrentLike, createLike, deleteLike } = useLikeActions();
+   const { userLikes, currentUserLike, statusUserLikes, errorUserLikes } = useLikeState();
+   const { getCurrentLike, createLike, deleteLike } = useLikeActions();
    const {
       getCurrentSubscribe,
       getUserSubscriptions,
@@ -45,7 +45,7 @@ const VideoView = ({ history, className }) => {
    const { fetchSubs } = useSubscribeActions();
    const [descriptionShow, setDescriptionShow] = useState(false);
    const isSubscribed = currentUserSub ? true : false;
-   const [isLiked, setIsLiked] = useState(null);
+   const isLiked = currentUserLike ? true : false;
 
    useEffect(() => {
       getVideoById(videoId);
@@ -56,24 +56,20 @@ const VideoView = ({ history, className }) => {
    }, [user, videoId, getCurrentLike]);
 
    useEffect(() => {
-      setIsLiked(currentLike ? true : false);
-   }, [currentLike]);
-
-   useEffect(() => {
       if (user && video) getCurrentSubscribe(user._id, video.channel._id);
    }, [user, video, getCurrentSubscribe]);
 
    const videoSrc = `https://www.youtube.com/embed/${videoId}`;
 
-   function onLikeHandle(video) {
+   function onLikeHandle(user, video) {
       return function () {
          if (!isLiked) return createLike(user._id, video);
          deleteLike(user._id, video.videoId);
       };
    }
-   function onSubscribeHandle(isSubscribe, user, video) {
+   function onSubscribeHandle(user, video) {
       return function () {
-         if (!isSubscribe) {
+         if (!isSubscribed) {
             createSubscribe(user._id, video.channel._id);
          } else {
             deleteSubscribe(user._id, video.channel._id);
@@ -98,18 +94,14 @@ const VideoView = ({ history, className }) => {
                   <Button
                      modifiers='transparent'
                      className='video__likebtn'
-                     onClick={user ? onLikeHandle(video) : () => history.push('/login')}
+                     onClick={user ? onLikeHandle(user, video) : () => history.push('/login')}
                   >
                      <Icon as={ThumbUp} modifiers={`${isLiked ? 'secondary' : null}`} />
                   </Button>
                   <Button
                      modifiers={[`${isSubscribed ? 'disable' : 'primary'}`]}
                      className='video__subscribebtn'
-                     onClick={
-                        user
-                           ? onSubscribeHandle(isSubscribed, user, video)
-                           : () => history.push('/login')
-                     }
+                     onClick={user ? onSubscribeHandle(user, video) : () => history.push('/login')}
                   >
                      Subscribe
                   </Button>

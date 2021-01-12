@@ -1,39 +1,36 @@
 import * as R from 'ramda';
-import {
-   CREATE_USERLIKE,
-   GET_USERLIKES,
-   DELETE_USERLIKE,
-   LOADING,
-   SET_LIKESTATUS,
-} from '../types';
+import { CREATE_USERLIKE, GET_USERLIKES, GET_CURRENTLIKE, DELETE_USERLIKE } from '../types';
 import { fetchReducer } from '../../customhooks/useAsync';
 
 function likeReducer(currentState, action) {
    switch (action.type) {
-      case CREATE_USERLIKE:
-         return {
-            ...currentState,
-            likes: [...currentState.likes, currentState.data.like],
-         };
       case GET_USERLIKES:
          return {
             ...currentState,
-            likes: currentState.data.likes,
+            userLikes: action.payload.likes
          };
-      case SET_LIKESTATUS:
+      case GET_CURRENTLIKE:
          return {
             ...currentState,
-            currentLikeStatus: action.payload.status,
+            currentUserLike: action.payload.like
+         };
+      case CREATE_USERLIKE:
+         return {
+            ...currentState,
+            currentUserLike: action.payload.like,
+            userLikes: [...currentState.userLikes, action.payload.like]
          };
       case DELETE_USERLIKE:
          return {
             ...currentState,
-            likes: R.reject(
+            currentUserLike: null,
+            userLikes: R.reject(
                (el) => el.videoId === action.payload.videoId,
-               currentState.likes
-            ),
+               currentState.userLikes
+            )
          };
    }
+   return fetchReducer(currentState, action);
 }
 
 export default likeReducer;

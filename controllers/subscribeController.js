@@ -5,13 +5,20 @@ import {createOne} from './handlerFactory.js'
 
 
 export const addSubscribe = catchAsync(async (req, res, next) => {
-    const subscribe = await Subscribe.create({ user: req.user._id, ...req.body });
-    res.status(201).json({
-        status: 'success',
-        data: {
-            subscribe
-        }
+    let subscribe = new Subscribe({ user: req.user._id, ...req.body });
+    subscribe =  await subscribe.save(function (err, subscribe) {
+        subscribe.populate({
+        path: 'channel',
+        select: 'channelId title image'
+    }, function(err, subscribe) {
+        res.status(201).json({
+            status: 'success',
+            data: {
+                subscribe
+            }
+        })
     })
+    });
 });
 
 export const getSubscribes = catchAsync(async (req, res, next) => {

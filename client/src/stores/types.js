@@ -20,8 +20,9 @@ export const NOT_LOGIN = 'NOT_LOGIN';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 //Like
-export const CREATE_USERLIKE = 'CREATE_USERLIKE';
 export const GET_USERLIKES = 'GET_USERLIKES';
+export const GET_CURRENTLIKE = 'GET_CURRENTLIKE';
+export const CREATE_USERLIKE = 'CREATE_USERLIKE';
 export const DELETE_USERLIKE = 'DELETE_USERLIKE';
 export const SET_LIKESTATUS = 'SET_LIKESTATUS';
 

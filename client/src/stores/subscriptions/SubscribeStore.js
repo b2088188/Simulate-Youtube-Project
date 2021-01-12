@@ -33,6 +33,7 @@ const SubscribeStore = ({ children }) => {
          const { data, status } = await fetchUserSubs(
             axios.get(`/api/v1/users/${userId}/subscriptions/${channelId}`)
          );
+
          if (status === 'success')
             dispatchUserSubs({ type: GET_CURRENTSUB, payload: { subscribe: data.subscribe } });
       },
@@ -44,6 +45,7 @@ const SubscribeStore = ({ children }) => {
          const { data, status } = await fetchUserSubs(
             axios.post(`/api/v1/users/${userId}/subscriptions`, { channel })
          );
+         console.log(data.subscribe);
          if (status === 'success')
             dispatchUserSubs({ type: ADD_SUBSCRIBE, payload: { subscribe: data.subscribe } });
       },

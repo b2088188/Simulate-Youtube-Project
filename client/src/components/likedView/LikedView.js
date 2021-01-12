@@ -11,13 +11,8 @@ import axios from 'axios';
 
 const LikedView = ({ className }) => {
    const { user } = useAuthState();
-   const {
-      currentLike,
-      userLikes,
-      statusUserLikes,
-      errorUserLikes,
-   } = useLikeState();
-   const { getUserLikes, dispatchLikes } = useLikeActions();
+   const { userLikes, statusUserLikes, errorUserLikes } = useLikeState();
+   const { getUserLikes } = useLikeActions();
 
    useEffect(() => {
       if (user) getUserLikes(user.id);
