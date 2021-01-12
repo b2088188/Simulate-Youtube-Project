@@ -15,7 +15,7 @@ export const createChannel = catchAsync(async (req, res, next) => {
 })
 
 export const getChannelVideos = catchAsync(async (req, res, next) => {
-	const channel = await Channel.findOne({channelId: req.params.channelId});
+	const channel = await Channel.findById(req.params.channelId);
 	if(!channel)
 		return next(new AppError('No channel found with that Id.', 404));
 	const videos = await Video.find({channel: channel._id}) ;

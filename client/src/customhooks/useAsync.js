@@ -1,67 +1,65 @@
 import { useState, useEffect, useReducer, useCallback } from 'react';
-import {
-   REQUEST_PENDING,
-   REQUEST_RESOLVED,
-   REQUEST_REJECTED,
-} from '../stores/types';
+import { REQUEST_PENDING, REQUEST_RESOLVED, REQUEST_REJECTED } from '../stores/types';
 import useSafeDispatch from './useSafeDispatch';
+import axios from 'axios';
 
 const fetchReducer = (currentState, action) => {
    switch (action.type) {
       case REQUEST_PENDING:
          return {
             ...currentState,
-            status: 'pending',
+            status: 'pending'
          };
       case REQUEST_RESOLVED:
          return {
             ...currentState,
             status: 'resolved',
             data: action.payload.data ? action.payload.data : {},
-            error: null,
+            error: null
          };
       case REQUEST_REJECTED:
          return {
             ...currentState,
             status: 'rejected',
-            error: action.payload.error,
+            error: action.payload.error
          };
       default:
          throw new Error(`Unhandled action type: ${action.type}`);
    }
 };
 
+export { fetchReducer };
+
 const useAsync = (initialState, reducer = fetchReducer) => {
    const [state, unSafeDispatch] = useReducer(reducer, {
       status: 'idle',
       data: null,
       error: null,
-      ...initialState,
+      ...initialState
    });
-
    const dispatch = useSafeDispatch(unSafeDispatch);
+
    const run = useCallback(
-      (promise) => {
-         fetchData();
+      async (promise) => {
+         const { status, data } = await fetchData();
+         return { status, data };
          async function fetchData() {
-            unSafeDispatch({ type: REQUEST_PENDING });
+            dispatch({ type: REQUEST_PENDING });
             try {
-               const {
-                  data: { data },
-               } = await promise;
-               console.log(data);
-               unSafeDispatch({
+               const { data } = await promise;
+               dispatch({
                   type: REQUEST_RESOLVED,
                   payload: {
-                     data,
-                  },
+                     data: data.data
+                  }
                });
-            } catch ({ response: { data = 'error' } }) {
-               unSafeDispatch({
+               return data;
+            } catch ({ response: { data } }) {
+               dispatch({
                   type: REQUEST_REJECTED,
                   payload: {
-                     error: data.message,
-                  },
+                     error: data.message
+                  }
                });
             }
          }
@@ -69,7 +67,7 @@ const useAsync = (initialState, reducer = fetchReducer) => {
       [dispatch]
    );
 
-   return [state, run];
+   return [state, run, dispatch];
 };
 
 export default useAsync;

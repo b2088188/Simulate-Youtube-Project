@@ -31,7 +31,7 @@ async function importData() {
 
 async function deleteData() {	
 	try {
-	await Product.deleteMany();
+	await Video.deleteMany();
 	//await User.deleteMany();
 	//await Order.deleteMany();
 	console.log('Date successfully deleted!');
@@ -40,8 +40,9 @@ async function deleteData() {
 	}
 	process.exit();
 }
-
+//node ./data/import-dev-data.js --import
 if(process.argv[2] === '--import')
 	importData();
+//node ./data/import-dev-data.js --delete
 if(process.argv[2] === '--delete')
 	deleteData();

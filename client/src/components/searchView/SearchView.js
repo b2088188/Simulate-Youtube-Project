@@ -44,8 +44,7 @@ const SearchView = ({ className }) => {
    }
    const renderSearchList = R.pipe(calcPage, renderList);
 
-   if (statusVideos === 'idle' || statusVideos === 'pending')
-      return <Spinner modifiers='dark' />;
+   if (statusVideos === 'idle' || statusVideos === 'pending') return <Spinner modifiers='dark' />;
    if (statusVideos === 'resolved' && videos.length < 1)
       return <Message text='No video found, please try another search.' />;
    if (statusVideos === 'resolved')

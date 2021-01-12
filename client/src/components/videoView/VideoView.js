@@ -10,7 +10,7 @@ import {
    ListGroup,
    Button,
    Icon,
-   Image,
+   Image
 } from '../../design/components';
 import { setFlex, colorGrey } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
@@ -33,56 +33,35 @@ const VideoView = ({ history, className }) => {
    const { videoId } = useParams();
    const { video, statusVideo, errorVideo } = useVideoState();
    const { fetchVideo, getVideoById } = useVideoActions();
-   const {
-      userLikes,
-      currentLike,
-      statusUserLikes,
-      statusCurrentLike,
-   } = useLikeState();
-   const {
-      fetchLikes,
-      fetchLike,
-      getCurrentLike,
-      createLike,
-      deleteLike,
-   } = useLikeActions();
+   const { userLikes, currentLike, statusUserLikes, statusCurrentLike } = useLikeState();
+   const { fetchLikes, fetchLike, getCurrentLike, createLike, deleteLike } = useLikeActions();
    const {
       getCurrentSubscribe,
+      getUserSubscriptions,
       createSubscribe,
-      deleteSubscribe,
+      deleteSubscribe
    } = useSubscribeActions();
-   const {
-      currentSubscribe,
-      stateCurrentSubscribe,
-      errorCurrentSubscribe,
-   } = useSubscribeState();
+   const { currentUserSub, statusUserSubscriptions, errorUserSubscriptions } = useSubscribeState();
    const { fetchSubs } = useSubscribeActions();
    const [descriptionShow, setDescriptionShow] = useState(false);
+   const isSubscribed = currentUserSub ? true : false;
    const [isLiked, setIsLiked] = useState(null);
-   const [isSubscribe, setIsSubscribe] = useState(null);
 
    useEffect(() => {
-      //Fetch Video Info
       getVideoById(videoId);
    }, [videoId, getVideoById]);
 
    useEffect(() => {
-      //Fetch Particular Like
       if (user) getCurrentLike(user._id, videoId);
    }, [user, videoId, getCurrentLike]);
 
    useEffect(() => {
-      //Set Is Liked based on Current Like
       setIsLiked(currentLike ? true : false);
    }, [currentLike]);
 
    useEffect(() => {
       if (user && video) getCurrentSubscribe(user._id, video.channel._id);
    }, [user, video, getCurrentSubscribe]);
-
-   useEffect(() => {
-      setIsSubscribe(currentSubscribe ? true : false);
-   }, [currentSubscribe]);
 
    const videoSrc = `https://www.youtube.com/embed/${videoId}`;
 
@@ -94,14 +73,16 @@ const VideoView = ({ history, className }) => {
    }
    function onSubscribeHandle(isSubscribe, user, video) {
       return function () {
-         if (!isSubscribe) return createSubscribe(user._id, video.channel._id);
-         deleteSubscribe(user._id, video.channel._id);
+         if (!isSubscribe) {
+            createSubscribe(user._id, video.channel._id);
+         } else {
+            deleteSubscribe(user._id, video.channel._id);
+         }
       };
    }
 
-   if (statusVideo === 'idle' || statusVideo === 'pending') return <Spinner />;
-   if (statusVideo === 'rejected' && errorVideo)
-      return <Message text={errorVideo} />;
+   if (statusVideo === 'idle' || statusVideo === 'pending') return <Spinner modifiers='dark' />;
+   if (statusVideo === 'rejected' && errorVideo) return <Message text={errorVideo} />;
    if (statusVideo === 'resolved')
       return (
          <div className={className}>
@@ -111,28 +92,22 @@ const VideoView = ({ history, className }) => {
             <ListGroup ycenter className='video__titlebox'>
                <ListGroup.Item p70>
                   <Title modifiers='medium'>{video.title}</Title>
-                  <Paragraph modifiers='small'>
-                     {formatDate(video.publishedAt)}
-                  </Paragraph>
+                  <Paragraph modifiers='small'>{formatDate(video.publishedAt)}</Paragraph>
                </ListGroup.Item>
                <ListGroup.Item p30 className='video__shareinfo'>
                   <Button
                      modifiers='transparent'
                      className='video__likebtn'
-                     onClick={
-                        user
-                           ? onLikeHandle(video)
-                           : () => history.push('/login')
-                     }
+                     onClick={user ? onLikeHandle(video) : () => history.push('/login')}
                   >
-                     <Icon as={ThumbUp} />
+                     <Icon as={ThumbUp} modifiers={`${isLiked ? 'secondary' : null}`} />
                   </Button>
                   <Button
-                     modifiers='primary'
+                     modifiers={[`${isSubscribed ? 'disable' : 'primary'}`]}
                      className='video__subscribebtn'
                      onClick={
                         user
-                           ? onSubscribeHandle(isSubscribe, user, video)
+                           ? onSubscribeHandle(isSubscribed, user, video)
                            : () => history.push('/login')
                      }
                   >
@@ -145,14 +120,10 @@ const VideoView = ({ history, className }) => {
                   <SLink
                      as={Link}
                      className='video__channellink'
-                     to={`/channel/${video.channel.channelId}`}
+                     to={`/channel/${video.channel._id}`}
                   >
                      <ImageContainer>
-                        <Image
-                           modifiers='round'
-                           src={video.channel.image}
-                           alt='Author image'
-                        />
+                        <Image modifiers='round' src={video.channel.image} alt='Author image' />
                      </ImageContainer>
                   </SLink>
                   <Title as='h2' modifiers='bold'>
@@ -161,9 +132,7 @@ const VideoView = ({ history, className }) => {
                </ListGroup.Item>
                <ListGroup.Item>
                   {descriptionShow ? (
-                     <Paragraph modifiers='small'>
-                        {video.description}
-                     </Paragraph>
+                     <Paragraph modifiers='small'>{video.description}</Paragraph>
                   ) : null}
                   <Button
                      modifiers={['medium', 'transparent']}

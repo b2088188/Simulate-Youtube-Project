@@ -1,4 +1,5 @@
 import Comment from '../models/commentModel.js'
+import Video from '../models/videoModel.js';
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 import {createOne} from './handlerFactory.js'
@@ -15,7 +16,10 @@ export const getComments = catchAsync(async (req, res, next) => {
 
 
 
-export const addComment = catchAsync(async (req, res, next) => { 
+export const addComment = catchAsync(async (req, res, next) => {     
+    const video = await Video.find({videoId: req.params.videoId});    
+    if(video.length<1)
+        return next(new AppError('No comment found with that Id', 404));
     const comment = await Comment.create({ user: req.user._id, videoId: req.params.videoId, ...req.body });
     res.status(201).json({
         status: 'success',

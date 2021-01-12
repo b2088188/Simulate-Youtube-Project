@@ -32,10 +32,8 @@ const LikeStore = ({ children }) => {
    );
 
    const deleteLike = useCallback(
-      async function (userId, videoId) {
-         fetchCurrentLike(
-            axios.delete(`/api/v1/users/${userId}/likes/${videoId}`)
-         );
+      async function (videoId) {
+         fetchCurrentLike(axios.delete(`/api/v1/likes/${videoId}`));
       },
       [fetchCurrentLike]
    );
@@ -46,7 +44,6 @@ const LikeStore = ({ children }) => {
             axios.post(`/api/v1/users/${userId}/likes`, {
                videoId: video.videoId,
                title: video.title,
-               channelId: video.channel.channelId,
                channelTitle: video.channel.title,
                image: video.images,
                publishedAt: video.publishedAt,

@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-   ImageContainer,
-   Image,
-   Title,
-   Button,
-   ListGroup,
-} from '../../design/components';
+import { ImageContainer, Image, Title, Button, ListGroup } from '../../design/components';
 import { setFlex } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useChannelState } from '../../stores/channel/channelStateContext';
@@ -20,27 +14,18 @@ import axios from 'axios';
 
 const ChannelView = ({ className }) => {
    const { user } = useAuthState();
-   const {
-      channel,
-      channelVideos,
-      statusChannel,
-      errorChannel,
-   } = useChannelState();
+   const { channel, channelVideos, statusChannel, errorChannel } = useChannelState();
    const { fetchChannel } = useChannelActions();
    const {
       getCurrentSubscribe,
+      getUserSubscriptions,
       createSubscribe,
-      deleteSubscribe,
+      deleteSubscribe
    } = useSubscribeActions();
-   const {
-      currentSubscribe,
-      stateCurrentSubscribe,
-      errorCurrentSubscribe,
-   } = useSubscribeState();
-   //const {currentSubscribeStatus, checkSubscribeStatus, onSubscribeHandle} = useContext(SubscribeContext);
+   const { currentUserSub, stateCurrentSubscribe, errorCurrentSubscribe } = useSubscribeState();
    const { channelId } = useParams();
    const [toLogin, setToLogin] = useState(false);
-   const [isSubscribe, setIsSubscribe] = useState(null);
+   const isSubscribed = currentUserSub ? true : false;
 
    useEffect(() => {
       fetchChannel(axios.get(`/api/v1/channels/${channelId}/videos`));
@@ -49,28 +34,25 @@ const ChannelView = ({ className }) => {
       if (user && channel) getCurrentSubscribe(user._id, channel._id);
    }, [user, channel, getCurrentSubscribe]);
 
-   useEffect(() => {
-      setIsSubscribe(currentSubscribe ? true : false);
-   }, [currentSubscribe]);
-
    function renderChannelVideos(list) {
       return list.map(function generateItem(video) {
          return <ChannelItem key={video._id} video={video} />;
       });
    }
 
-   function onSubscribeHandle(isSubscribe, user, channel) {
+   function onSubscribeHandle(isSubscribed, user, channel) {
       return function () {
-         if (!isSubscribe) return createSubscribe(user._id, channel._id);
-         deleteSubscribe(user._id, channel._id);
+         if (!isSubscribed) {
+            createSubscribe(user._id, channel._id);
+         } else {
+            deleteSubscribe(user._id, channel._id);
+         }
       };
    }
    if (toLogin) return <Redirect to='/login' />;
 
-   if (statusChannel === 'idle' || statusChannel === 'pending')
-      return <Spinner modifiers='dark' />;
-   if (statusChannel === 'rejected' && errorChannel)
-      return <Message text={errorChannel} />;
+   if (statusChannel === 'idle' || statusChannel === 'pending') return <Spinner modifiers='dark' />;
+   if (statusChannel === 'rejected' && errorChannel) return <Message text={errorChannel} />;
    if (statusChannel === 'resolved')
       return (
          <div className={className}>
@@ -82,14 +64,9 @@ const ChannelView = ({ className }) => {
                   <Title modifiers={['medium', 'light']}>{channel.title}</Title>
                </div>
                <Button
-                  modifiers={[
-                     'light',
-                     `${isSubscribe ? 'disable' : 'outline'}`,
-                  ]}
+                  modifiers={['light', `${isSubscribed ? 'disable' : 'outline'}`]}
                   onClick={
-                     user
-                        ? onSubscribeHandle(isSubscribe, user, channel)
-                        : () => setToLogin(true)
+                     user ? onSubscribeHandle(isSubscribed, user, channel) : () => setToLogin(true)
                   }
                >
                   Subscribed

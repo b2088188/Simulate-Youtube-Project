@@ -9,24 +9,14 @@ import { addComment } from '../../stores/comment/CommentStore';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import CommentItem from './CommentItem';
-import Spinner from '../../design/elements/Spinner';
+import { Spinner, Message } from '../../design/elements';
 import axios from 'axios';
 
 const CommentView = ({ className }) => {
    const { user } = useAuthState();
-   const {
-      comments,
-      statusComments,
-      statusComment,
-      errorComments,
-   } = useCommentState();
+   const { comments, statusComments, statusComment, errorComments } = useCommentState();
    const { register, handleSubmit, errors, setValue, reset } = useForm();
-   const {
-      fetchComments,
-      getVideoComments,
-      createComment,
-      updateComment,
-   } = useCommentActions();
+   const { fetchComments, getVideoComments, createComment, updateComment } = useCommentActions();
    const [currentTypedComment, setCurrentTypedComment] = useState(null);
    const [showActionBtn, setShowActionBtn] = useState(false);
    let { videoId } = useParams();
@@ -68,16 +58,15 @@ const CommentView = ({ className }) => {
 
    if (statusComments === 'idle' || statusComments === 'pending')
       return <Spinner modifiers='dark' />;
-
+   if (statusComments === 'rejected' && errorComments)
+      return <Message severity='error' text={errorComments} />;
    if (statusComments === 'resolved')
       return (
          <div className={className}>
             {user ? (
                <Form
                   className='comment__form'
-                  onSubmit={handleSubmit(
-                     !currentTypedComment ? onCreate : onUpdate
-                  )}
+                  onSubmit={handleSubmit(!currentTypedComment ? onCreate : onUpdate)}
                >
                   <Form.Input
                      modifiers='transparent'
@@ -85,7 +74,7 @@ const CommentView = ({ className }) => {
                      name='comment'
                      placeholder='Add a public comment...'
                      ref={register({
-                        required: 'Please type your comment',
+                        required: 'Please type your comment'
                      })}
                   />
                   <div className='comment__submitbox'>
@@ -94,9 +83,7 @@ const CommentView = ({ className }) => {
                   </div>
                </Form>
             ) : null}
-            <div className='comment-view__container'>
-               {renderComments(comments)}
-            </div>
+            <div className='comment-view__container'>{renderComments(comments)}</div>
          </div>
       );
 };

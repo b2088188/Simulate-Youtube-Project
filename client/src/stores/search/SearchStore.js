@@ -2,76 +2,67 @@ import React, { useReducer, useMemo, useCallback } from 'react';
 import { SearchStateProvider } from './searchStateContext';
 import { SearchActionProvider } from './searchActionContext';
 import Youtube from '../../apis/youtube';
-import {
-   LOADING,
-   RESPONSE_COMPLETE,
-   RESPONSE_ERROR,
-   PAGE_CHANGE,
-} from '../types';
+import { LOADING, RESPONSE_COMPLETE, RESPONSE_ERROR, PAGE_CHANGE } from '../types';
 import useAsync from '../../customhooks/useAsync';
 import axios from 'axios';
 
 const SearchStore = ({ children }) => {
    const [stateVideos, fetchVideos] = useAsync({
-      data: [],
+      data: []
    });
    const getSearchVideos = useCallback(
-      function (q, page) {
-         fetchVideos(
-            axios.get(`/api/v1/videos/?q=${q}&limit=${page ? page * 5 : 5}`)
-         );
+      async function (q, page) {
+         fetchVideos(axios.get(`/api/v1/videos/?q=${q}&limit=${page ? page * 5 : 5}`));
       },
       [fetchVideos]
    );
 
-   //    async function search(term) {
-   //   try {
-   //     dispatch({type: LOADING});
-   //      const {data: {data}} = await  axios.get('/api/v1/videos', {
-   //         params: {
-   //           q: term
-   //         }
-   //      });
-   //      //Get JSON
-   //     // const videos = data.items.map(el => {
-   //     //    return {
-   //     //      videoId: el.id.videoId,
-   //     //      title: el.snippet.title,
-   //     //      description: el.snippet.description,
-   //     //      publishedAt: el.snippet.publishedAt,
-   //     //      images: el.snippet.thumbnails.medium.url
-   //     //    }
-   //     //  })
-   //      // if(data.items.length<1)
-   //      //  return dispatch({
-   //      //       type: RESPONSE_ERROR,
-   //      //       payload: {
-   //      //         error: 'No results found.'
-   //      //       }
-   //      //      })
-   //      dispatch({
-   //       type: RESPONSE_COMPLETE,
-   //       payload: {
-   //         videos: data.videos,
-   //       }
-   //      })
-   //   }
-   //   catch(err) {
-   //           console.log(err);
-   //   }
+   // async function search(term) {
+   //    try {
+   //Search results
+   // const { data } = await Youtube.get('/search', {
+   //    params: {
+   //       q: term,
+   //       maxResults: 10,
+   //    },
+   // });
+   // const videos = data.items.map((el) => {
+   //    return {
+   //       videoId: el.id.videoId,
+   //       title: el.snippet.title,
+   //       description: el.snippet.description,
+   //       publishedAt: el.snippet.publishedAt,
+   //       images: el.snippet.thumbnails.medium.url,
+   //    };
+   // });
+
+   //Video Results
+   //       const { data } = await Youtube.get('/channels', {
+   //          params: {
+   //             id: term,
+   //          },
+   //       });
+   //       console.log({
+   //          title: data.items[0].snippet.title,
+   //          publishedAt: data.items[0].snippet.publishedAt,
+   //          image: data.items[0].snippet.thumbnails.medium.url,
+   //       });
+   //    } catch (err) {
+   //       console.log(err);
+   //    }
    // }
 
    const value = useMemo(
       () => ({
          videos: stateVideos.data.videos,
          statusVideos: stateVideos.status,
-         errorVideos: stateVideos.error,
+         errorVideos: stateVideos.error
       }),
       [stateVideos]
    );
    const actions = useMemo(
       () => ({
-         getSearchVideos,
+         getSearchVideos
       }),
       [getSearchVideos]
    );

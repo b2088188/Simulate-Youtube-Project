@@ -33,8 +33,8 @@ const VideoStore = ({ children }) => {
    // }
 
    //Get Channel Image from Youtube
-   //const {data: data2} = await getChannel(data.video.channel.channelId);
-   //console.log(data2.items[0].snippet.thumbnails.medium.url)
+   // const {data: data2} = await getChannel(data.video.channel.channelId);
+   // console.log(data2.items[0].snippet.thumbnails.medium.url)
    // async function getChannel(channelId) {
    // return await Youtube.get('/channels', {
    //             params: {

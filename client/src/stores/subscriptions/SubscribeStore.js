@@ -4,67 +4,68 @@ import { SubscribeStateProvider } from './subscribeStateContext';
 import { SubscribeActionProvider } from './subscribeActionContext';
 import subscribeReducer from './subscribeReducer';
 import axios from 'axios';
-import {
-   LOADING,
-   ADD_SUBSCRIBE,
-   DELETE_SUBSCRIBE,
-   GET_SUBSCRIPTIONS,
-   SET_SUBSCRIBESTATUS,
-} from '../types';
+import { ADD_SUBSCRIBE, DELETE_SUBSCRIBE, GET_SUBSCRIPTIONS, GET_CURRENTSUB } from '../types';
 import useAsync from '../../customhooks/useAsync';
 
 const SubscribeStore = ({ children }) => {
-   const [stateUserSubs, fetchUserSubs] = useAsync({
-      data: [],
-   });
-   const [stateCurrentSub, fetchCurrentSub] = useAsync({
-      data: {},
-   });
+   const [stateUserSubs, fetchUserSubs, dispatchUserSubs] = useAsync(
+      {
+         data: [],
+         userSubs: [],
+         currentUserSub: null
+      },
+      subscribeReducer
+   );
 
    const getUserSubscriptions = useCallback(
       async function (userId) {
-         fetchUserSubs(axios.get(`/api/v1/users/${userId}/subscriptions`));
+         const { data, status } = await fetchUserSubs(
+            axios.get(`/api/v1/users/${userId}/subscriptions`)
+         );
+         if (status === 'success')
+            dispatchUserSubs({ type: GET_SUBSCRIPTIONS, payload: { subscribes: data.subscribes } });
       },
-      [fetchUserSubs]
+      [fetchUserSubs, dispatchUserSubs]
    );
 
    const getCurrentSubscribe = useCallback(
       async function (userId, channelId) {
-         fetchCurrentSub(
+         const { data, status } = await fetchUserSubs(
             axios.get(`/api/v1/users/${userId}/subscriptions/${channelId}`)
          );
+         if (status === 'success')
+            dispatchUserSubs({ type: GET_CURRENTSUB, payload: { subscribe: data.subscribe } });
       },
-      [fetchCurrentSub]
+      [fetchUserSubs, dispatchUserSubs]
    );
 
    const createSubscribe = useCallback(
       async function (userId, channel) {
-         fetchCurrentSub(
+         const { data, status } = await fetchUserSubs(
             axios.post(`/api/v1/users/${userId}/subscriptions`, { channel })
          );
+         if (status === 'success')
+            dispatchUserSubs({ type: ADD_SUBSCRIBE, payload: { subscribe: data.subscribe } });
       },
-      [fetchCurrentSub]
+      [fetchUserSubs, dispatchUserSubs]
    );
 
    const deleteSubscribe = useCallback(
       async function (userId, channelId) {
-         fetchCurrentSub(
-            axios.delete(`/api/v1/users/${userId}/subscriptions/${channelId}`)
-         );
+         await fetchUserSubs(axios.delete(`/api/v1/users/${userId}/subscriptions/${channelId}`));
+         dispatchUserSubs({ type: DELETE_SUBSCRIBE, payload: { channelId } });
       },
-      [fetchCurrentSub]
+      [fetchUserSubs, dispatchUserSubs]
    );
 
    const value = useMemo(
       () => ({
-         userSubscriptions: stateUserSubs.data.subscribes,
+         userSubscriptions: stateUserSubs.userSubs,
          statusUserSubscriptions: stateUserSubs.status,
          errorUserSubscriptions: stateUserSubs.error,
-         currentSubscribe: stateCurrentSub.data.subscribe,
-         stateCurrentSubscribe: stateCurrentSub.status,
-         errorCurrentSubscribe: stateCurrentSub.error,
+         currentUserSub: stateUserSubs.currentUserSub
       }),
-      [stateUserSubs, stateCurrentSub]
+      [stateUserSubs]
    );
 
    const actions = useMemo(
@@ -72,21 +73,14 @@ const SubscribeStore = ({ children }) => {
          getUserSubscriptions,
          getCurrentSubscribe,
          createSubscribe,
-         deleteSubscribe,
+         deleteSubscribe
       }),
-      [
-         getUserSubscriptions,
-         getCurrentSubscribe,
-         createSubscribe,
-         deleteSubscribe,
-      ]
+      [getUserSubscriptions, getCurrentSubscribe, createSubscribe, deleteSubscribe]
    );
 
    return (
       <SubscribeStateProvider value={value}>
-         <SubscribeActionProvider value={actions}>
-            {children}
-         </SubscribeActionProvider>
+         <SubscribeActionProvider value={actions}>{children}</SubscribeActionProvider>
       </SubscribeStateProvider>
    );
 };

@@ -17,12 +17,13 @@ import { Modal } from '../../design/elements';
 import { useLikeActions } from '../../stores/likes/likeActionContext';
 
 const LikedItem = ({ like, className }) => {
-   const { fetchLikes } = useLikeActions();
+   const { deleteLike } = useLikeActions();
    const [open, setOpen] = useState(false);
 
    function onDeleteClick(id) {
       return function () {
-         fetchLikes(id);
+         deleteLike(id);
+         setOpen(false);
       };
    }
 

@@ -1,61 +1,86 @@
 import React, { useReducer, useMemo, useCallback } from 'react';
 import { CommentStateProvider } from './commentStateContext';
 import { CommentActionProvider } from './commentActionContext';
-import commentReducer from './commentReducer';
+import commentsReducer from './commentsReducer';
 import useAsync from '../../customhooks/useAsync';
+import {
+   GET_COMMENTS,
+   ADD_COMMENT,
+   UPDATE_COMMENT,
+   DELETE_COMMENT,
+   SET_CURRENT,
+   CLEAR_CURRENT
+} from '../types';
 import axios from 'axios';
 
 const CommentStore = ({ children }) => {
-   const [stateComments, fetchComments] = useAsync({
-      data: [],
-   });
-   const [stateComment, fetchComment] = useAsync({
-      data: {},
-   });
+   const [stateComments, fetchComments, dispatchComments] = useAsync(
+      {
+         data: {},
+         comments: []
+      },
+      commentsReducer
+   );
 
    const getVideoComments = useCallback(
       async function (videoId) {
-         fetchComments(axios.get(`/api/v1/videos/${videoId}/comments`));
+         const { data, status } = await fetchComments(
+            axios.get(`/api/v1/videos/${videoId}/comments`)
+         );
+         if (status === 'success')
+            dispatchComments({
+               type: GET_COMMENTS,
+               payload: { comments: data.comments }
+            });
       },
-      [fetchComments]
+      [fetchComments, dispatchComments]
    );
 
    const createComment = useCallback(
       async function (videoId, values) {
-         fetchComment(axios.post(`/api/v1/videos/${videoId}/comments`, values));
+         const { data, status } = await fetchComments(
+            axios.post(`/api/v1/videos/${videoId}/comments`, values)
+         );
+         if (status === 'success')
+            dispatchComments({
+               type: ADD_COMMENT,
+               payload: {
+                  comment: data.comment
+               }
+            });
       },
-      [fetchComment]
+      [fetchComments, dispatchComments]
    );
 
    const updateComment = useCallback(
       async function (videoId, commentId, values) {
-         fetchComment(
-            axios.patch(
-               `/api/v1/videos/${videoId}/comments/${commentId}`,
-               values
-            )
+         const { data, status } = await fetchComments(
+            axios.patch(`/api/v1/videos/${videoId}/comments/${commentId}`, values)
          );
+         if (status === 'success')
+            dispatchComments({ type: UPDATE_COMMENT, payload: { comment: data.comment } });
       },
-      [fetchComment]
+      [fetchComments, dispatchComments]
    );
 
    const deleteComment = useCallback(
       async function (videoId, commentId) {
-         fetchComment(
+         const { status } = fetchComments(
             axios.delete(`/api/v1/videos/${videoId}/comments/${commentId}`)
          );
+         if (status === 'success')
+            dispatchComments({ type: DELETE_COMMENT, payload: { commentId } });
       },
-      [fetchComment]
+      [fetchComments, dispatchComments]
    );
 
    const value = useMemo(
       () => ({
-         comments: stateComments.data.comments,
+         comments: stateComments.comments,
          statusComments: stateComments.status,
-         errorComments: stateComments.error,
-         statusComment: stateComment.status,
+         errorComments: stateComments.error
       }),
-      [stateComments, stateComment]
+      [stateComments]
    );
 
    const actions = useMemo(
@@ -64,22 +89,14 @@ const CommentStore = ({ children }) => {
          getVideoComments,
          createComment,
          updateComment,
-         deleteComment,
+         deleteComment
       }),
-      [
-         fetchComments,
-         getVideoComments,
-         createComment,
-         updateComment,
-         deleteComment,
-      ]
+      [fetchComments, getVideoComments, createComment, updateComment, deleteComment]
    );
 
    return (
       <CommentStateProvider value={value}>
-         <CommentActionProvider value={actions}>
-            {children}
-         </CommentActionProvider>
+         <CommentActionProvider value={actions}>{children}</CommentActionProvider>
       </CommentStateProvider>
    );
 };

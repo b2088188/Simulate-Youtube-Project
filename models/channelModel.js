@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 
 const channelSchema = new mongoose.Schema({
-	channelId: {
-		type: String,
-		required: [true, 'A channel must have a channel Id']
-	},
 	title: {
 		type: String,
 		required: [true, 'A channel must have a title']

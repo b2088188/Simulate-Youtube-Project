@@ -9,10 +9,6 @@ const likeSchema = new mongoose.Schema({
         type: String,
         required: [true, 'A like must have a video Id']
     },
-    channelId: {
-        type: String,
-        required: [true, 'A like must have a channel Id']
-    },
     title: {
         type: String,
         required: [true, 'A like must have a title']
