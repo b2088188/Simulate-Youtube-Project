@@ -10,7 +10,8 @@ import {
    ListGroup,
    Button,
    Icon,
-   Image
+   Image,
+   Span
 } from '../../design/components';
 import { setFlex, colorGrey } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
@@ -32,7 +33,7 @@ const VideoView = ({ history, className }) => {
    const { user } = useAuthState();
    const { videoId } = useParams();
    const { video, statusVideo, errorVideo } = useVideoState();
-   const { fetchVideo, getVideoById } = useVideoActions();
+   const { getVideoById, videoLikeHandle, videoSubscribeHandle } = useVideoActions();
    const { userLikes, currentUserLike, statusUserLikes, errorUserLikes } = useLikeState();
    const { getCurrentLike, createLike, deleteLike } = useLikeActions();
    const {
@@ -46,6 +47,7 @@ const VideoView = ({ history, className }) => {
    const [descriptionShow, setDescriptionShow] = useState(false);
    const isSubscribed = currentUserSub ? true : false;
    const isLiked = currentUserLike ? true : false;
+   const videoSrc = `https://www.youtube.com/embed/${videoId}`;
 
    useEffect(() => {
       getVideoById(videoId);
@@ -59,20 +61,25 @@ const VideoView = ({ history, className }) => {
       if (user && video) getCurrentSubscribe(user._id, video.channel._id);
    }, [user, video, getCurrentSubscribe]);
 
-   const videoSrc = `https://www.youtube.com/embed/${videoId}`;
-
    function onLikeHandle(user, video) {
-      return function () {
-         if (!isLiked) return createLike(user._id, video);
-         deleteLike(user._id, video.videoId);
+      return async function () {
+         if (!isLiked) {
+            await createLike(user._id, video);
+            videoLikeHandle('add');
+         } else {
+            await deleteLike(video.videoId);
+            videoLikeHandle('delete');
+         }
       };
    }
    function onSubscribeHandle(user, video) {
-      return function () {
+      return async function () {
          if (!isSubscribed) {
-            createSubscribe(user._id, video.channel._id);
+            await createSubscribe(user._id, video.channel._id);
+            videoSubscribeHandle('add');
          } else {
-            deleteSubscribe(user._id, video.channel._id);
+            await deleteSubscribe(user._id, video.channel._id);
+            videoSubscribeHandle('delete');
          }
       };
    }
@@ -98,6 +105,7 @@ const VideoView = ({ history, className }) => {
                   >
                      <Icon as={ThumbUp} modifiers={`${isLiked ? 'secondary' : null}`} />
                   </Button>
+                  <Span modifiers={['medium', 'regular']}>{video.likes}</Span>
                   <Button
                      modifiers={[`${isSubscribed ? 'disable' : 'primary'}`]}
                      className='video__subscribebtn'
@@ -118,9 +126,12 @@ const VideoView = ({ history, className }) => {
                         <Image modifiers='round' src={video.channel.image} alt='Author image' />
                      </ImageContainer>
                   </SLink>
-                  <Title as='h2' modifiers='bold'>
-                     {video.channel.title}
-                  </Title>
+                  <div>
+                     <Title as='h2' modifiers='bold'>
+                        {video.channel.title}
+                     </Title>
+                     <Span>{video.channel.subscribes} subscribers</Span>
+                  </div>
                </ListGroup.Item>
                <ListGroup.Item>
                   {descriptionShow ? (
@@ -166,15 +177,18 @@ export default styled(VideoView)`
       }
 
       &__shareinfo {
-         ${setFlex()}
+         ${setFlex({ y: 'center' })}
       }
 
       &__likebtn {
+         padding: 0;
+         padding-top: 0.2rem;
          flex: 0 0 5%;
       }
 
       &__subscribebtn {
          flex: 0 0 15%;
+         margin-left: 2.5%;
       }
 
       &__info {

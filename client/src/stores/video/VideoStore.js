@@ -1,19 +1,47 @@
 import React, { useMemo, useCallback } from 'react';
 import { VideoStateProvider } from './videoStateContext';
 import { VideoActionProvider } from './videoActionContext';
+import videoReducer from './videoReducer';
 import Youtube from '../../apis/youtube';
 import useAsync from '../../customhooks/useAsync';
 import axios from 'axios';
+import {
+   GET_VIDEO,
+   ADD_LIKETOVIDEO,
+   DELETE_LIKETOVIDEO,
+   ADD_SUBSCRIBETOVIDEO,
+   DELETE_SUBSCRIBETOVIDEO
+} from '../types';
 const VideoStore = ({ children }) => {
-   const [stateVideo, fetchVideo] = useAsync({
-      data: {},
-   });
+   const [stateVideo, fetchVideo, dispatchVideo] = useAsync(
+      {
+         data: {},
+         video: null
+      },
+      videoReducer
+   );
 
    const getVideoById = useCallback(
       async function (videoId) {
          fetchVideo(axios.get(`/api/v1/videos/${videoId}`));
       },
       [fetchVideo]
+   );
+
+   const videoLikeHandle = useCallback(
+      function (type) {
+         if (type === 'add') dispatchVideo({ type: ADD_LIKETOVIDEO });
+         if (type === 'delete') dispatchVideo({ type: DELETE_LIKETOVIDEO });
+      },
+      [dispatchVideo]
+   );
+
+   const videoSubscribeHandle = useCallback(
+      function (type) {
+         if (type === 'add') dispatchVideo({ type: ADD_SUBSCRIBETOVIDEO });
+         if (type === 'delete') dispatchVideo({ type: DELETE_SUBSCRIBETOVIDEO });
+      },
+      [dispatchVideo]
    );
 
    // async function getVideo(id) {
@@ -45,9 +73,9 @@ const VideoStore = ({ children }) => {
 
    const value = useMemo(
       () => ({
-         video: stateVideo.data.video,
+         video: stateVideo.video,
          statusVideo: stateVideo.status,
-         errorVideo: stateVideo.error,
+         errorVideo: stateVideo.error
       }),
       [stateVideo]
    );
@@ -56,8 +84,10 @@ const VideoStore = ({ children }) => {
       () => ({
          fetchVideo,
          getVideoById,
+         videoLikeHandle,
+         videoSubscribeHandle
       }),
-      [fetchVideo, getVideoById]
+      [fetchVideo, getVideoById, videoLikeHandle, videoSubscribeHandle]
    );
 
    return (

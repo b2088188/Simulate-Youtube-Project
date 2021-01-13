@@ -19,16 +19,12 @@ const SearchStore = ({ children }) => {
    );
    const getSearchVideos = useCallback(
       async function (q, page) {
-         console.log(page);
-         const { data, status } = await fetchSearchResults(
+         const { status } = await fetchSearchResults(
             axios.get(`/api/v1/videos/?q=${q}&page=${page}`)
          );
          if (status === 'success')
             dispatchSearchResults({
-               type: GET_SEARCHRESULTS,
-               payload: {
-                  videos: data.videos
-               }
+               type: GET_SEARCHRESULTS
             });
       },
       [fetchSearchResults, dispatchSearchResults]
@@ -50,7 +46,7 @@ const SearchStore = ({ children }) => {
 
    // async function search(term) {
    //    try {
-   //Search results
+   // Search results
    // const { data } = await Youtube.get('/search', {
    //    params: {
    //       q: term,
@@ -67,16 +63,16 @@ const SearchStore = ({ children }) => {
    //    };
    // });
 
-   //Video Results
+   // Video Results
    //       const { data } = await Youtube.get('/channels', {
    //          params: {
-   //             id: term,
-   //          },
+   //             id: term
+   //          }
    //       });
    //       console.log({
    //          title: data.items[0].snippet.title,
    //          publishedAt: data.items[0].snippet.publishedAt,
-   //          image: data.items[0].snippet.thumbnails.medium.url,
+   //          image: data.items[0].snippet.thumbnails.medium.url
    //       });
    //    } catch (err) {
    //       console.log(err);

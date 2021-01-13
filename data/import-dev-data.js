@@ -33,6 +33,7 @@ async function importData() {
 async function deleteData() {	
 	try {
 	await Video.deleteMany();
+	//await Channel.deleteMany();
 	//await User.deleteMany();
 	//await Order.deleteMany();
 	console.log('Date successfully deleted!');

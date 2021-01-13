@@ -18,7 +18,7 @@ const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
                <Title as='h2'>{result.title}</Title>
                <Paragraph modifiers='small'>{result.publishedAt}</Paragraph>
                <Title as='h3' modifiers='small'>
-                  {result.channel.title}
+                  {result.channel?.title || ''}
                </Title>
                <Paragraph modifiers='small' className='search__descripton'>
                   {result.description}

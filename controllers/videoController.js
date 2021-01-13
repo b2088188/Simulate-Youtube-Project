@@ -35,7 +35,7 @@ export const getVideo = catchAsync(async (req, res, next) => {
 	
 	const video = await Video.findOne({videoId: req.params.videoId}).populate({
 		path: 'channel',
-		select: 'channelId title image'
+		select: 'channelId title image subscribes'
 	});
 	if(!video)
 		return next(new AppError('No video found with that Id.', 404));

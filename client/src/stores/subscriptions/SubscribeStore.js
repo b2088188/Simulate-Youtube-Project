@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import React, { useReducer, useMemo, useCallback } from 'react';
 import { SubscribeStateProvider } from './subscribeStateContext';
 import { SubscribeActionProvider } from './subscribeActionContext';
-import subscribeReducer from './subscribeReducer';
+import subscribesReducer from './subscribesReducer';
 import axios from 'axios';
 import { ADD_SUBSCRIBE, DELETE_SUBSCRIBE, GET_SUBSCRIPTIONS, GET_CURRENTSUB } from '../types';
 import useAsync from '../../customhooks/useAsync';
@@ -14,40 +14,33 @@ const SubscribeStore = ({ children }) => {
          userSubs: [],
          currentUserSub: null
       },
-      subscribeReducer
+      subscribesReducer
    );
 
    const getUserSubscriptions = useCallback(
       async function (userId) {
-         const { data, status } = await fetchUserSubs(
-            axios.get(`/api/v1/users/${userId}/subscriptions`)
-         );
-         if (status === 'success')
-            dispatchUserSubs({ type: GET_SUBSCRIPTIONS, payload: { subscribes: data.subscribes } });
+         const { status } = await fetchUserSubs(axios.get(`/api/v1/users/${userId}/subscriptions`));
+         if (status === 'success') dispatchUserSubs({ type: GET_SUBSCRIPTIONS });
       },
       [fetchUserSubs, dispatchUserSubs]
    );
 
    const getCurrentSubscribe = useCallback(
       async function (userId, channelId) {
-         const { data, status } = await fetchUserSubs(
+         const { status } = await fetchUserSubs(
             axios.get(`/api/v1/users/${userId}/subscriptions/${channelId}`)
          );
-
-         if (status === 'success')
-            dispatchUserSubs({ type: GET_CURRENTSUB, payload: { subscribe: data.subscribe } });
+         if (status === 'success') dispatchUserSubs({ type: GET_CURRENTSUB });
       },
       [fetchUserSubs, dispatchUserSubs]
    );
 
    const createSubscribe = useCallback(
       async function (userId, channel) {
-         const { data, status } = await fetchUserSubs(
+         const { status } = await fetchUserSubs(
             axios.post(`/api/v1/users/${userId}/subscriptions`, { channel })
          );
-         console.log(data.subscribe);
-         if (status === 'success')
-            dispatchUserSubs({ type: ADD_SUBSCRIBE, payload: { subscribe: data.subscribe } });
+         if (status === 'success') dispatchUserSubs({ type: ADD_SUBSCRIBE });
       },
       [fetchUserSubs, dispatchUserSubs]
    );

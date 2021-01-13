@@ -60,7 +60,6 @@ const SearchView = ({ className }) => {
       });
    }
    const renderSearchList = R.pipe(calcPage, renderList);
-
    if (statusVideos === 'resolved' && videos.length < 1)
       return <Message text='No video found, please try another search.' />;
    return (
@@ -71,13 +70,6 @@ const SearchView = ({ className }) => {
                <Spinner modifiers='dark' />
             ) : null}
          </nav>
-         {/*videos.length > 1 ? (
-               <Pagination
-                  pages={Math.ceil(videos.length / 5)}
-                  page={page}
-                  changePage={setPage}
-               />
-            ) : null*/}
       </div>
    );
 };

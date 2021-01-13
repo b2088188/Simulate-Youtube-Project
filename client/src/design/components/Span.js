@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorPrimary } from '../utils';
+import { colorPrimary, colorSecondary } from '../utils';
 
 const SPAN_MODIFIERS = {
 	huge: () => `
@@ -33,6 +33,9 @@ const SPAN_MODIFIERS = {
 	primary: () => `
 	color: ${colorPrimary.default};
 	`,
+	secondary: () => `
+color: ${colorSecondary.default};
+  `
 };
 
 export const Span = styled.span`

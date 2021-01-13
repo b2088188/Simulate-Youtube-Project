@@ -14,7 +14,7 @@ const fetchReducer = (currentState, action) => {
          return {
             ...currentState,
             status: 'resolved',
-            data: action.payload.data || {},
+            data: action.payload.data,
             error: null
          };
       case REQUEST_REJECTED:

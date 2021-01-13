@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import Video from './videoModel.js';
 
 const likeSchema = new mongoose.Schema({
     user: {
@@ -27,6 +28,21 @@ const likeSchema = new mongoose.Schema({
 })
 
 likeSchema.index({user: 1, videoId: 1}, {unique: true});
+
+likeSchema.post('save', async function () {
+    const video = await Video.findOne({videoId: this.videoId});
+    await Video.findByIdAndUpdate(video._id, {likes: video.likes + 1});
+})
+
+likeSchema.pre(/^delete/, async function (next) {
+   this.l = await this.findOne();
+   next();
+})
+
+likeSchema.post(/^delete/, async function () {
+    const video = await Video.findOne({videoId: this.l.videoId});
+     await Video.findByIdAndUpdate(video._id, {likes: video.likes - 1});
+})
 
 const Like = mongoose.model('Like', likeSchema);
 

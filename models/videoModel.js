@@ -19,6 +19,10 @@ const videoSchema = new mongoose.Schema({
 		//required: [true, 'A video must have a description']
 	},
 	images: String,
+	likes: {
+		type: Number,
+		default: 0
+	},
 	publishedAt: {
 		type: Date,
 		required: [true, 'A video must have a publish time']
