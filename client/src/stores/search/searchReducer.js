@@ -11,8 +11,8 @@ function searchReducer(currentState, action) {
       case GET_SEARCHRESULTS:
          return {
             ...currentState,
-            videos: [...currentState.videos, ...currentState.data.videos],
-            hasMore: currentState.data.videos.length > 0,
+            videos: [...currentState.videos, ...currentState.data.data],
+            hasMore: currentState.data.data.length > 0,
             status: 'resolved'
          };
       case PAGE_CHANGE:

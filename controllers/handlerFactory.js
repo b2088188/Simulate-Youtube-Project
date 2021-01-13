@@ -1,5 +1,6 @@
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
+import APIFeatures from '../utils/apiFeatures.js';
 
 export const createOne = Model => catchAsync(async function (req, res, next) {
 	const doc = await Model.create(req.body);
@@ -10,6 +11,20 @@ export const createOne = Model => catchAsync(async function (req, res, next) {
              }
         });
 });
+
+export const getAll = (Model, popOptions) => catchAsync(async function (req, res, next) {
+   const features = new APIFeatures(Model.find(), req.query).filter().paginate();
+   if(popOptions)
+      features.query = features.query.populate(popOptions);
+   const doc = await features.query;
+   res.status(200).json({
+        status: 'success',
+        resutls: doc.length,
+        data: {
+            data: doc
+        }
+    })
+})
 
 export const getOne = (Model, popOptions) => catchAsync(async function (req, res, next) {           
        let query = Model.findById(req.params.id);

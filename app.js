@@ -22,6 +22,7 @@ import homeRouter from './routes/homeRoutes.js'
 import subscriptionRouter from './routes/subscriptionRoutes.js'
 import channelRouter from './routes/channelRoutes.js';
 import globalErrorHandler from './controllers/errorController.js'
+import AppError from './utils/appError.js';
 //Mounting
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
@@ -31,6 +32,9 @@ app.use('/api/v1/home', homeRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
 app.use('/api/v1/channels', channelRouter)
 app.use('/api/v1/videos', videoRouter);
+app.all('*', (req, res, next) => {
+    next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+})
 
 app.use(globalErrorHandler);
 export default app;
