@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { ImageContainer, Image, Title, Button, ListGroup } from '../../design/components';
+import { ImageContainer, Image, Title, Button, ListGroup, Span } from '../../design/components';
 import { setFlex } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useChannelState } from '../../stores/channel/channelStateContext';
@@ -15,7 +15,7 @@ import axios from 'axios';
 const ChannelView = ({ className }) => {
    const { user } = useAuthState();
    const { channel, channelVideos, statusChannel, errorChannel } = useChannelState();
-   const { fetchChannel } = useChannelActions();
+   const { getChannelVideos, channelSubscribeHandle } = useChannelActions();
    const {
       getCurrentSubscribe,
       getUserSubscriptions,
@@ -28,8 +28,8 @@ const ChannelView = ({ className }) => {
    const isSubscribed = currentUserSub ? true : false;
 
    useEffect(() => {
-      fetchChannel(axios.get(`/api/v1/channels/${channelId}/videos`));
-   }, [channelId]);
+      getChannelVideos(channelId);
+   }, [channelId, getChannelVideos]);
    useEffect(() => {
       if (user && channel) getCurrentSubscribe(user._id, channel._id);
    }, [user, channel, getCurrentSubscribe]);
@@ -41,11 +41,13 @@ const ChannelView = ({ className }) => {
    }
 
    function onSubscribeHandle(isSubscribed, user, channel) {
-      return function () {
+      return async function () {
          if (!isSubscribed) {
-            createSubscribe(user._id, channel._id);
+            await createSubscribe(user._id, channel._id);
+            channelSubscribeHandle('add');
          } else {
-            deleteSubscribe(user._id, channel._id);
+            await deleteSubscribe(user._id, channel._id);
+            channelSubscribeHandle('delete');
          }
       };
    }
@@ -58,10 +60,13 @@ const ChannelView = ({ className }) => {
          <div className={className}>
             <div className='channel__info'>
                <div className='channel__userbox'>
-                  <ImageContainer flexWidth='50'>
+                  <ImageContainer size={{ width: '7.5rem' }}>
                      <Image modifiers='round' src={channel.image} />
                   </ImageContainer>
-                  <Title modifiers={['medium', 'light']}>{channel.title}</Title>
+                  <div>
+                     <Title modifiers={['medium', 'light']}>{channel.title}</Title>
+                     <Span modifiers={['medium', 'exlight']}>{channel.subscribes} subscribers</Span>
+                  </div>
                </div>
                <Button
                   modifiers={['light', `${isSubscribed ? 'disable' : 'outline'}`]}
@@ -88,7 +93,7 @@ export default styled(ChannelView)`
       }
 
       &__userbox {
-         flex: 0 0 15%;
+         flex: 0 0 30%;
          ${setFlex({ x: 'space-evenly', y: 'center' })}
       }
    }

@@ -18,27 +18,25 @@ const LikeStore = ({ children }) => {
 
    const getUserLikes = useCallback(
       async function (action, userId) {
-         const { data, status } = await fetchUserLikes(axios.get(`/api/v1/users/${userId}/likes`));
-         if (status === 'success')
-            dispatchUserLikes({ type: GET_USERLIKES, payload: { likes: data.likes } });
+         const { status } = await fetchUserLikes(axios.get(`/api/v1/users/${userId}/likes`));
+         if (status === 'success') dispatchUserLikes({ type: GET_USERLIKES });
       },
       [fetchUserLikes, dispatchUserLikes]
    );
 
    const getCurrentLike = useCallback(
       async function (userId, videoId) {
-         const { data, status } = await fetchUserLikes(
+         const { status } = await fetchUserLikes(
             axios.get(`/api/v1/users/${userId}/likes/${videoId}`)
          );
-         if (status === 'success')
-            dispatchUserLikes({ type: GET_CURRENTLIKE, payload: { like: data.like } });
+         if (status === 'success') dispatchUserLikes({ type: GET_CURRENTLIKE });
       },
       [fetchUserLikes, dispatchUserLikes]
    );
 
    const createLike = useCallback(
       async function (userId, video) {
-         const { data, status } = await fetchUserLikes(
+         const { status } = await fetchUserLikes(
             axios.post(`/api/v1/users/${userId}/likes`, {
                videoId: video.videoId,
                title: video.title,
@@ -47,8 +45,7 @@ const LikeStore = ({ children }) => {
                publishedAt: video.publishedAt
             })
          );
-         if (status === 'success')
-            dispatchUserLikes({ type: CREATE_USERLIKE, payload: { like: data.like } });
+         if (status === 'success') dispatchUserLikes({ type: CREATE_USERLIKE });
       },
       [fetchUserLikes, dispatchUserLikes]
    );

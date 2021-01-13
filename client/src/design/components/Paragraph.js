@@ -1,40 +1,43 @@
-import styled from "styled-components";
-import { applyStyleModifiers } from "styled-components-modifiers";
-import { colorGrey } from "../utils";
+import styled from 'styled-components';
+import { applyStyleModifiers } from 'styled-components-modifiers';
+import { colorGrey } from '../utils';
 
 const PARAGRAPH_MODIFIERS = {
-  huge: () => `
+	huge: () => `
 		font-size: 3.5rem;
 	`,
-  big: () => `
+	big: () => `
 		font-size: 3rem;
 	`,
-  large: () => `
+	large: () => `
 		font-size: 2.5rem;
 	`,
-  medium: () => `
+	medium: () => `
 		font-size: 2rem;
 	`,
-  small: () => `
+	small: () => `
 		font-size: 1.5rem;
 	`,
-  bold: () => `
+	tini: () => `
+		font-size: 1.3rem;
+	`,
+	bold: () => `
 		font-weight: 700
 	`,
-  regular: () => `
+	regular: () => `
 	   font-weight: 500	
 	`,
-  light: () => `
+	light: () => `
 	  font-weight: 400
 	`,
-  exlight: () => `
+	exlight: () => `
 	  font-weight: 300
-	`,
+	`
 };
 
 export const Paragraph = styled.p`
-  color: ${colorGrey.greydark1};
-  font-size: 1.7rem;
-  font-weight: 450;
-  ${applyStyleModifiers(PARAGRAPH_MODIFIERS)}
+	color: ${colorGrey.greydark1};
+	font-size: 1.7rem;
+	font-weight: 450;
+	${applyStyleModifiers(PARAGRAPH_MODIFIERS)}
 `;

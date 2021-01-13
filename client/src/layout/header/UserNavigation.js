@@ -36,7 +36,7 @@ const UserNavigation = ({ className }) => {
    function renderSignOut(user) {
       return (
          <Fragment>
-            <Button className='logout' onClick={logout}>
+            <Button modifiers={['medium', 'round', 'gradient']} className='logout' onClick={logout}>
                Logout
             </Button>
             <ReactLink to='/accounts' className='info'>
@@ -73,6 +73,7 @@ export default styled(UserNavigation)`
    ${setFlex({ y: 'center' })}
    .logout {
       flex: 0 0 40%;
+      padding: 1.25rem 1rem;
       margin-right: 0.5rem;
    }
    .info {

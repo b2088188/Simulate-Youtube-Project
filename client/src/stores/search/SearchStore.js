@@ -10,7 +10,7 @@ import axios from 'axios';
 const SearchStore = ({ children }) => {
    const [stateSearchResults, fetchSearchResults, dispatchSearchResults] = useAsync(
       {
-         data: [],
+         data: {},
          videos: [],
          page: 1,
          hasMore: false

@@ -2,22 +2,28 @@ import * as R from 'ramda';
 import React, { useState, useEffect, useReducer, useMemo, useCallback } from 'react';
 import { AuthStateProvider } from './authStateContext';
 import { AuthActionProvider } from './authActionContext';
+import authReducer from './authReducer';
 import useAsync from '../../customhooks/useAsync';
 import { Spinner } from '../../design/elements';
 import axios from 'axios';
+import { REQUEST_RESOLVED, GET_AUTHINFO, LOGOUT_AUTH } from '../types';
 
 const AuthStore = ({ children }) => {
-   const [stateAuth, fetchAuth] = useAsync({
-      data: {}
-   });
+   const [stateAuth, fetchAuth, dispatchAuth] = useAsync(
+      {
+         user: null
+      },
+      authReducer
+   );
    const [initialAuthCheck, setInitialAuthCheck] = useState(false);
 
    const getInitialAuth = useCallback(
       async function () {
          await fetchAuth(axios.get('/api/v1/auth'));
+         dispatchAuth({ type: GET_AUTHINFO });
          setInitialAuthCheck(true);
       },
-      [fetchAuth]
+      [fetchAuth, dispatchAuth]
    );
    useEffect(() => {
       getInitialAuth();
@@ -25,23 +31,26 @@ const AuthStore = ({ children }) => {
 
    const login = useCallback(
       async function (values) {
-         fetchAuth(axios.post('/api/v1/auth/login', values));
+         const { status } = await fetchAuth(axios.post('/api/v1/auth/login', values));
+         if (status === 'success') dispatchAuth({ type: GET_AUTHINFO });
       },
-      [fetchAuth]
+      [fetchAuth, dispatchAuth]
    );
 
    const signup = useCallback(
       async function (values) {
-         fetchAuth(axios.post('/api/v1/auth/signup', values));
+         const { status } = await fetchAuth(axios.post('/api/v1/auth/signup', values));
+         if (status === 'success') dispatchAuth({ type: GET_AUTHINFO });
       },
-      [fetchAuth]
+      [fetchAuth, dispatchAuth]
    );
 
    const logout = useCallback(
       async function (values) {
-         fetchAuth(axios.get('/api/v1/auth/logout'));
+         await fetchAuth(axios.get('/api/v1/auth/logout'));
+         dispatchAuth({ type: LOGOUT_AUTH });
       },
-      [fetchAuth]
+      [fetchAuth, dispatchAuth]
    );
 
    const updateUserData = useCallback(
@@ -57,7 +66,7 @@ const AuthStore = ({ children }) => {
 
    const value = useMemo(
       () => ({
-         user: stateAuth.data.user,
+         user: stateAuth.user,
          statusAuth: stateAuth.status,
          errorAuth: stateAuth.error
       }),

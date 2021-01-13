@@ -7,7 +7,7 @@ export const getAllVideos = catchAsync(async(req, res, next) => {
 	let queryTitle = req.query.q ? {title: {$regex: `${req.query.q}`, $options: 'i'}} : {};
 	let query = Video.find({...queryTitle}).populate({
 		path: 'channel',
-		select: 'title'
+		select: 'title image'
 	});
 	query = query.select('-__v');
 	const page = +req.query.page || 1;

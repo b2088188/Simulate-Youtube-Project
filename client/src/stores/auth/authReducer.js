@@ -1,19 +1,26 @@
-import { LOADING, RESPONSE_COMPLETE } from '../types';
+import { fetchReducer } from '../../customhooks/useAsync';
+import { REQUEST_RESOLVED, GET_AUTHINFO, LOGOUT_AUTH } from '../types';
 
 function homeReducer(currentState, action) {
    switch (action.type) {
-      case LOADING:
+      case REQUEST_RESOLVED:
          return {
             ...currentState,
-            loading: true
+            data: action.payload.data
          };
-      case RESPONSE_COMPLETE:
+      case GET_AUTHINFO:
          return {
-            results: action.payload.videos,
-            loading: false
+            ...currentState,
+            user: currentState.data?.user || null,
+            status: 'resolved'
          };
-      default:
-         return currentState;
+      case LOGOUT_AUTH:
+         return {
+            ...currentState,
+            user: null,
+            status: 'resolved'
+         };
    }
+   return fetchReducer(currentState, action);
 }
 export default homeReducer;
