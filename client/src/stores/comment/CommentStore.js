@@ -23,13 +23,10 @@ const CommentStore = ({ children }) => {
 
    const getVideoComments = useCallback(
       async function (videoId) {
-         const { data, status } = await fetchComments(
-            axios.get(`/api/v1/videos/${videoId}/comments`)
-         );
+         const { status } = await fetchComments(axios.get(`/api/v1/videos/${videoId}/comments`));
          if (status === 'success')
             dispatchComments({
-               type: GET_COMMENTS,
-               payload: { comments: data.comments }
+               type: GET_COMMENTS
             });
       },
       [fetchComments, dispatchComments]
@@ -37,15 +34,12 @@ const CommentStore = ({ children }) => {
 
    const createComment = useCallback(
       async function (videoId, values) {
-         const { data, status } = await fetchComments(
+         const { status } = await fetchComments(
             axios.post(`/api/v1/videos/${videoId}/comments`, values)
          );
          if (status === 'success')
             dispatchComments({
-               type: ADD_COMMENT,
-               payload: {
-                  comment: data.comment
-               }
+               type: ADD_COMMENT
             });
       },
       [fetchComments, dispatchComments]
@@ -53,22 +47,18 @@ const CommentStore = ({ children }) => {
 
    const updateComment = useCallback(
       async function (videoId, commentId, values) {
-         const { data, status } = await fetchComments(
+         const { status } = await fetchComments(
             axios.patch(`/api/v1/videos/${videoId}/comments/${commentId}`, values)
          );
-         if (status === 'success')
-            dispatchComments({ type: UPDATE_COMMENT, payload: { comment: data.comment } });
+         if (status === 'success') dispatchComments({ type: UPDATE_COMMENT });
       },
       [fetchComments, dispatchComments]
    );
 
    const deleteComment = useCallback(
       async function (videoId, commentId) {
-         const { status } = fetchComments(
-            axios.delete(`/api/v1/videos/${videoId}/comments/${commentId}`)
-         );
-         if (status === 'success')
-            dispatchComments({ type: DELETE_COMMENT, payload: { commentId } });
+         await fetchComments(axios.delete(`/api/v1/videos/${videoId}/comments/${commentId}`));
+         dispatchComments({ type: DELETE_COMMENT, payload: { commentId } });
       },
       [fetchComments, dispatchComments]
    );
