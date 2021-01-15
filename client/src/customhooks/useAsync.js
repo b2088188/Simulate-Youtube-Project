@@ -60,6 +60,7 @@ const useAsync = (initialState, reducer = fetchReducer) => {
                      error: data.message
                   }
                });
+               return data;
             }
          }
       },

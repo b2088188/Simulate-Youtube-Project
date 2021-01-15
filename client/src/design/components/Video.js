@@ -1,14 +1,14 @@
-import styled from "styled-components";
-import { applyStyleModifiers } from "styled-components-modifiers";
+import styled from 'styled-components';
+import { applyStyleModifiers } from 'styled-components-modifiers';
 
 const VIDEO_MODIFIERS = {
-  round: () => `
+   round: () => `
 	 border-radius: 50%;
-	`,
+	`
 };
 
 export const Video = styled.iframe`
-  width: 100%;
-  height: 100%;
-  ${applyStyleModifiers(VIDEO_MODIFIERS)}
+   width: 100%;
+   height: 100%;
+   ${applyStyleModifiers(VIDEO_MODIFIERS)}
 `;

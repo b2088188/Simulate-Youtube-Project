@@ -1,18 +1,16 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import {
    Col,
    FormContainer,
    Title,
-   Span,
    Form,
    Label,
    Button,
    Paragraph,
    ImageContainer,
-   Image,
+   Image
 } from '../../design/components';
-import {media} from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useAuthActions } from '../../stores/auth/authActionContext';
 import { useForm } from 'react-hook-form';
@@ -28,7 +26,7 @@ const AccountView = ({ className }) => {
          setValue('name', user.name);
          setValue('email', user.email);
       }
-   }, [user]);
+   }, [user, setValue]);
 
    function onUpdateUserData(values) {
       updateUserData(values);
@@ -36,72 +34,65 @@ const AccountView = ({ className }) => {
    }
 
    return (
-      <Col width = '12'  className={className}>         
-      <FormContainer width = {{desktop: '50%', tabland: '70%', tabport: '90%'}}>
-         <Title modifiers='big'>Your Account Settings</Title>
-         {statusAuth === 'pending' ? (
-            <Spinner modifiers='dark' />
-         ) : (
-            <Form onSubmit={handleSubmit(onUpdateUserData)}>
-               <Form.Group vertical>
-                  <Label modifiers='large'>Name</Label>
-                  <Form.Input
-                     modifiers='outline'
-                     type='text'
-                     name='name'
-                     ref={register({
-                        required: 'You must specify an name',
-                     })}
-                  />
-                  <Paragraph>{errors.name && errors.name.message}</Paragraph>
-               </Form.Group>
-               <Form.Group vertical>
-                  <Label modifiers='large'>Email</Label>
-                  <Form.Input
-                     modifiers='outline'
-                     type='text'
-                     name='email'
-                     ref={register({
-                        required: 'You must specify an email',
-                        pattern: {
-                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                           message: 'Invalid email address',
-                        },
-                     })}
-                  />
-                  <Paragraph>{errors.email && errors.email.message}</Paragraph>
-               </Form.Group>
-               <Form.Group horizontal>
-                  <ImageContainer width = {{desktop: '5rem'}}>
-                     <Image
-                        modifiers='round'
-                        src='https://s.ytimg.com/yts/img/avatar_48-vfllY0UTT.png'
+      <Col width='12' className={className}>
+         <FormContainer width={{ desktop: '50%', tabland: '70%', tabport: '90%' }}>
+            <Title modifiers='big'>Your Account Settings</Title>
+            {statusAuth === 'pending' ? (
+               <Spinner modifiers='dark' />
+            ) : (
+               <Form onSubmit={handleSubmit(onUpdateUserData)}>
+                  <Form.Group vertical>
+                     <Label modifiers='large'>Name</Label>
+                     <Form.Input
+                        modifiers='outline'
+                        type='text'
+                        name='name'
+                        ref={register({
+                           required: 'You must specify an name'
+                        })}
                      />
-                  </ImageContainer>
-                  <Form.Input
-                     type='file'
-                     ref={register}
-                     id='photo'
-                     name='photo'
-                     className='form__file'
-                  />
-                  <Label
-                     modifiers='bottomfill'
-                     className='form__filelabel'
-                     htmlFor='photo'
-                  >
-                     Choose New Photo
-                  </Label>
-                  <Button
-                     modifiers={['gradient', 'round']}
-                     className='form__submitbtn'
-                  >
-                     Save Settings
-                  </Button>
-               </Form.Group>
-            </Form>
-         )}
-      </FormContainer>
+                     <Paragraph>{errors.name && errors.name.message}</Paragraph>
+                  </Form.Group>
+                  <Form.Group vertical>
+                     <Label modifiers='large'>Email</Label>
+                     <Form.Input
+                        modifiers='outline'
+                        type='text'
+                        name='email'
+                        ref={register({
+                           required: 'You must specify an email',
+                           pattern: {
+                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                              message: 'Invalid email address'
+                           }
+                        })}
+                     />
+                     <Paragraph>{errors.email && errors.email.message}</Paragraph>
+                  </Form.Group>
+                  <Form.Group horizontal>
+                     <ImageContainer width={{ desktop: '5rem' }}>
+                        <Image
+                           modifiers='round'
+                           src='https://s.ytimg.com/yts/img/avatar_48-vfllY0UTT.png'
+                        />
+                     </ImageContainer>
+                     <Form.Input
+                        type='file'
+                        ref={register}
+                        id='photo'
+                        name='photo'
+                        className='form__file'
+                     />
+                     <Label modifiers='bottomfill' className='form__filelabel' htmlFor='photo'>
+                        Choose New Photo
+                     </Label>
+                     <Button modifiers={['gradient', 'round']} className='form__submitbtn'>
+                        Save Settings
+                     </Button>
+                  </Form.Group>
+               </Form>
+            )}
+         </FormContainer>
       </Col>
    );
 };

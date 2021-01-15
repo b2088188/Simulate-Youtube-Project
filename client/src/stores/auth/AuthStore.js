@@ -6,22 +6,21 @@ import authReducer from './authReducer';
 import useAsync from '../../customhooks/useAsync';
 import { Spinner } from '../../design/elements';
 import axios from 'axios';
-import { REQUEST_RESOLVED, GET_AUTHINFO, LOGOUT_AUTH } from '../types';
+import { REQUEST_RESOLVED, GET_AUTHINFO, LOGOUT_AUTH, AUTH_ERRORRESET } from '../types';
 
 const AuthStore = ({ children }) => {
    const [stateAuth, fetchAuth, dispatchAuth] = useAsync(
       {
-         user: null
+         user: null,
+         initialAuthCheck: false
       },
       authReducer
    );
-   const [initialAuthCheck, setInitialAuthCheck] = useState(false);
 
    const getInitialAuth = useCallback(
       async function () {
-         await fetchAuth(axios.get('/api/v1/auth'));
-         dispatchAuth({ type: GET_AUTHINFO });
-         setInitialAuthCheck(true);
+         const { status } = await fetchAuth(axios.get('/api/v1/auth'));
+         if (status === 'success') dispatchAuth({ type: GET_AUTHINFO });
       },
       [fetchAuth, dispatchAuth]
    );
@@ -53,6 +52,13 @@ const AuthStore = ({ children }) => {
       [fetchAuth, dispatchAuth]
    );
 
+   const resetAuthError = useCallback(
+      function () {
+         dispatchAuth({ type: AUTH_ERRORRESET });
+      },
+      [dispatchAuth]
+   );
+
    const updateUserData = useCallback(
       async function (values) {
          const formData = new FormData();
@@ -79,12 +85,13 @@ const AuthStore = ({ children }) => {
          login,
          signup,
          updateUserData,
-         logout
+         logout,
+         resetAuthError
       }),
-      [login, signup, updateUserData, logout]
+      [login, signup, updateUserData, logout, resetAuthError]
    );
 
-   if (!initialAuthCheck) return <Spinner modifiers='dark' />;
+   if (!stateAuth.initialAuthCheck) return <Spinner modifiers='dark' />;
 
    return (
       <AuthStateProvider value={value}>

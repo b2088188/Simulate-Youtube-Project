@@ -17,22 +17,30 @@ export const FormContainer = styled.div`
    width: 50%;
    margin: 2rem auto;
    //Width
-   ${({width}) => width && typeof width === 'string' ? `width: ${width};` : null}
-   ${({width}) => width && width.desktop ? `width: ${width.desktop};` : null}
-   ${({width}) => width &&width.tabland ? media.tabland(`width: ${width.tabland};`)  : null}
-   ${({width}) => width &&width.tabport ? media.tabport(`width: ${width.tabport};`) : null}
-   ${({width}) => width &&width.phone? media.phone(`width: ${width.phone};`) : null}
+   ${({ width }) => (width && typeof width === 'string' ? `width: ${width};` : null)}
+   ${({ width }) => (width && width.desktop ? `width: ${width.desktop};` : null)}
+   ${({ width }) => (width && width.tabland ? media.tabland(`width: ${width.tabland};`) : null)}
+   ${({ width }) => (width && width.tabport ? media.tabport(`width: ${width.tabport};`) : null)}
+   ${({ width }) => (width && width.phone ? media.phone(`width: ${width.phone};`) : null)}
    ${setFlex({ direction: 'column', x: 'center' })}
 `;
 
-
-
 export const Row = styled.div`
-   ${setFlex({wrap: 'wrap'})}
-   ${({flexDirection}) => flexDirection && flexDirection.desktop ? setFlex({direction: flexDirection.desktop}) : null}
-   ${({flexDirection}) => flexDirection &&flexDirection.tabland ? media.tabland(setFlex({direction: flexDirection.tabland}))  : null}
-   ${({flexDirection}) => flexDirection &&flexDirection.tabport ? media.tabport(setFlex({direction: flexDirection.tabport})) : null}
-   ${({flexDirection}) => flexDirection &&flexDirection.phone ? media.phone(setFlex({direction: flexDirection.phone})) : null}
+   ${setFlex({ wrap: 'wrap' })}
+   ${({ flexDirection }) =>
+      flexDirection && flexDirection.desktop ? setFlex({ direction: flexDirection.desktop }) : null}
+   ${({ flexDirection }) =>
+      flexDirection && flexDirection.tabland
+         ? media.tabland(setFlex({ direction: flexDirection.tabland }))
+         : null}
+   ${({ flexDirection }) =>
+      flexDirection && flexDirection.tabport
+         ? media.tabport(setFlex({ direction: flexDirection.tabport }))
+         : null}
+   ${({ flexDirection }) =>
+      flexDirection && flexDirection.phone
+         ? media.phone(setFlex({ direction: flexDirection.phone }))
+         : null}
    width: 100%;
    min-height: inherit;
 `;
@@ -41,11 +49,15 @@ export const Col = styled.div`
    //Margin
    ${(props) => (props.mg ? setMargin({ x: props.mg.x, y: props.mg.y }) : null)}
    //Width
-   ${({width}) => width && typeof width === 'string' ? setFlexWidth({ width: 8.33 * width }) : null}
-   ${({width}) => width && width.desktop ? setFlexWidth({ width: 8.33 * width.desktop }) : null}
-   ${({width}) => width &&width.tabland ? media.tabland(setFlexWidth({ width: 8.33 * width.tabland }))  : null}
-   ${({width}) => width &&width.tabport ? media.tabport(setFlexWidth({ width: 8.33 * width.tabport })) : null}
-   ${({width}) => width &&width.phone? media.phone(setFlexWidth({ width: 8.33 * width.phone })) : null}
+   ${({ width }) =>
+      width && typeof width === 'string' ? setFlexWidth({ width: 8.33 * width }) : null}
+   ${({ width }) => (width && width.desktop ? setFlexWidth({ width: 8.33 * width.desktop }) : null)}
+   ${({ width }) =>
+      width && width.tabland ? media.tabland(setFlexWidth({ width: 8.33 * width.tabland })) : null}
+   ${({ width }) =>
+      width && width.tabport ? media.tabport(setFlexWidth({ width: 8.33 * width.tabport })) : null}
+   ${({ width }) =>
+      width && width.phone ? media.phone(setFlexWidth({ width: 8.33 * width.phone })) : null}
 
   ${(props) => props.col_12 && setFlexWidth({ width: '100' })}
   ${(props) => props.col_10 && setFlexWidth({ width: '83' })}
@@ -60,17 +72,17 @@ export const ImageContainer = styled.div`
    min-height: 3rem;
    min-width: 3rem;
    //Width
-   ${({width}) => width && typeof width === 'string' ? `width: ${width};` : null}
-   ${({width}) => width && width.desktop ? `width: ${width.desktop};` : null}
-   ${({width}) => width &&width.tabland ? media.tabland(`width: ${width.tabland};`)  : null}
-   ${({width}) => width &&width.tabport ? media.tabport(`width: ${width.tabport};`) : null}
-   ${({width}) => width &&width.phone? media.phone(`width: ${width.phone};`) : null}
+   ${({ width }) => (width && typeof width === 'string' ? `width: ${width};` : null)}
+   ${({ width }) => (width && width.desktop ? `width: ${width.desktop};` : null)}
+   ${({ width }) => (width && width.tabland ? media.tabland(`width: ${width.tabland};`) : null)}
+   ${({ width }) => (width && width.tabport ? media.tabport(`width: ${width.tabport};`) : null)}
+   ${({ width }) => (width && width.phone ? media.phone(`width: ${width.phone};`) : null)}
    //Margin
-   ${({mr}) => mr && typeof mr === 'string' ? `margin-right: ${mr};` : null}
-   ${({mr}) => mr && mr.desktop ? `margin-right: ${mr.desktop};` : null}
-   ${({mr}) => mr &&mr.tabland ? media.tabland(`margin-right: ${mr.tabland};`)  : null}
-   ${({mr}) => mr &&mr.tabport ? media.tabport(`margin-right: ${mr.tabport};`) : null}
-   ${({mr}) => mr &&mr.phone ? media.phone(`margin-right: ${mr.phone};`) : null}
+   ${({ mr }) => (mr && typeof mr === 'string' ? `margin-right: ${mr};` : null)}
+   ${({ mr }) => (mr && mr.desktop ? `margin-right: ${mr.desktop};` : null)}
+   ${({ mr }) => (mr && mr.tabland ? media.tabland(`margin-right: ${mr.tabland};`) : null)}
+   ${({ mr }) => (mr && mr.tabport ? media.tabport(`margin-right: ${mr.tabport};`) : null)}
+   ${({ mr }) => (mr && mr.phone ? media.phone(`margin-right: ${mr.phone};`) : null)}
    ${(props) =>
       props.size ? setSize({ width: props.size.width, height: props.size.height }) : null}
    ${(props) => (props.flexWidth ? setFlexWidth({ width: props.flexWidth }) : null)};

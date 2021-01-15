@@ -1,50 +1,50 @@
 import styled from 'styled-components';
-import {color} from 'styled-system';
+import { color } from 'styled-system';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 import { colorGrey, colorPrimary } from '../utils';
 
 const TITLE_MODIFIERS = {
-	huge: () => `
+   huge: () => `
 		font-size: 3.5rem;
 	`,
-	big: () => `
+   big: () => `
 		font-size: 3rem;
 	`,
-	large: () => `
+   large: () => `
 		font-size: 2.5rem;
 	`,
-	medium: () => `
+   medium: () => `
 		font-size: 2rem;
 	`,
-	small: () => `
+   small: () => `
 		font-size: 1.5rem;
 	`,
-	mini: () => `
+   mini: () => `
 	   font-size: 1.2rem;
 	`,
-	bold: () => `
+   bold: () => `
 		font-weight: 700
 	`,
-	regular: () => `
+   regular: () => `
 	   font-weight: 500	
 	`,
-	light: () => `
+   light: () => `
 	  font-weight: 400
 	`,
-	exlight: () => `
+   exlight: () => `
 	  font-weight: 300
 	`,
-	primary: () => `
+   primary: () => `
 	color: ${colorPrimary.default};
-	`,
+	`
 };
 
 export const Title = styled.h1`
-	${color}
-	font-size: 1.7rem;
-	line-height: 1.2;
-	letter-spacing: 0.1rem;
-	margin: 0;
-	text-transform: capitalize;
-	${applyStyleModifiers(TITLE_MODIFIERS)}
+   ${color}
+   font-size: 1.7rem;
+   line-height: 1.2;
+   letter-spacing: 0.1rem;
+   margin: 0;
+   text-transform: capitalize;
+   ${applyStyleModifiers(TITLE_MODIFIERS)}
 `;

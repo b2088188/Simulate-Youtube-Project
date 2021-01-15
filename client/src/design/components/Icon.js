@@ -23,7 +23,7 @@ const ICON_MODIFIERS = {
     `,
    secondary: () => `
 color: ${colorSecondary.default};
-  `,
+  `
 };
 
 export const Icon = styled.svg`

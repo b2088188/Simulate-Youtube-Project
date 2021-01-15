@@ -10,7 +10,7 @@ import {
    ListGroup,
    Icon,
    Button,
-   Span,
+   Span
 } from '../../design/components';
 import { Close, Delete } from '@material-ui/icons';
 import { Modal } from '../../design/elements';
@@ -44,10 +44,7 @@ const LikedItem = ({ like, className }) => {
          >
             <div>
                <Title>Are you sure you want to remove this item?</Title>
-               <Button
-                  modifiers='outline'
-                  onClick={onDeleteClick(like.videoId)}
-               >
+               <Button modifiers='outline' onClick={onDeleteClick(like.videoId)}>
                   <Icon as={Delete} />
                   <Span>Remove</Span>
                </Button>

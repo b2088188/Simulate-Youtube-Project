@@ -42,36 +42,41 @@ function App() {
                                        <Router>
                                           <Header />
                                           <Container>
-                                             <Row  flexDirection = {{desktop: 'row', tabport: 'column'}}>
+                                             <Row
+                                                flexDirection={{
+                                                   desktop: 'row',
+                                                   tabport: 'column'
+                                                }}
+                                             >
                                                 <Sidebar />
                                                 <Route exact path='/signup' component={Signup} />
-                                                <Route exact path='/login' component={Login} />                                                
-                                                   <Route exact path='/' component={Home} />
-                                                   <PrivateRoute
-                                                      exact
-                                                      path='/accounts'
-                                                      component={AccountView}
-                                                   />
-                                                   <PrivateRoute
-                                                      exact
-                                                      path='/likelist'
-                                                      component={LikedView}
-                                                   />
-                                                   <Route
-                                                      exact
-                                                      path='/results'
-                                                      component={SearchView}
-                                                   />
-                                                   <Route
-                                                      exact
-                                                      path='/watch/:videoId'
-                                                      component={VideoView}
-                                                   />
-                                                   <Route
-                                                      exact
-                                                      path='/channel/:channelId'
-                                                      component={ChannelView}
-                                                   />
+                                                <Route exact path='/login' component={Login} />
+                                                <Route exact path='/' component={Home} />
+                                                <PrivateRoute
+                                                   exact
+                                                   path='/accounts'
+                                                   component={AccountView}
+                                                />
+                                                <PrivateRoute
+                                                   exact
+                                                   path='/likelist'
+                                                   component={LikedView}
+                                                />
+                                                <Route
+                                                   exact
+                                                   path='/results'
+                                                   component={SearchView}
+                                                />
+                                                <Route
+                                                   exact
+                                                   path='/watch/:videoId'
+                                                   component={VideoView}
+                                                />
+                                                <Route
+                                                   exact
+                                                   path='/channel/:channelId'
+                                                   component={ChannelView}
+                                                />
                                              </Row>
                                           </Container>
                                        </Router>

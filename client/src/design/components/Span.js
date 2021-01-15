@@ -39,6 +39,5 @@ color: ${colorSecondary.default};
 };
 
 export const Span = styled.span`
-	text-transform: capitalize;
 	${applyStyleModifiers(SPAN_MODIFIERS)}
 `;

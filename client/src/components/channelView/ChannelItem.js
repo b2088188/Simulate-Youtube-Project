@@ -1,19 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-   ListGroup,
-   Link as SLink,
-   ImageContainer,
-   Image,
-   Title,
-} from '../../design/components';
-import {media} from '../../design/utils';
+import { ListGroup, Link as SLink, ImageContainer, Image, Title } from '../../design/components';
+import { media } from '../../design/utils';
 import { formatShortTitle, formatDate } from '../../utils/Format';
 
 const ChannelItem = ({ video, className }) => {
    return (
-      <ListGroup.Item flexWidth = {{desktop: '15', tabland: '20', tabport: '30', phone: '90'}} spacing = {{desktop: '2.5', tabport: '1.5', phone: '5'}} className={className}>
+      <ListGroup.Item
+         flexWidth={{ desktop: '15', tabland: '20', tabport: '30', phone: '90' }}
+         spacing={{ desktop: '2.5', tabport: '1.5', phone: '5' }}
+         className={className}
+      >
          <SLink as={Link} to={`/watch/${video.videoId}`}>
             <ImageContainer>
                <Image src={video.images} alt={video.title} />

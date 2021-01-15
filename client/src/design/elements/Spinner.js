@@ -14,7 +14,7 @@ const SPINNER_MODIFIERS = {
   `,
    dark: () => `
   color: ${colorGrey.dark2};
-  `,
+  `
 };
 
 export default styled(Spinner)`

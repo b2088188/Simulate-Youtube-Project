@@ -91,8 +91,6 @@ const CommentView = ({ className }) => {
 export default styled(CommentView)`
    margin-top: 5rem;
 
-
-
    .comment {
       &__form {
          margin: 3rem 0;

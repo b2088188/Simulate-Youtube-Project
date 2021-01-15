@@ -63,8 +63,8 @@ const SearchView = ({ className }) => {
    if (statusVideos === 'resolved' && videos.length < 1)
       return <Message text='No video found, please try another search.' />;
    return (
-      <Col width = '10' className={className}>
-         <Navigation flexWidth = {{desktop: '60', tabland: '70', tabport: '90'}}>
+      <Col width='10' className={className}>
+         <Navigation flexWidth={{ desktop: '60', tabland: '70', tabport: '90' }}>
             <List>{renderList(videos)}</List>
             {statusVideos === 'idle' || statusVideos === 'pending' ? (
                <Spinner modifiers='dark' />

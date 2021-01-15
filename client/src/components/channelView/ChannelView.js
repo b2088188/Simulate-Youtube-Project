@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { Col, ImageContainer, Image, Title, Button, ListGroup, Span } from '../../design/components';
+import {
+   Col,
+   ImageContainer,
+   Image,
+   Title,
+   Button,
+   ListGroup,
+   Span
+} from '../../design/components';
 import { setFlex, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useChannelState } from '../../stores/channel/channelStateContext';
@@ -57,31 +65,35 @@ const ChannelView = ({ className }) => {
    if (statusChannel === 'rejected' && errorChannel) return <Message text={errorChannel} />;
    if (statusChannel === 'resolved')
       return (
-         <Col col_10>            
-         <div className={className}>
-            <div className='channel__info'>
-               <div className='channel__userbox'>
-                  <ImageContainer size={{ width: '7.5rem' }}>
-                     <Image modifiers='round' src={channel.image} />
-                  </ImageContainer>
-                  <div>
-                     <Title modifiers={['medium', 'light']}>{channel.title}</Title>
-                     <Span modifiers={['medium', 'exlight']}>{channel.subscribes} subscribers</Span>
+         <Col col_10>
+            <div className={className}>
+               <div className='channel__info'>
+                  <div className='channel__userbox'>
+                     <ImageContainer size={{ width: '7.5rem' }}>
+                        <Image modifiers='round' src={channel.image} />
+                     </ImageContainer>
+                     <div>
+                        <Title modifiers={['medium', 'light']}>{channel.title}</Title>
+                        <Span modifiers={['medium', 'exlight']}>
+                           {channel.subscribes} subscribers
+                        </Span>
+                     </div>
                   </div>
+                  <Button
+                     modifiers={['light', `${isSubscribed ? 'disable' : 'outline'}`]}
+                     onClick={
+                        user
+                           ? onSubscribeHandle(isSubscribed, user, channel)
+                           : () => setToLogin(true)
+                     }
+                  >
+                     Subscribed
+                  </Button>
                </div>
-               <Button
-                  modifiers={['light', `${isSubscribed ? 'disable' : 'outline'}`]}
-                  onClick={
-                     user ? onSubscribeHandle(isSubscribed, user, channel) : () => setToLogin(true)
-                  }
-               >
-                  Subscribed
-               </Button>
+               <ListGroup flexY='center' flexWrap>
+                  {renderChannelVideos(channelVideos)}
+               </ListGroup>
             </div>
-            <ListGroup flexY = 'center' flexWrap>
-            {renderChannelVideos(channelVideos)}
-            </ListGroup>
-         </div>
          </Col>
       );
 };

@@ -1,18 +1,18 @@
 export const colorNormal = {
    white: '#fff',
-   black: '#000',
+   black: '#000'
 };
 
 export const colorPrimary = {
    default: '#eb2f64',
    light: '#FF3366',
-   dark: '#BA265D',
+   dark: '#BA265D'
 };
 
 export const colorSecondary = {
    default: '#0086D8',
    light: '#008ab6',
-   dark: '#0053B6',
+   dark: '#0053B6'
 };
 
 export const colorGrey = {
@@ -22,5 +22,5 @@ export const colorGrey = {
    light4: '#ccc',
    dark1: '#333',
    dark2: '#777',
-   dark3: '#999',
+   dark3: '#999'
 };

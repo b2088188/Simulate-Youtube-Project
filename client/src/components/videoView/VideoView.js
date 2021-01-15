@@ -89,77 +89,74 @@ const VideoView = ({ history, className }) => {
    if (statusVideo === 'rejected' && errorVideo) return <Message text={errorVideo} />;
    if (statusVideo === 'resolved')
       return (
-         <Col width = '10' className={className}>
-            <div className = 'video'>
+         <Col width='10' className={className}>
+            <div className='video'>
                <div className='video__videobox'>
-               <Video src={videoSrc} title='video player' />
-              </div>
-            <ListGroup ycenter className='video__titlebox'>
-               <ListGroup.Item p70>
-                  <Title modifiers='medium'>{video.title}</Title>
-                  <Paragraph modifiers='small'>{formatDate(video.publishedAt)}</Paragraph>
-               </ListGroup.Item>
-               <ListGroup.Item p30 flexY = 'center'>
-                  <Button
-                     modifiers='transparent'
-                     pd = '0'
-                     onClick={user ? onLikeHandle(user, video) : () => history.push('/login')}
-                  >
-                     <Icon as={ThumbUp} modifiers={`${isLiked ? 'secondary' : null}`} />
-                  </Button>
-                  <Span modifiers={['medium', 'regular']}>{video.likes}</Span>
-                  <Button
-                     modifiers={[`${isSubscribed ? 'disable' : 'primary'}`]}
-                     className='video__subscribebtn'
-                     onClick={user ? onSubscribeHandle(user, video) : () => history.push('/login')}
-                  >
-                     Subscribe
-                  </Button>
-               </ListGroup.Item>
-            </ListGroup>
-            <ListGroup modifiers='vertical' className='video__info'>
-               <ListGroup.Item flexY = 'center' mb = '0.5rem'>
-                  <SLink
-                     as={Link}
-                     flexWidth = '5'
-                     mr = '1rem'
-                     to={`/channel/${video.channel._id}`}
-                  >
-                     <ImageContainer>
-                        <Image modifiers='round' src={video.channel.image} alt='Author image' />
-                     </ImageContainer>
-                  </SLink>
-                  <div>
-                     <Title as='h2' modifiers='bold'>
-                        {video.channel.title}
-                     </Title>
-                     <Span>{video.channel.subscribes} subscribers</Span>
-                  </div>
-               </ListGroup.Item>
-               <ListGroup.Item>
-                  {descriptionShow ? (
-                     <Paragraph modifiers='small'>{video.description}</Paragraph>
-                  ) : null}
-                  <Button
-                     modifiers={['medium', 'transparent']}
-                     onClick={() => setDescriptionShow(!descriptionShow)}
-                  >
-                     {descriptionShow ? 'Show Less' : 'Show More'}
-                  </Button>
-               </ListGroup.Item>
-            </ListGroup>
-            <CommentView />
-            </div>            
+                  <Video src={videoSrc} title='video player' />
+               </div>
+               <ListGroup ycenter className='video__titlebox'>
+                  <ListGroup.Item p70>
+                     <Title modifiers='medium'>{video.title}</Title>
+                     <Paragraph modifiers='small'>{formatDate(video.publishedAt)}</Paragraph>
+                  </ListGroup.Item>
+                  <ListGroup.Item p30 flexY='center'>
+                     <Button
+                        modifiers='transparent'
+                        pd='0'
+                        onClick={user ? onLikeHandle(user, video) : () => history.push('/login')}
+                     >
+                        <Icon as={ThumbUp} modifiers={`${isLiked ? 'secondary' : null}`} />
+                     </Button>
+                     <Span modifiers={['medium', 'regular']}>{video.likes}</Span>
+                     <Button
+                        modifiers={[`${isSubscribed ? 'disable' : 'primary'}`]}
+                        className='video__subscribebtn'
+                        onClick={
+                           user ? onSubscribeHandle(user, video) : () => history.push('/login')
+                        }
+                     >
+                        Subscribe
+                     </Button>
+                  </ListGroup.Item>
+               </ListGroup>
+               <ListGroup modifiers='vertical' className='video__info'>
+                  <ListGroup.Item flexY='center' mb='0.5rem'>
+                     <SLink as={Link} flexWidth='5' mr='1rem' to={`/channel/${video.channel._id}`}>
+                        <ImageContainer>
+                           <Image modifiers='round' src={video.channel.image} alt='Author image' />
+                        </ImageContainer>
+                     </SLink>
+                     <div>
+                        <Title as='h2' modifiers='bold'>
+                           {video.channel.title}
+                        </Title>
+                        <Span>{video.channel.subscribes} subscribers</Span>
+                     </div>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                     {descriptionShow ? (
+                        <Paragraph modifiers='small'>{video.description}</Paragraph>
+                     ) : null}
+                     <Button
+                        modifiers={['medium', 'transparent']}
+                        onClick={() => setDescriptionShow(!descriptionShow)}
+                     >
+                        {descriptionShow ? 'Show Less' : 'Show More'}
+                     </Button>
+                  </ListGroup.Item>
+               </ListGroup>
+               <CommentView />
+            </div>
          </Col>
       );
 };
 
 export default styled(VideoView)`
    .video {
-   width: 80%;
-   margin: 0 auto;
-   padding: 2rem 0rem;
-   ${media.tabport(`
+      width: 80%;
+      margin: 0 auto;
+      padding: 2rem 0rem;
+      ${media.tabport(`
       width: 90%;
       `)}
 
@@ -175,7 +172,6 @@ export default styled(VideoView)`
          border-bottom: solid 0.1rem #000;
          padding: 2rem 1rem;
       }
-
 
       &__subscribebtn {
          flex: 0 0 15%;

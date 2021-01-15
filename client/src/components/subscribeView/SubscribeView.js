@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import {Title, List} from '../../design/components';
-import {colorNormal, media} from '../../design/utils';
+import { Title, List } from '../../design/components';
+import { colorNormal, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useSubscribeState } from '../../stores/subscriptions/subscribeStateContext';
 import { useSubscribeActions } from '../../stores/subscriptions/subscribeActionContext';
@@ -9,9 +9,7 @@ import SubscribeItem from './SubscribeItem';
 import Spinner from '../../design/elements/Spinner';
 import axios from 'axios';
 
-const SubscribeView = ({
-   className
-}) => {
+const SubscribeView = ({ className }) => {
    const { userSubscriptions, statusUserSubscriptions, currentUserSub } = useSubscribeState();
    const { getUserSubscriptions } = useSubscribeActions();
    const { user } = useAuthState();
@@ -30,7 +28,9 @@ const SubscribeView = ({
    if (statusUserSubscriptions === 'resolved')
       return (
          <div className={className}>
-            <Title as = 'h2' color = {colorNormal.white}>Subscriptions</Title>
+            <Title as='h2' color={colorNormal.white}>
+               Subscriptions
+            </Title>
             <nav>
                <List>{renderSubscriptions(userSubscriptions)}</List>
             </nav>
@@ -39,7 +39,7 @@ const SubscribeView = ({
 };
 
 export default styled(SubscribeView)`
-   border-top: solid .1rem #fff;
+   border-top: solid 0.1rem #fff;
    padding: 2rem 1rem;
    margin-bottom: auto;
    ${media.tabport(`

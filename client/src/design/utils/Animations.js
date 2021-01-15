@@ -1,17 +1,17 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes } from 'styled-components';
 
 export const setTransition = (
-  { property, time, timing } = {
-    property: "all",
-    time: ".25s",
-    timing: "linear",
-  }
+   { property, time, timing } = {
+      property: 'all',
+      time: '.25s',
+      timing: 'linear'
+   }
 ) => {
-  return `transition: ${property} ${time} ${timing};`;
+   return `transition: ${property} ${time} ${timing};`;
 };
 
 export const setFlowToRight = ({ color } = {}) => {
-  return `
+   return `
   &::before {
             content: '';
             position: absolute;

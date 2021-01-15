@@ -19,7 +19,7 @@ const SearchStore = ({ children }) => {
    );
    const getSearchVideos = useCallback(
       async function (q, page) {
-            search('UC5CF7mLQZhvx8O5GODZAhdA');
+         search('UC5CF7mLQZhvx8O5GODZAhdA');
          const { status } = await fetchSearchResults(
             axios.get(`/api/v1/videos/?q=${q}&page=${page}`)
          );
@@ -47,24 +47,24 @@ const SearchStore = ({ children }) => {
 
    async function search(term) {
       try {
-   // Search results
-   // const { data } = await Youtube.get('/search', {
-   //    params: {
-   //       q: term,
-   //       maxResults: 10,
-   //    },
-   // });
-   // const videos = data.items.map((el) => {
-   //    return {
-   //       videoId: el.id.videoId,
-   //       title: el.snippet.title,
-   //       description: el.snippet.description,
-   //       publishedAt: el.snippet.publishedAt,
-   //       images: el.snippet.thumbnails.medium.url,
-   //    };
-   // });
+         // Search results
+         // const { data } = await Youtube.get('/search', {
+         //    params: {
+         //       q: term,
+         //       maxResults: 10,
+         //    },
+         // });
+         // const videos = data.items.map((el) => {
+         //    return {
+         //       videoId: el.id.videoId,
+         //       title: el.snippet.title,
+         //       description: el.snippet.description,
+         //       publishedAt: el.snippet.publishedAt,
+         //       images: el.snippet.thumbnails.medium.url,
+         //    };
+         // });
 
-   // Video Results
+         // Video Results
          const { data } = await Youtube.get('/channels', {
             params: {
                id: term

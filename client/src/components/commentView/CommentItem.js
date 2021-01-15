@@ -33,7 +33,7 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
    }
 
    return (
-      <ListGroup flexY = 'center' className={className}>
+      <ListGroup flexY='center' className={className}>
          <ListGroup.Item p5>
             <ImageContainer>
                <Image

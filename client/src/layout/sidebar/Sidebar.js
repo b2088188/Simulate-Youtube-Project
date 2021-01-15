@@ -8,7 +8,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import SubscribeView from '../../components/subscribeView/SubscribeView';
 
-
 const Sidebar = ({ className }) => {
    const { user } = useAuthState();
    let location = useLocation();
@@ -36,10 +35,14 @@ const Sidebar = ({ className }) => {
    return (
       <Col col_2>
          <nav className={className}>
-            <List my = {{desktop: '2.5rem', tabport: '0'}} flexDirection = {{desktop: 'column', tabport: 'row'}} flexXY = {{tabport: {x: 'center', y: 'center'}}}>
-               <SideBarItem icon = {Home} text = 'Home'  to = '/' />
-               {user ? <SideBarItem  icon = {ThumbUp} text = 'Liked Videos' to = '/likelist' /> : null}
-               <SideBarItem icon = {Subscriptions} text = 'Subscriptions' to = '/' />
+            <List
+               my={{ desktop: '2.5rem', tabport: '0' }}
+               flexDirection={{ desktop: 'column', tabport: 'row' }}
+               flexXY={{ tabport: { x: 'center', y: 'center' } }}
+            >
+               <SideBarItem icon={Home} text='Home' to='/' />
+               {user ? <SideBarItem icon={ThumbUp} text='Liked Videos' to='/likelist' /> : null}
+               <SideBarItem icon={Subscriptions} text='Subscriptions' to='/' />
             </List>
             {user ? <SubscribeView /> : null}
             {!user ? renderSignIn() : null}
@@ -53,54 +56,52 @@ const Sidebar = ({ className }) => {
    );
 };
 
-function SideBarItem({to, icon, text}) {
-   return(<List.Item flow={{ color: colorPrimary.light }}>
-               <SLink as={Link} to={to} pdXY = {{ x: '3rem', y: '1.5rem' }} className='link'>
-                  <Icon as={icon} modifiers='medium' />
-                  <Span modifiers='medium'>{text}</Span>
-               </SLink>
-            </List.Item> )
+function SideBarItem({ to, icon, text }) {
+   return (
+      <List.Item flow={{ color: colorPrimary.light }}>
+         <SLink as={Link} to={to} pdXY={{ x: '3rem', y: '1.5rem' }} className='link'>
+            <Icon as={icon} modifiers='medium' />
+            <Span modifiers='medium'>{text}</Span>
+         </SLink>
+      </List.Item>
+   );
 }
 
 export default styled(Sidebar)`
-  height: 100%;
-  background-color: ${colorGrey.dark1};
-  ${setFlex({ direction: 'column' })}
+   height: 100%;
+   background-color: ${colorGrey.dark1};
+   ${setFlex({ direction: 'column' })}
 
+   .link {
+      z-index: 2;
+      position: relative;
+      color: ${colorGrey.light1};
+      ${setFlex({ y: 'center' })}
+   }
 
-.link{
-        z-index: 2;
-        position: relative;
-        color: ${colorGrey.light1};
-        ${setFlex({ y: 'center' })}
-}
+   .sign {
+      margin-top: 5rem;
+      margin-bottom: auto;
 
+      ${setFlex({ direction: 'column', y: 'center' })}
+      @media only screen and (max-width: 56.25em) {
+         margin: 2rem 0;
+      }
+   }
 
-.sign {
-        margin-top: 5rem;
-        margin-bottom: auto;        
-        
-        ${setFlex({ direction: 'column', y: 'center' })}
-        @media only screen and (max-width: 56.25em) {
-            margin: 2rem 0;
-        }
-    }
+   .info {
+      color: ${colorGrey.light1};
+      margin-bottom: 1rem;
+   }
 
+   //Legal
+   .legal {
+      color: ${colorGrey.light4};
+      text-align: center;
+      padding: 2.5rem;
 
-.info{
-    color: ${colorGrey.light1};
-    margin-bottom: 1rem;
-}
-
-
-//Legal
-.legal {
-    color: ${colorGrey.light4};
-    text-align: center;
-    padding: 2.5rem;
-
-    @media only screen and (max-width: 56.25em) {
-        display: none;
-    }
-}
+      @media only screen and (max-width: 56.25em) {
+         display: none;
+      }
+   }
 `;

@@ -1,15 +1,12 @@
-import { createContext } from "react";
-import useContextFactory from "../../customhooks/useContextFactory";
+import { createContext } from 'react';
+import useContextFactory from '../../customhooks/useContextFactory';
 
 const CommentStateContext = createContext();
-CommentStateContext.displayName = "CommentStateContext";
+CommentStateContext.displayName = 'CommentStateContext';
 
 export const CommentStateProvider = CommentStateContext.Provider;
 
 /* eslint-disable */
-export const useCommentState = useContextFactory(
-  "CommentStateContext",
-  CommentStateContext
-);
+export const useCommentState = useContextFactory('CommentStateContext', CommentStateContext);
 
 export default CommentStateContext;

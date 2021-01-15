@@ -21,7 +21,7 @@ const SearchForm = ({ className }) => {
                name='term'
                placeholder='Search videos ...'
                ref={register({
-                  required: "Search Term can't not be empty.",
+                  required: "Search Term can't not be empty."
                })}
                className='search__input'
             ></Form.Input>

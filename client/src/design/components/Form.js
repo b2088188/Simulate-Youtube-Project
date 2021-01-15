@@ -33,7 +33,7 @@ const INPUT_MODIFIERS = {
    outline: () => `
     border: solid .1rem ${colorGrey.light4};
     color: inherit;
-  `,
+  `
 };
 
 export const Input = styled.input`
@@ -74,7 +74,7 @@ const FORMLABEL_MODIFIERS = {
    footer: () => `
       margin-bottom: 0;
       margin-right: 1rem;
-    `,
+    `
 };
 const FormLabel = styled.label`
    font-size: 1.7rem;
@@ -97,7 +97,7 @@ const FORMINPUT_MODIFIERS = {
    transparent: () => `
         background: none;
         border-bottom: solid .1rem #999;
-    `,
+    `
 };
 const FormInput = styled(Input)`
    ${applyStyleModifiers(FORMINPUT_MODIFIERS)}

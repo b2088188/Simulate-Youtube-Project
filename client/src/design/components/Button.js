@@ -76,7 +76,7 @@ const BUTTON_MODIFIERS = {
       background-image: linear-gradient(to right, var(--color-primary-dark), var(--color-primary-light));
       box-shadow: var(--shadow-dark-shallow);
     }
-  `,
+  `
 };
 export const Button = styled.button`
    background: ${colorGrey.dark1};
@@ -89,32 +89,34 @@ export const Button = styled.button`
    cursor: pointer;
 
    // padding
-  ${({pd}) => pd && typeof pd === 'string' ? setPadding({x: pd,
-          y: pd,}) : null}
-   ${({pd}) => pd && pd.desktop ? setPadding({x: pd.desktop,
-          y: pd.desktop,}) : null}
-   ${({pd}) => pd &&pd.tabland ? media.tabland(setPadding({x: pd.tabland,
-          y: pd.tabland,}))  : null}
-   ${({pd}) => pd &&pd.tabport ? media.tabport(setPadding({x: pd.tabport,
-          y: pd.tabport,})) : null}
-   ${({pd}) => pd &&pd.phone ? media.phone(setPadding({x: pd.phone,
-          y: pd.phone,})) : null}
-${({pdXY}) => pdXY && typeof pdXY === 'object' ? setPadding({x: pdXY.x,
-          y: pdXY.y,}) : null}
- ${({pdXY}) => pdXY&&pdXY.desktop  ? setPadding({x: pdXY.desktop.x,
-          y: pdXY.desktop.y,}) : null}
-   ${({pdXY}) => pdXY&&pdXY.tabland ? media.tabland(setPadding({x: pdXY.tabland.x,
-          y: pdXY.tabland.y,}))  : null}
-   ${({pdXY}) => pdXY&&pdXY.tabport ? media.tabport(setPadding({x: pdXY.tabport.x,
-          y: pdXY.tabport.y,})) : null}
-   ${({pdXY}) => pdXY&&pdXY.phone ? media.phone(setPadding({x: pdXY.phone.x,
-          y: pdXY.phone.y,})) : null}
+   ${({ pd }) => (pd && typeof pd === 'string' ? setPadding({ x: pd, y: pd }) : null)}
+   ${({ pd }) => (pd && pd.desktop ? setPadding({ x: pd.desktop, y: pd.desktop }) : null)}
+   ${({ pd }) =>
+      pd && pd.tabland ? media.tabland(setPadding({ x: pd.tabland, y: pd.tabland })) : null}
+   ${({ pd }) =>
+      pd && pd.tabport ? media.tabport(setPadding({ x: pd.tabport, y: pd.tabport })) : null}
+   ${({ pd }) => (pd && pd.phone ? media.phone(setPadding({ x: pd.phone, y: pd.phone })) : null)}
+${({ pdXY }) => (pdXY && typeof pdXY === 'object' ? setPadding({ x: pdXY.x, y: pdXY.y }) : null)}
+ ${({ pdXY }) =>
+      pdXY && pdXY.desktop ? setPadding({ x: pdXY.desktop.x, y: pdXY.desktop.y }) : null}
+   ${({ pdXY }) =>
+      pdXY && pdXY.tabland
+         ? media.tabland(setPadding({ x: pdXY.tabland.x, y: pdXY.tabland.y }))
+         : null}
+   ${({ pdXY }) =>
+      pdXY && pdXY.tabport
+         ? media.tabport(setPadding({ x: pdXY.tabport.x, y: pdXY.tabport.y }))
+         : null}
+   ${({ pdXY }) =>
+      pdXY && pdXY.phone ? media.phone(setPadding({ x: pdXY.phone.x, y: pdXY.phone.y })) : null}
    // padding-top
-   ${({pdTop}) => pdTop && typeof pdTop === 'string' ? `padding-top: ${pdTop};` : null}
-   ${({pdTop}) => pdTop && pdTop.desktop ? `padding-top: ${pdTop.desktop};` : null}
-   ${({pdTop}) => pdTop &&pdTop.tabland ? media.tabland(`padding-top: ${pdTop.tabland};`)  : null}
-   ${({pdTop}) => pdTop &&pdTop.tabport ? media.tabport(`padding-top: ${pdTop.tabport};`) : null}
-   ${({pdTop}) => pdTop &&pdTop.phone ? media.phone(`padding-top: ${pdTop.phone};`) : null}
+   ${({ pdTop }) => (pdTop && typeof pdTop === 'string' ? `padding-top: ${pdTop};` : null)}
+   ${({ pdTop }) => (pdTop && pdTop.desktop ? `padding-top: ${pdTop.desktop};` : null)}
+   ${({ pdTop }) =>
+      pdTop && pdTop.tabland ? media.tabland(`padding-top: ${pdTop.tabland};`) : null}
+   ${({ pdTop }) =>
+      pdTop && pdTop.tabport ? media.tabport(`padding-top: ${pdTop.tabport};`) : null}
+   ${({ pdTop }) => (pdTop && pdTop.phone ? media.phone(`padding-top: ${pdTop.phone};`) : null)}
    // background-color
    ${(props) => (props.color ? `background: ${props.color};` : null)}
    ${(props) => props.btop && setBorder({ position: 'border-top' })}

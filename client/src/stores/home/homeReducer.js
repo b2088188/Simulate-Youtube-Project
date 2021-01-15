@@ -1,5 +1,5 @@
 import { fetchReducer } from '../../customhooks/useAsync';
-import { REQUEST_RESOLVED,  GET_HOMERESULTS, PAGE_CHANGE, HOME_RESET } from '../types';
+import { REQUEST_RESOLVED, GET_HOMERESULTS, PAGE_CHANGE, HOME_RESET } from '../types';
 
 function searchReducer(currentState, action) {
    switch (action.type) {

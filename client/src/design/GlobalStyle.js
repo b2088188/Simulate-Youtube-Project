@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import {media} from './utils';
+import { media } from './utils';
 
 const GlobalStyle = createGlobalStyle`
 html {
