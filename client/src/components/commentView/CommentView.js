@@ -91,10 +91,7 @@ const CommentView = ({ className }) => {
 export default styled(CommentView)`
    margin-top: 5rem;
 
-   @media only screen and (max-width: 56.25em) {
-      flex: 0 0 90%;
-      margin-top: 2rem;
-   }
+
 
    .comment {
       &__form {

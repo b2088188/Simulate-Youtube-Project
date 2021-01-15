@@ -1,8 +1,8 @@
 import React, { useContext, Fragment } from 'react';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Link, Button, Image, Span } from '../../design/components';
-import { setFlex, colorGrey } from '../../design/utils';
+import { ImageContainer, Link as SLink, Button, Image, Span } from '../../design/components';
+import { setFlex, colorGrey, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useAuthActions } from '../../stores/auth/authActionContext';
 import { Spinner } from '../../design/elements';
@@ -13,23 +13,23 @@ const UserNavigation = ({ className }) => {
    function renderSignIn() {
       return (
          <Fragment>
-            <Link
-               as={ReactLink}
+            <SLink
+               as={Link}
                modifiers={['medium', 'round', 'gradient']}
-               pd={{ x: '1.25rem', y: '1rem' }}
+               pdXY={{ x: '1.25rem', y: '1rem' }}
                to='/signup'
             >
                Register
-            </Link>
-            <Link
-               as={ReactLink}
+            </SLink>
+            <SLink
+               as={Link}
                modifiers={['medium', 'round', 'gradient']}
-               pd={{ x: '1.25rem', y: '1rem' }}
+               pdXY={{ x: '1.25rem', y: '1rem' }}
                mg={{ x: '1rem' }}
                to='/login'
             >
                Login
-            </Link>
+            </SLink>
          </Fragment>
       );
    }
@@ -39,18 +39,18 @@ const UserNavigation = ({ className }) => {
             <Button modifiers={['medium', 'round', 'gradient']} className='logout' onClick={logout}>
                Logout
             </Button>
-            <ReactLink to='/accounts' className='info'>
-               <div className='user__imgbox'>
+            <Link to='/accounts' className='info'>
+               <ImageContainer width = {{desktop:'5rem', phone: '4rem'}}>
                   <Image
                      modifiers='round'
                      src={`http://127.0.0.1:8000/${user.photo}`}
                      alt='User image'
                   />
-               </div>
+               </ImageContainer>
                <Span className='user__name' modifiers={['medium', 'regular']}>
                   {user.name}
                </Span>
-            </ReactLink>
+            </Link>
          </Fragment>
       );
    }
@@ -84,12 +84,12 @@ export default styled(UserNavigation)`
       color: ${colorGrey.dark1};
    }
    .user {
-      &__imgbox {
-         flex: 0 0 40%;
-      }
       &__name {
          flex: 0 0 40%;
          margin-left: 0.5rem;
+         ${media.phone(`
+            display: none;
+            `)}
       }
    }
 `;

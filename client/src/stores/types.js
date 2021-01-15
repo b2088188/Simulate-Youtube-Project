@@ -8,7 +8,9 @@ export const LOGOUT_AUTH = 'LOGOUT_AUTH';
 export const UPDATE_USERDATA = 'UPDATE_USERDATA';
 
 //Search
+export const GET_HOMERESULTS = 'GET_HOMERESULTS';
 export const GET_SEARCHRESULTS = 'GET_SEARCHRESULTS';
+export const HOME_RESET = 'HOME_RESET';
 export const SEARCH_RESET = 'SEARCH_RESET';
 export const PAGE_CHANGE = 'PAGE_CHANGE';
 

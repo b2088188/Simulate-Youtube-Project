@@ -44,23 +44,27 @@ const VideoStore = ({ children }) => {
       [dispatchVideo]
    );
 
-   // async function getVideo(id) {
+   
+   // async function getYoutubeVideo(id) {
    //     try {
-   //         dispatch({ type: LOADING });
-   //         const { data: {data} } = await axios.get(`/api/v1/videos/${id}`);
-
-   //         dispatch({
-   //             type: RESPONSE_COMPLETE,
-   //             payload: {
-   //                 video: data.video
-   //             }
-   //         })
+   //        const { data } = await Youtube.get('/videos', {
+   //          params: {
+   //             id
+   //          }
+   //       });
+   //        console.log({
+   //          videoId: data.items[0].id,
+   //          title:data.items[0].snippet.title,
+   //          description: data.items[0].snippet.description,
+   //          publishedAt: data.items[0].snippet.publishedAt,
+   //          images: data.items[0].snippet.thumbnails.medium.url
+   //        });
    //     } catch (err) {
    //         console.log(err.response);
    //     }
    // }
 
-   //Get Channel Image from Youtube
+   // Get Channel Image from Youtube
    // const {data: data2} = await getChannel(data.video.channel.channelId);
    // console.log(data2.items[0].snippet.thumbnails.medium.url)
    // async function getChannel(channelId) {

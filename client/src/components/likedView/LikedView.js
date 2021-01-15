@@ -1,7 +1,7 @@
-import './likedview.scss';
 import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { List } from '../../design/components';
+import { Col ,List } from '../../design/components';
+import {media} from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useLikeState } from '../../stores/likes/likeStateContext';
 import { useLikeActions } from '../../stores/likes/likeActionContext';
@@ -28,22 +28,25 @@ const LikedView = ({ className }) => {
       return <Spinner modifiers='dark' />;
    if (statusUserLikes === 'resolved')
       return (
-         <div className={className}>
-            <nav className='like__nav'>
+         <Col width = '10'  className={className}>
+            <div className = 'like'>               
+            <nav>
                <List>{renderLikeList(userLikes)}</List>
             </nav>
-         </div>
+            </div>
+         </Col>
       );
 };
 
 export default styled(LikedView)`
-   width: 60%;
+   .like{
+      width: 60%;
    margin: 2rem auto;
-   .like {
-      &__nav {
-         @media only screen and (max-width: 56.25em) {
-            flex: 0 0 80%;
-         }
-      }
+   ${media.tabland(`
+      width: 70%;
+      `)}
+   ${media.tabport(`
+      width: 90%;
+      `)}
    }
 `;

@@ -25,6 +25,7 @@
       "semantic-ui-react": "^2.0.1",
       "styled-components": "^5.2.1",
       "styled-components-modifiers": "^1.2.5",
+      "styled-system": "^5.1.5",
       "web-vitals": "^0.2.4"
    },
    "scripts": {

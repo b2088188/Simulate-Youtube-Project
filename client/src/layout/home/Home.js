@@ -1,26 +1,51 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef, useCallback } from "react";
+import {useRouteMatch} from 'react-router-dom';
 import styled from "styled-components";
-import { Container, Row } from "../../design/components";
+import { Container, Col, ListGroup } from "../../design/components";
 import { setFlex } from "../../design/utils";
-import HomeContext from "../../stores/home/homeContext";
+import {useHomeState} from '../../stores/home/homeStateContext';
+import {useHomeActions} from '../../stores/home/homeActionContext';
 import HomeItem from "./HomeItem";
-import Spinner from "../../utils/spinner/Spinner";
+import {Spinner }from "../../design/elements";
 
 const Home = ({ className }) => {
-  const { results, loadHomeVideos, loading } = useContext(HomeContext);
+  const {videos, statusVideos, page, hasMore} = useHomeState();
+  const {getHomeVideos, pageChange, homeReset} = useHomeActions();
+  const {url} = useRouteMatch();
+  const observer = useRef();
+  const lastHomeElementRef = useCallback(
+      (node) => {
+         if (statusVideos === 'pending') return;
+         if (observer.current) observer.current.disconnect();
+         observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasMore) {
+               pageChange();
+            }
+         });
+         if (node) observer.current.observe(node);
+      },
+      [statusVideos, hasMore]
+   );
   useEffect(() => {
-    loadHomeVideos();
-  }, []);
+    getHomeVideos(page);
+  }, [getHomeVideos, page]);
+
+  useEffect(() => {
+    homeReset();
+  }, [homeReset, url])
 
   function renderResults(list) {
-    return list.map(function generateItem(video) {
-      return <HomeItem key={video._id} video={video} />;
+    return list.map(function generateItem(video, i, arr) {
+      return <HomeItem key={video._id} video={video}
+               isLast={i + 1 === arr.length} lastHomeElementRef={lastHomeElementRef} />;
     });
   }
-
-  if (loading) return <Spinner classStyle="center" />;
-
-  return <Row className={className}>{renderResults(results)}</Row>;
+  return (<Col width = '10' className={className}>
+                 <ListGroup flexY = 'center' flexWrap>
+                 {renderResults(videos)}
+                 {statusVideos === 'idle' || statusVideos === 'pending' ? <Spinner modifiers = 'dark' /> : null}
+                </ListGroup>                
+                </Col>)
 };
 
 export default styled(Home)`

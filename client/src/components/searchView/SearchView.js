@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { List } from '../../design/components';
+import { Col, List, Navigation } from '../../design/components';
 import { setFlex } from '../../design/utils';
 import { useSearchState } from '../../stores/search/searchStateContext';
 import { useSearchActions } from '../../stores/search/searchActionContext';
@@ -63,26 +63,18 @@ const SearchView = ({ className }) => {
    if (statusVideos === 'resolved' && videos.length < 1)
       return <Message text='No video found, please try another search.' />;
    return (
-      <div className={className}>
-         <nav className='navigation'>
+      <Col width = '10' className={className}>
+         <Navigation flexWidth = {{desktop: '60', tabland: '70', tabport: '90'}}>
             <List>{renderList(videos)}</List>
             {statusVideos === 'idle' || statusVideos === 'pending' ? (
                <Spinner modifiers='dark' />
             ) : null}
-         </nav>
-      </div>
+         </Navigation>
+      </Col>
    );
 };
 
 export default styled(SearchView)`
    ${setFlex({ x: 'center', wrap: 'wrap' })}
    padding: 5rem 0rem;
-
-   .navigation {
-      flex: 0 0 60%;
-
-      @media only screen and (max-width: 56.25em) {
-         flex: 0 0 90%;
-      }
-   }
 `;

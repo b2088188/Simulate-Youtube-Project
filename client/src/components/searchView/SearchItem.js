@@ -16,7 +16,7 @@ import { formatDate } from '../../utils/Format';
 
 const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
    const { pageChange } = useSearchActions();
-   console.log(result);
+
    return (
       <List.Item className={className} ref={isLast ? lastSearchElementRef : null}>
          <SLink as={Link} to={`/watch/${result.videoId}`} className='search__link'>

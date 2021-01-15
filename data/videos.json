@@ -206,5 +206,37 @@
     "description": "Learn how to make a React app with this 2 hour React crash course. Download the code: https://github.com/QuentinWatt/React-for-beginners-tutorial-series.git ...",
     "publishedAt": "2020-04-24T08:52:51Z",
     "images": "https://i.ytimg.com/vi/mACw_G-okPE/mqdefault.jpg"
-  }
+  },
+  {
+  "videoId": "dFnkZ15-_0o",
+  "channel":"60013fe69aae1607dcd14987",
+  "title": "The Complete Node.js Developer Course [2 Hour Preview]",
+  "description": "Want to master Node.js? Checkout the full course here: https://links.mead.io/getnode\n\nLessons included in the preview:\n\n1. Welcome to the Class [0:38]\n2. Grab the PDF Guide [6:45]\n3. Section Intro: Installing and Exploring Node.js [7:48]\n4. Installing Node.js and Visual Studio Code [8:58]\n5. What is Node.js? [17:23]\n6. Why Should I Use Node.js? [32:54]\n7. Your First Node.js Script [49:18]\n8 . Section Intro: Node.js Module System [55:37]\n9. Importing Node.js Core Modules [56:53]\n10. Importing Your Own Files [1:13:21]\n11. Importing npm Modules [1:29:57]\n12. Printing in Color [1:46:54]\n13. Global npm Modules and nodemon [2:01:18]\n14. Section Intro: File System and Command Line Args [2:08:41]\n15. Getting Input from User [2:09:37]\n16. Argument Parsing with Yargs: Part I [2:19:23]\n17. Argument Parsing with Yargs: Part II [2:34:44]\n\nCheckout the full course here: https://links.mead.io/getnode",
+  "publishedAt": "2019-04-18T18:07:52Z",
+  "images": "https://i.ytimg.com/vi/dFnkZ15-_0o/mqdefault.jpg"
+},
+{
+  "videoId": "17AwVXg5lHk",  
+  "channel":"6001403a3d479411d0b16153",
+  "title": "Learn Styled Components In 15 Minutes! | React Tutorials",
+  "description": "Get a A$100,000/year job in Web Development!\n\nhttps://codebetter.com.au\n\nSource code: https://github.com/parkroolucas/styled-components-quickstart",
+  "publishedAt": "2019-10-16T10:52:14Z",
+  "images": "https://i.ytimg.com/vi/17AwVXg5lHk/mqdefault.jpg"
+},
+{
+  "videoId": "HcW5-P2SNec",
+  "channel":"600143194cf9cf0530e713da",
+  "title": "Deep Foundations of Advanced JavaScript — Kyle Simpson — Frontend Masters",
+  "description": "https://frontendmasters.com/courses/javascript-foundations/ — Join Kyle Simpson — author of the popular “You Don’t Know JavaScript” book series — as he reveals the deep foundations of JavaScript. You’ll learn about object wrappers, coercion, scope, closure, types, prototype system, ES6 features, == vs === and more.\n\nUnderstand deeply how the JavaScript engine looks for variables in function and block scope (var, let and const). Learn which ES6 features can help or hurt your coding and which new features should be used with caution. Also why coercion is one of the overlooked keys to using JavaScript more effectively. With this course, you’ll see how gaining a deeper understanding of JavaScript will make you a better communicator and programmer!\n\nKyle Simpson’s Introduction 1:05\nLesson: Scopes and Closures Introduction 1:46\nLesson: IIFE Pattern 5:14\nFull Course at https://frontendmasters.com/courses/javascript-foundations/\n\n\nAbout Frontend Masters:\nFounded in 2008, MJG International curates and hosts expert-level workshops for developers that want to learn the secrets to level up their JavaScript and Node.js engineering skills. The Frontend Masters platform distills these practical workshops into a growing, world-class video library accessible live online and on-demand.\n\nConnect with Frontend Masters online:\nhttps://frontendmasters.com/\nhttps://www.facebook.com/FrontendMasters/\nhttps://twitter.com/frontendmasters",
+  "publishedAt": "2017-08-09T14:00:30Z",
+  "images": "https://i.ytimg.com/vi/HcW5-P2SNec/mqdefault.jpg"
+},
+{
+  "videoId": "c9B4TPnak1A",
+   "channel":"600143a844be4921e8c6c659",
+  "title": "Bootstrap 5 tutorial - crash course for beginners in 1.5H (January 2021)",
+  "description": "Tutorial for the latest Bootstrap v.5 Alpha.\n\nIn this video we'll learn about the changes implemented into v.5.\n\nDownload Newest Version of Bootstrap 5: \nhttps://mdbootstrap.com/docs/standard/bootstrap-5/\n\nDownload Material Design for Bootstrap 5:\nhttps://mdbootstrap.com/docs/standard/\n\nDownload Course Files:\nhttps://github.com/mdbootstrap/Bootstrap-5-Crash-Course-in-1.5H\n\nIf you have any question, do no hesitate to join our Facebook group and ask: \nhttps://www.facebook.com/groups/682245759188413/\n____\n\n\nAgenda: \n1:14 What is Bootstrap? \n5:13 Bootstrap 4 vs Bootstrap 5 (What's new in Bootstrap 5)\n10:10 Installation \n13:32 New Bootstrap Grid System\n24:28 Buttons\n27:41 Cards\n34:50 Text utilities\n44:35 Responsive images\n47:31 Spacing \n54:54 Tables \n1:01:03 Alerts & Toasts\n1:08:45 Carousel \n1:10:35 Scrollspy\n1:12:40 Navs & Navbars\n1:18:40 Bootstrap Icons \n1:21:04 Forms",
+  "publishedAt": "2020-06-18T07:14:56Z",
+  "images": "https://i.ytimg.com/vi/c9B4TPnak1A/mqdefault.jpg"
+}
 ]

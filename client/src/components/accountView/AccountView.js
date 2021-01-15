@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import {
+   Col,
    FormContainer,
    Title,
    Span,
@@ -11,6 +12,7 @@ import {
    ImageContainer,
    Image,
 } from '../../design/components';
+import {media} from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useAuthActions } from '../../stores/auth/authActionContext';
 import { useForm } from 'react-hook-form';
@@ -34,7 +36,8 @@ const AccountView = ({ className }) => {
    }
 
    return (
-      <FormContainer className={className}>
+      <Col width = '12'  className={className}>         
+      <FormContainer width = {{desktop: '50%', tabland: '70%', tabport: '90%'}}>
          <Title modifiers='big'>Your Account Settings</Title>
          {statusAuth === 'pending' ? (
             <Spinner modifiers='dark' />
@@ -69,7 +72,7 @@ const AccountView = ({ className }) => {
                   <Paragraph>{errors.email && errors.email.message}</Paragraph>
                </Form.Group>
                <Form.Group horizontal>
-                  <ImageContainer flexWidth='7.5'>
+                  <ImageContainer width = {{desktop: '5rem'}}>
                      <Image
                         modifiers='round'
                         src='https://s.ytimg.com/yts/img/avatar_48-vfllY0UTT.png'
@@ -99,6 +102,7 @@ const AccountView = ({ className }) => {
             </Form>
          )}
       </FormContainer>
+      </Col>
    );
 };
 

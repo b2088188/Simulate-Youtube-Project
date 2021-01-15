@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import {
+   Col,
    ImageContainer,
    Link as SLink,
    Video,
@@ -13,7 +14,7 @@ import {
    Image,
    Span
 } from '../../design/components';
-import { setFlex, colorGrey } from '../../design/utils';
+import { setFlex, colorGrey, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useVideoState } from '../../stores/video/videoStateContext';
 import { useVideoActions } from '../../stores/video/videoActionContext';
@@ -88,19 +89,20 @@ const VideoView = ({ history, className }) => {
    if (statusVideo === 'rejected' && errorVideo) return <Message text={errorVideo} />;
    if (statusVideo === 'resolved')
       return (
-         <div className={className}>
-            <div className='video__videobox'>
+         <Col width = '10' className={className}>
+            <div className = 'video'>
+               <div className='video__videobox'>
                <Video src={videoSrc} title='video player' />
-            </div>
+              </div>
             <ListGroup ycenter className='video__titlebox'>
                <ListGroup.Item p70>
                   <Title modifiers='medium'>{video.title}</Title>
                   <Paragraph modifiers='small'>{formatDate(video.publishedAt)}</Paragraph>
                </ListGroup.Item>
-               <ListGroup.Item p30 className='video__shareinfo'>
+               <ListGroup.Item p30 flexY = 'center'>
                   <Button
                      modifiers='transparent'
-                     className='video__likebtn'
+                     pd = '0'
                      onClick={user ? onLikeHandle(user, video) : () => history.push('/login')}
                   >
                      <Icon as={ThumbUp} modifiers={`${isLiked ? 'secondary' : null}`} />
@@ -116,10 +118,11 @@ const VideoView = ({ history, className }) => {
                </ListGroup.Item>
             </ListGroup>
             <ListGroup modifiers='vertical' className='video__info'>
-               <ListGroup.Item className='video__channelbox'>
+               <ListGroup.Item flexY = 'center' mb = '0.5rem'>
                   <SLink
                      as={Link}
-                     className='video__channellink'
+                     flexWidth = '5'
+                     mr = '1rem'
                      to={`/channel/${video.channel._id}`}
                   >
                      <ImageContainer>
@@ -146,45 +149,33 @@ const VideoView = ({ history, className }) => {
                </ListGroup.Item>
             </ListGroup>
             <CommentView />
-         </div>
+            </div>            
+         </Col>
       );
 };
 
 export default styled(VideoView)`
+   .video {
    width: 80%;
    margin: 0 auto;
    padding: 2rem 0rem;
-   .video {
+   ${media.tabport(`
+      width: 90%;
+      `)}
+
       &__videobox {
          box-shadow: var(--shadow-dark-shallow);
-         height: 70rem;
-         @media only screen and (max-width: 56.25em) {
-            height: 50rem;
-         }
-
-         @media only screen and (max-width: 37.5em) {
-            height: 35rem;
-         }
+         height: 37.5vw;
+         ${media.tabport(`
+      height: 45vw;
+      `)}
       }
 
       &__titlebox {
          border-bottom: solid 0.1rem #000;
          padding: 2rem 1rem;
-         @media only screen and (max-width: 56.25em) {
-            flex: 0 0 90%;
-            padding: 1rem 0;
-         }
       }
 
-      &__shareinfo {
-         ${setFlex({ y: 'center' })}
-      }
-
-      &__likebtn {
-         padding: 0;
-         padding-top: 0.2rem;
-         flex: 0 0 5%;
-      }
 
       &__subscribebtn {
          flex: 0 0 15%;
@@ -194,19 +185,6 @@ export default styled(VideoView)`
       &__info {
          padding: 2rem 0;
          border-bottom: solid 0.1rem #000;
-         @media only screen and (max-width: 56.25em) {
-            flex: 0 0 90%;
-            padding: 1rem 0;
-         }
-      }
-
-      &__channelbox {
-         ${setFlex({ y: 'center' })}
-         margin-bottom: .5rem;
-      }
-      &__channellink {
-         flex: 0 0 5%;
-         margin-right: 1rem;
       }
    }
 `;

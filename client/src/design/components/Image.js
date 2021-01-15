@@ -9,6 +9,6 @@ const IMAGE_MODIFIERS = {
 
 export const Image = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   ${applyStyleModifiers(IMAGE_MODIFIERS)}
 `;

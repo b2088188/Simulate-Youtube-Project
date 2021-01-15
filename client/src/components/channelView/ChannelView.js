@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { ImageContainer, Image, Title, Button, ListGroup, Span } from '../../design/components';
-import { setFlex } from '../../design/utils';
+import { Col, ImageContainer, Image, Title, Button, ListGroup, Span } from '../../design/components';
+import { setFlex, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useChannelState } from '../../stores/channel/channelStateContext';
 import { useChannelActions } from '../../stores/channel/channelActionContext';
@@ -57,6 +57,7 @@ const ChannelView = ({ className }) => {
    if (statusChannel === 'rejected' && errorChannel) return <Message text={errorChannel} />;
    if (statusChannel === 'resolved')
       return (
+         <Col col_10>            
          <div className={className}>
             <div className='channel__info'>
                <div className='channel__userbox'>
@@ -77,8 +78,11 @@ const ChannelView = ({ className }) => {
                   Subscribed
                </Button>
             </div>
-            <ListGroup ycenter>{renderChannelVideos(channelVideos)}</ListGroup>
+            <ListGroup flexY = 'center' flexWrap>
+            {renderChannelVideos(channelVideos)}
+            </ListGroup>
          </div>
+         </Col>
       );
 };
 
@@ -90,6 +94,9 @@ export default styled(ChannelView)`
          ${setFlex({ x: 'space-around', y: 'center' })}
          background-image: linear-gradient(to right bottom, var(--color-primary-light), var(--color-primary-dark));
          padding: 2rem 1rem;
+         ${media.phone(`
+            padding: .5rem 1rem;
+            `)}
       }
 
       &__userbox {

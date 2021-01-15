@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { FormContainer, Title, Span, Form, Label, Button } from '../../design/components';
+import { Col, FormContainer, Title, Span, Form, Label, Button } from '../../design/components';
 import { useForm } from 'react-hook-form';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useAuthActions } from '../../stores/auth/authActionContext';
@@ -19,8 +19,8 @@ const Login = () => {
    if (user) return <Redirect to={location.state?.from || '/'} />;
 
    return (
-      <FormContainer>
-         {/*<Alerts message = {error} />*/}
+      <Col width = '12'>         
+      <FormContainer width = {{desktop: '50%', tabland: '70%', tabport: '90%'}}>
          <Title modifiers='big'>
             Account <Span modifiers='primary'>Login</Span>
          </Title>
@@ -56,6 +56,7 @@ const Login = () => {
             <Button modifiers='primary'>Login</Button>
          </Form>
       </FormContainer>
+      </Col>
    );
 };
 

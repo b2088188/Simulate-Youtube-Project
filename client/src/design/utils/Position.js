@@ -1,6 +1,7 @@
 import { css } from "styled-components";
 
-export const setFlex = ({ direction = "row", x, y, wrap } = {}) => {
+
+export const setFlex = ({ direction, x, y, wrap } = {}) => {
   return css`
     display: flex;
     flex-direction: ${direction};

@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import React, { useEffect, useContext, useRef } from 'react';
 import { useLocation, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { FormContainer, Title, Span, Form, Label, Button } from '../../design/components';
+import { Col, FormContainer, Title, Span, Form, Label, Button } from '../../design/components';
 import { useForm } from 'react-hook-form';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useAuthActions } from '../../stores/auth/authActionContext';
@@ -29,7 +29,8 @@ const Signup = () => {
    if (user) return <Redirect to={location.state?.from || '/'} />;
 
    return (
-      <FormContainer>
+      <Col width = '12'>         
+      <FormContainer width = {{desktop: '50%', tabland: '70%', tabport: '90%'}}>
          <Alerts />
          <Title modifiers='big'>
             Account <Span modifiers='primary'>Signup</Span>
@@ -97,6 +98,7 @@ const Signup = () => {
             <Button modifiers='primary'>Signup</Button>
          </Form>
       </FormContainer>
+      </Col>
    );
 };
 

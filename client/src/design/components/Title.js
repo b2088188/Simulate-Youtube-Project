@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {color} from 'styled-system';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 import { colorGrey, colorPrimary } from '../utils';
 
@@ -39,7 +40,7 @@ const TITLE_MODIFIERS = {
 };
 
 export const Title = styled.h1`
-	color: ${colorGrey.greydark1};
+	${color}
 	font-size: 1.7rem;
 	line-height: 1.2;
 	letter-spacing: 0.1rem;

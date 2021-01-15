@@ -42,11 +42,10 @@ function App() {
                                        <Router>
                                           <Header />
                                           <Container>
-                                             <Row>
+                                             <Row  flexDirection = {{desktop: 'row', tabport: 'column'}}>
                                                 <Sidebar />
                                                 <Route exact path='/signup' component={Signup} />
-                                                <Route exact path='/login' component={Login} />
-                                                <Col col_10>
+                                                <Route exact path='/login' component={Login} />                                                
                                                    <Route exact path='/' component={Home} />
                                                    <PrivateRoute
                                                       exact
@@ -73,7 +72,6 @@ function App() {
                                                       path='/channel/:channelId'
                                                       component={ChannelView}
                                                    />
-                                                </Col>
                                              </Row>
                                           </Container>
                                        </Router>

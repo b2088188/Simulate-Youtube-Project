@@ -33,7 +33,7 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
    }
 
    return (
-      <ListGroup ycenter className={className}>
+      <ListGroup flexY = 'center' className={className}>
          <ListGroup.Item p5>
             <ImageContainer>
                <Image
@@ -58,7 +58,7 @@ export default styled(CommentItem)`
    }
    .comment {
       &__commentbox {
-         margin: 0 2%;
+         margin: 0 1%;
       }
       &__actionbox {
          flex: 0 0 15%;

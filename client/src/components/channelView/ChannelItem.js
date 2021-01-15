@@ -8,11 +8,12 @@ import {
    Image,
    Title,
 } from '../../design/components';
+import {media} from '../../design/utils';
 import { formatShortTitle, formatDate } from '../../utils/Format';
 
 const ChannelItem = ({ video, className }) => {
    return (
-      <ListGroup.Item p15 mg={{ x: '2.5%' }} className={className}>
+      <ListGroup.Item flexWidth = {{desktop: '15', tabland: '20', tabport: '30', phone: '90'}} spacing = {{desktop: '2.5', tabport: '1.5', phone: '5'}} className={className}>
          <SLink as={Link} to={`/watch/${video.videoId}`}>
             <ImageContainer>
                <Image src={video.images} alt={video.title} />
@@ -32,4 +33,7 @@ const ChannelItem = ({ video, className }) => {
 
 export default styled(ChannelItem)`
    min-height: 25rem;
+   ${media.phone(`
+   margin-bottom: 2.5rem;
+      `)}
 `;

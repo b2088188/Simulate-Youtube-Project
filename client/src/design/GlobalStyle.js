@@ -1,12 +1,16 @@
 import { createGlobalStyle } from 'styled-components';
+import {media} from './utils';
 
 const GlobalStyle = createGlobalStyle`
 html {
     font-size: 62.5%;
      font-family: 'Open Sans', sans-serif;
-    @media only screen and (max-width: $bp-largest){
-    font-size: 50%;
-  }
+     ${media.tabland(`
+        font-size: 56.25%;
+      `)}
+     ${media.tabport(`
+        font-size: 50%;
+      `)}
 }
 *,
 *::after,

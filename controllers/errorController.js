@@ -20,10 +20,10 @@ const globalError = (err, req, res, next) => {
         error = handleJWTError();
      if(error.name === 'TokenExpiredError')
         error = handleJWTExpiredError();
-    sendErrorProd(err, res);
+    sendErrorProd(error, req, res);
 }
 
-function sendErrorDev(err, res) {
+function sendErrorDev(err, req, res) {
     res.status(err.statusCode).json({
         status: err.status,
         error: err,
@@ -32,7 +32,7 @@ function sendErrorDev(err, res) {
     })
 }
 
-function sendErrorProd(err, res) {
+function sendErrorProd(err, req, res) {
     if(err.isOperational)
     return res.status(err.statusCode).json({
         status: err.status,

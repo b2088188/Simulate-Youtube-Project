@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Col, List, Link, Span, Button, Title, Icon } from '../../design/components';
+import { Col, List, Link as SLink, Span, Button, Title, Icon } from '../../design/components';
 import { setFlex, colorGrey, colorPrimary } from '../../design/utils';
-import { ThumbUp, Home } from '@material-ui/icons';
+import { ThumbUp, Home, Subscriptions } from '@material-ui/icons';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import SubscribeView from '../../components/subscribeView/SubscribeView';
+
 
 const Sidebar = ({ className }) => {
    const { user } = useAuthState();
@@ -32,28 +33,13 @@ const Sidebar = ({ className }) => {
       );
    }
 
-   function renderAuthItem() {
-      return (
-         <List.Item flow={{ color: colorPrimary.light }}>
-            <Link as={ReactLink} to='/likelist' pd={{ x: '3rem', y: '1.5rem' }} className='link'>
-               <Icon as={ThumbUp} modifiers='medium' />
-               <Span modifiers='medium'>Liked Videos</Span>
-            </Link>
-         </List.Item>
-      );
-   }
-
    return (
       <Col col_2>
          <nav className={className}>
-            <List className='list'>
-               <List.Item flow={{ color: colorPrimary.light }}>
-                  <Link as={ReactLink} pd={{ x: '3rem', y: '1.5rem' }} className='link' to='/'>
-                     <Icon as={Home} modifiers='medium' />
-                     <Span modifiers='medium'>Home</Span>
-                  </Link>
-               </List.Item>
-               {user ? renderAuthItem() : null}
+            <List my = {{desktop: '2.5rem', tabport: '0'}} flexDirection = {{desktop: 'column', tabport: 'row'}} flexXY = {{tabport: {x: 'center', y: 'center'}}}>
+               <SideBarItem icon = {Home} text = 'Home'  to = '/' />
+               {user ? <SideBarItem  icon = {ThumbUp} text = 'Liked Videos' to = '/likelist' /> : null}
+               <SideBarItem icon = {Subscriptions} text = 'Subscriptions' to = '/' />
             </List>
             {user ? <SubscribeView /> : null}
             {!user ? renderSignIn() : null}
@@ -67,18 +53,20 @@ const Sidebar = ({ className }) => {
    );
 };
 
+function SideBarItem({to, icon, text}) {
+   return(<List.Item flow={{ color: colorPrimary.light }}>
+               <SLink as={Link} to={to} pdXY = {{ x: '3rem', y: '1.5rem' }} className='link'>
+                  <Icon as={icon} modifiers='medium' />
+                  <Span modifiers='medium'>{text}</Span>
+               </SLink>
+            </List.Item> )
+}
+
 export default styled(Sidebar)`
   height: 100%;
   background-color: ${colorGrey.dark1};
   ${setFlex({ direction: 'column' })}
-  .list {
-    margin: 3.5rem 0;
-    @media only screen and (max-width: 56.25em) {
-        display: flex;
-        margin: 0;
-    }
-  }
-}
+
 
 .link{
         z-index: 2;
@@ -114,5 +102,5 @@ export default styled(Sidebar)`
     @media only screen and (max-width: 56.25em) {
         display: none;
     }
-
+}
 `;

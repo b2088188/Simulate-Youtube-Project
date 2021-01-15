@@ -1,59 +1,42 @@
 import React from "react";
 import styled from "styled-components";
-import { Col, Image, Link, Title } from "../../design/components";
-import { colorGrey, setFlex } from "../../design/utils";
+import { ListGroup, ImageContainer, Image, Link, Title } from "../../design/components";
+import { colorGrey, setFlex, media } from "../../design/utils";
 import { Link as ReactLink } from "react-router-dom";
 import { formatShortTitle } from "../../utils/Format";
 
-const HomeItem = ({ video, className }) => {
+const HomeItem = ({ video, className, isLast, lastHomeElementRef }) => {  
   return (
-    <Col col_3 mg={{ x: "2.5%", y: "1%" }} className={className}>
+    <ListGroup.Item flexWidth = {{desktop: '20', tabland: '30', tabport: '45', phone: '90'}} spacing = {{desktop: '2.5', tabland: '1.5', tabport: '2.5', phone: '5'}} ref = {isLast ? lastHomeElementRef : null } className={className}>
       <Link as={ReactLink} className="link" to={`/watch/${video.videoId}`}>
-        <div className="video__imgbox">
-          <Image src={video.videoImage} alt={video.title} />
-        </div>
+        <ImageContainer width = '100%'>
+          <Image src={video.images} alt={video.title} />
+        </ImageContainer>
         <div className="infobox">
-          <div className="channel__imgbox">
-            <Image modifiers="round" src={video.channelImage} />
-          </div>
+          <ImageContainer width = '3.5rem' mr = '1rem'>
+            <Image modifiers="round" src={video.channel?.image} />
+           </ImageContainer>
           <div className="titlebox">
             <Title modifiers="small">{formatShortTitle(video.title)}</Title>
             <Title modifiers={["mini", "exlight"]} className="channeltitle">
-              {video.channelTitle}
+              {video.channel?.title}
             </Title>
           </div>
         </div>
       </Link>
-    </Col>
+    </ListGroup.Item>
   );
 };
 
 export default styled(HomeItem)`
-  @media only screen and (max-width: 75em) {
-    flex: 0 0 31%;
-    margin-right: 1.5%;
-  }
-  @media only screen and (max-width: 37.5em) {
-    flex: 0 0 48%;
-  }
-  @media only screen and (max-width: 31.25em) {
-    flex: 0 0 98%;
-    margin-right: 1%;
-  }
-
-  .video__imgbox {
-    width: 100%;
-    height: 70%;
-  }
-
+  margin-bottom: 1%;
+  ${media.phone(`
+    margin-bottom: 2.5%;
+    `)}
   .infobox {
-    ${setFlex({ y: "flex-start" })}
+    ${setFlex({ y: "center" })}
     margin-top: 1rem;
     height: 30%;
-  }
-  .channel__imgbox {
-    width: 15%;
-    margin: 0 1rem;
   }
 
   .titlebox {
