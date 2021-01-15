@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { FormContainer, Form, Icon, Button } from '../../design/components';
+import { media } from '../../design/utils';
 import SearchIcon from '@material-ui/icons/Search';
 const SearchForm = ({ className }) => {
    const { register, errors, handleSubmit, reset } = useForm();
@@ -34,6 +35,11 @@ const SearchForm = ({ className }) => {
 };
 
 export default styled(SearchForm)`
+   ${media.phone(`
+      order: 1;
+      flex: 0 0 100%;
+      background-color: var(--color-grey-light-2);
+      `)}
    .search {
       &__input {
          width: 95%;
@@ -41,10 +47,5 @@ export default styled(SearchForm)`
       &__icon {
          margin-left: -5rem;
       }
-   }
-   @media only screen and (max-width: 37.5em) {
-      order: 1;
-      flex: 0 0 100%;
-      background-color: var(--color-grey-light-2);
    }
 `;

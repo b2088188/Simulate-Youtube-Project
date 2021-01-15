@@ -1,7 +1,6 @@
-import { useState, useEffect, useReducer, useCallback } from 'react';
+import { useReducer, useCallback } from 'react';
 import { REQUEST_PENDING, REQUEST_RESOLVED, REQUEST_REJECTED } from '../stores/types';
 import useSafeDispatch from './useSafeDispatch';
-import axios from 'axios';
 
 const fetchReducer = (currentState, action) => {
    switch (action.type) {

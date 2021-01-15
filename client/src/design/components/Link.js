@@ -55,19 +55,19 @@ export const Link = styled.a`
    ${({ pd }) =>
       pd && pd.tabport ? media.tabport(setPadding({ x: pd.tabport, y: pd.tabport })) : null}
    ${({ pd }) => (pd && pd.phone ? media.phone(setPadding({ x: pd.phone, y: pd.phone })) : null)}
-${({ pdXY }) => (pdXY && typeof pdXY === 'object' ? setPadding({ x: pdXY.x, y: pdXY.y }) : null)}
- ${({ pdXY }) =>
-      pdXY && pdXY.desktop ? setPadding({ x: pdXY.desktop.x, y: pdXY.desktop.y }) : null}
-   ${({ pdXY }) =>
-      pdXY && pdXY.tabland
-         ? media.tabland(setPadding({ x: pdXY.tabland.x, y: pdXY.tabland.y }))
+${({ pdxy }) => (pdxy && typeof pdxy === 'object' ? setPadding({ x: pdxy.x, y: pdxy.y }) : null)}
+ ${({ pdxy }) =>
+      pdxy && pdxy.desktop ? setPadding({ x: pdxy.desktop.x, y: pdxy.desktop.y }) : null}
+   ${({ pdxy }) =>
+      pdxy && pdxy.tabland
+         ? media.tabland(setPadding({ x: pdxy.tabland.x, y: pdxy.tabland.y }))
          : null}
-   ${({ pdXY }) =>
-      pdXY && pdXY.tabport
-         ? media.tabport(setPadding({ x: pdXY.tabport.x, y: pdXY.tabport.y }))
+   ${({ pdxy }) =>
+      pdxy && pdxy.tabport
+         ? media.tabport(setPadding({ x: pdxy.tabport.x, y: pdxy.tabport.y }))
          : null}
-   ${({ pdXY }) =>
-      pdXY && pdXY.phone ? media.phone(setPadding({ x: pdXY.phone.x, y: pdXY.phone.y })) : null}
+   ${({ pdxy }) =>
+      pdxy && pdxy.phone ? media.phone(setPadding({ x: pdxy.phone.x, y: pdxy.phone.y })) : null}
    // margin-right
    ${({ mr }) => (mr && typeof mr === 'string' ? `margin-right: ${mr};` : null)}
    ${({ mr }) => (mr && mr.desktop ? `margin-right: ${mr.desktop};` : null)}
@@ -75,17 +75,33 @@ ${({ pdXY }) => (pdXY && typeof pdXY === 'object' ? setPadding({ x: pdXY.x, y: p
    ${({ mr }) => (mr && mr.tabport ? media.tabport(`margin-right: ${mr.tabport};`) : null)}
    ${({ mr }) => (mr && mr.phone ? media.phone(`margin-right: ${mr.phone};`) : null)}
    // Flex & align-items
-   ${({ alignItems }) =>
-      alignItems && typeof alignItems === 'string' ? setFlex({ y: alignItems }) : null}
-   ${({ alignItems }) =>
-      alignItems && alignItems.desktop ? setFlex({ y: alignItems.desktop }) : null}
-   ${({ alignItems }) =>
-      alignItems && alignItems.tabland ? media.tabland(setFlex({ y: alignItems.tabland })) : null}
-   ${({ alignItems }) =>
-      alignItems && alignItems.tabport ? media.tabport(setFlex({ y: alignItems.tabport })) : null}
-   ${({ alignItems }) =>
-      alignItems && alignItems.phone ? media.phone(setFlex({ y: alignItems.phone })) : null}
+   ${({ flexy }) => (flexy && typeof flexy === 'string' ? setFlex({ y: flexy }) : null)}
+   ${({ flexy }) => (flexy && flexy.desktop ? setFlex({ y: flexy.desktop }) : null)}
+   ${({ flexy }) => (flexy && flexy.tabland ? media.tabland(setFlex({ y: flexy.tabland })) : null)}
+   ${({ flexy }) => (flexy && flexy.tabport ? media.tabport(setFlex({ y: flexy.tabport })) : null)}
+   ${({ flexy }) => (flexy && flexy.phone ? media.phone(setFlex({ y: flexy.phone })) : null)}
+
+   ${({ flexY }) => (flexY && typeof flexY === 'string' ? setFlex({ y: flexY }) : null)}
+   ${({ flexY }) => (flexY && flexY.desktop ? setFlex({ y: flexY.desktop }) : null)}
+   ${({ flexY }) => (flexY && flexY.tabland ? media.tabland(setFlex({ y: flexY.tabland })) : null)}
+   ${({ flexY }) => (flexY && flexY.tabport ? media.tabport(setFlex({ y: flexY.tabport })) : null)}
+   ${({ flexY }) => (flexY && flexY.phone ? media.phone(setFlex({ y: flexY.phone })) : null)}
     // flex-basis
+    ${({ flexwidth }) =>
+      flexwidth && typeof flexwidth === 'string' ? setFlexWidth({ width: flexwidth }) : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.desktop ? setFlexWidth({ width: flexwidth.desktop }) : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.tabland
+         ? media.tabland(setFlexWidth({ width: flexwidth.tabland }))
+         : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.tabport
+         ? media.tabport(setFlexWidth({ width: flexwidth.tabport }))
+         : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.phone ? media.phone(setFlexWidth({ width: flexwidth.phone })) : null}
+
    ${({ flexWidth }) =>
       flexWidth && typeof flexWidth === 'string' ? setFlexWidth({ width: flexWidth }) : null}
    ${({ flexWidth }) =>

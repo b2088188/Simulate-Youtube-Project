@@ -1,6 +1,5 @@
-import React, { useContext, useRef, useCallback } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSearchActions } from '../../stores/search/searchActionContext';
 import styled from 'styled-components';
 import {
    Link as SLink,
@@ -11,22 +10,19 @@ import {
    ImageContainer,
    ListGroup
 } from '../../design/components';
-import { setFlex } from '../../design/components';
 import { formatDate } from '../../utils/Format';
 
 const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
-   const { pageChange } = useSearchActions();
-
    return (
       <List.Item className={className} ref={isLast ? lastSearchElementRef : null}>
          <SLink as={Link} to={`/watch/${result.videoId}`} className='search__link'>
-            <div className='search__imgbox'>
+            <ImageContainer flexWidth='35'>
                <Image src={result.images} alt={result.title} />
-            </div>
+            </ImageContainer>
             <div className='search__descriptionbox'>
                <Title as='h2'>{result.title}</Title>
                <Paragraph modifiers='tini'>{formatDate(result.publishedAt)}</Paragraph>
-               <ListGroup ycenter pd={{ x: '0', y: '0' }}>
+               <ListGroup flexY='center' pd={{ x: '0', y: '0' }}>
                   <ImageContainer size={{ width: '3rem', height: '3rem' }}>
                      <Image src={result.channel?.image} modifiers='round' />
                   </ImageContainer>
@@ -60,10 +56,6 @@ export default styled(SearchItem)`
          &:hover {
             color: currentColor;
          }
-      }
-
-      &__imgbox {
-         flex: 0 0 35%;
       }
 
       &__descriptionbox {

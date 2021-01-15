@@ -7,15 +7,14 @@ import { useSubscribeState } from '../../stores/subscriptions/subscribeStateCont
 import { useSubscribeActions } from '../../stores/subscriptions/subscribeActionContext';
 import SubscribeItem from './SubscribeItem';
 import Spinner from '../../design/elements/Spinner';
-import axios from 'axios';
 
 const SubscribeView = ({ className }) => {
-   const { userSubscriptions, statusUserSubscriptions, currentUserSub } = useSubscribeState();
+   const { userSubscriptions, statusUserSubscriptions } = useSubscribeState();
    const { getUserSubscriptions } = useSubscribeActions();
    const { user } = useAuthState();
    useEffect(() => {
       if (user) getUserSubscriptions(user._id);
-   }, [user]);
+   }, [user, getUserSubscriptions]);
 
    function renderSubscriptions(list) {
       return list.map(function generateItem(subscribe) {
@@ -32,7 +31,7 @@ const SubscribeView = ({ className }) => {
                Subscriptions
             </Title>
             <nav>
-               <List>{renderSubscriptions(userSubscriptions)}</List>
+               <List className='list'>{renderSubscriptions(userSubscriptions)}</List>
             </nav>
          </div>
       );
@@ -42,7 +41,9 @@ export default styled(SubscribeView)`
    border-top: solid 0.1rem #fff;
    padding: 2rem 1rem;
    margin-bottom: auto;
-   ${media.tabport(`
-      display: none;
+   .list {
+      ${media.tabport(`
+       display: flex;
       `)}
+   }
 `;

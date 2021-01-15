@@ -1,24 +1,20 @@
-import * as R from 'ramda';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Form, Button } from '../../design/components';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useCommentState } from '../../stores/comment/commentStateContext';
 import { useCommentActions } from '../../stores/comment/commentActionContext';
-import { addComment } from '../../stores/comment/CommentStore';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import CommentItem from './CommentItem';
 import { Spinner, Message } from '../../design/elements';
-import axios from 'axios';
 
 const CommentView = ({ className }) => {
    const { user } = useAuthState();
-   const { comments, statusComments, statusComment, errorComments } = useCommentState();
-   const { register, handleSubmit, errors, setValue, reset } = useForm();
-   const { fetchComments, getVideoComments, createComment, updateComment } = useCommentActions();
+   const { comments, statusComments, errorComments } = useCommentState();
+   const { register, handleSubmit, setValue, reset } = useForm();
+   const { getVideoComments, createComment, updateComment } = useCommentActions();
    const [currentTypedComment, setCurrentTypedComment] = useState(null);
-   const [showActionBtn, setShowActionBtn] = useState(false);
    let { videoId } = useParams();
 
    useEffect(() => {
@@ -27,7 +23,7 @@ const CommentView = ({ className }) => {
 
    useEffect(() => {
       if (currentTypedComment) setValue('comment', currentTypedComment.comment);
-   }, [currentTypedComment]);
+   }, [currentTypedComment, setValue]);
 
    function onCancelClick() {
       reset();

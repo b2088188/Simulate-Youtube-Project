@@ -1,16 +1,14 @@
-import React, { useEffect, useContext, Fragment } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button, Paragraph, ImageContainer, Image, ListGroup } from '../../design/components';
 import { setFlex } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import { useCommentState } from '../../stores/comment/commentStateContext';
 import { useCommentActions } from '../../stores/comment/commentActionContext';
-import axios from 'axios';
 
 const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
    const { user } = useAuthState();
-   const { deleteComment, fetchComments } = useCommentActions();
+   const { deleteComment } = useCommentActions();
    const { videoId } = useParams();
 
    function onDeleteClick(id) {
@@ -21,7 +19,7 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
 
    function renderActionBtn(comment) {
       return (
-         <ListGroup.Item p15 className='comment__actionbox'>
+         <ListGroup.Item flexwidth='15' className='comment__actionbox'>
             <Button modifiers='seablue' onClick={() => setCurrentTypedComment(comment)}>
                Edit
             </Button>
@@ -33,8 +31,8 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
    }
 
    return (
-      <ListGroup flexY='center' className={className}>
-         <ListGroup.Item p5>
+      <ListGroup flexy='center' className={className}>
+         <ListGroup.Item flexwidth='5'>
             <ImageContainer>
                <Image
                   modifiers='round'
@@ -43,7 +41,7 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
                />
             </ImageContainer>
          </ListGroup.Item>
-         <ListGroup.Item p75 className='comment__commentbox'>
+         <ListGroup.Item flexwidth='75' className='comment__commentbox'>
             <Paragraph modifiers={['small', 'bold']}>{comment.user.name}</Paragraph>
             <Paragraph modifiers='small'>{comment.comment}</Paragraph>
          </ListGroup.Item>

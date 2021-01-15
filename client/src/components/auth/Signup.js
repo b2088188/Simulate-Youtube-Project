@@ -1,18 +1,15 @@
-import * as R from 'ramda';
 import React, { useEffect, useRef } from 'react';
 import { useLocation, Redirect, useRouteMatch } from 'react-router-dom';
-import styled from 'styled-components';
 import { Col, FormContainer, Title, Span, Form, Label, Button } from '../../design/components';
 import { useForm } from 'react-hook-form';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useAuthActions } from '../../stores/auth/authActionContext';
-import Alerts from '../../utils/alerts/Alerts';
 import { Message, Spinner } from '../../design/elements';
 
 const Signup = () => {
    const { user, statusAuth, errorAuth } = useAuthState();
    const { signup, resetAuthError } = useAuthActions();
-   const { register, errors, handleSubmit, reset, watch, dirtyFields } = useForm();
+   const { register, errors, handleSubmit, watch } = useForm();
    const { url } = useRouteMatch();
    const password = useRef({});
    password.current = watch('password', '');
@@ -31,7 +28,6 @@ const Signup = () => {
             <Message severity='error' text={errorAuth} />
          ) : null}
          <FormContainer width={{ desktop: '50%', tabland: '70%', tabport: '90%' }}>
-            <Alerts />
             <Title modifiers='big'>
                Account <Span modifiers='primary'>Signup</Span>
             </Title>

@@ -36,21 +36,21 @@ export const List = styled.ul`
          ? media.phone(setFlex({ direction: flexDirection.phone }))
          : null}
    // flex & justify-content & align-items
-    ${({ flexXY }) =>
-      flexXY && typeof flexXY === 'object' ? setFlex({ x: flexXY.x, y: flexXY.y }) : null}
-   ${({ flexXY }) =>
-      flexXY && flexXY.desktop ? setFlex({ x: flexXY.desktop.x, y: flexXY.desktop.y }) : null}
-   ${({ flexXY }) =>
-      flexXY && flexXY.tabland
-         ? media.tabland(setFlex({ x: flexXY.tabland.x, y: flexXY.tabland.y }))
+    ${({ flexxy }) =>
+      flexxy && typeof flexxy === 'object' ? setFlex({ x: flexxy.x, y: flexxy.y }) : null}
+   ${({ flexxy }) =>
+      flexxy && flexxy.desktop ? setFlex({ x: flexxy.desktop.x, y: flexxy.desktop.y }) : null}
+   ${({ flexxy }) =>
+      flexxy && flexxy.tabland
+         ? media.tabland(setFlex({ x: flexxy.tabland.x, y: flexxy.tabland.y }))
          : null}
-   ${({ flexXY }) =>
-      flexXY && flexXY.tabport
-         ? media.tabport(setFlex({ x: flexXY.tabport.x, y: flexXY.tabport.y }))
+   ${({ flexxy }) =>
+      flexxy && flexxy.tabport
+         ? media.tabport(setFlex({ x: flexxy.tabport.x, y: flexxy.tabport.y }))
          : null}
-   ${({ flexXY }) =>
-      flexXY && flexXY.phone
-         ? media.phone(setFlex({ x: flexXY.phone.x, y: flexXY.phone.y }))
+   ${({ flexxy }) =>
+      flexxy && flexxy.phone
+         ? media.phone(setFlex({ x: flexxy.phone.x, y: flexxy.phone.y }))
          : null}
    // flex & align-items
     ${({ flexY }) => (flexY && typeof flexY === 'string' ? setFlex({ y: flexY }) : null)}

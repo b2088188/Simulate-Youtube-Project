@@ -18,19 +18,13 @@ import { useSubscribeState } from '../../stores/subscriptions/subscribeStateCont
 import { useSubscribeActions } from '../../stores/subscriptions/subscribeActionContext';
 import ChannelItem from './ChannelItem';
 import { Spinner, Message } from '../../design/elements';
-import axios from 'axios';
 
 const ChannelView = ({ className }) => {
    const { user } = useAuthState();
    const { channel, channelVideos, statusChannel, errorChannel } = useChannelState();
    const { getChannelVideos, channelSubscribeHandle } = useChannelActions();
-   const {
-      getCurrentSubscribe,
-      getUserSubscriptions,
-      createSubscribe,
-      deleteSubscribe
-   } = useSubscribeActions();
-   const { currentUserSub, stateCurrentSubscribe, errorCurrentSubscribe } = useSubscribeState();
+   const { getCurrentSubscribe, createSubscribe, deleteSubscribe } = useSubscribeActions();
+   const { currentUserSub } = useSubscribeState();
    const { channelId } = useParams();
    const [toLogin, setToLogin] = useState(false);
    const isSubscribed = currentUserSub ? true : false;
@@ -41,12 +35,6 @@ const ChannelView = ({ className }) => {
    useEffect(() => {
       if (user && channel) getCurrentSubscribe(user._id, channel._id);
    }, [user, channel, getCurrentSubscribe]);
-
-   function renderChannelVideos(list) {
-      return list.map(function generateItem(video) {
-         return <ChannelItem key={video._id} video={video} />;
-      });
-   }
 
    function onSubscribeHandle(isSubscribed, user, channel) {
       return async function () {
@@ -59,48 +47,52 @@ const ChannelView = ({ className }) => {
          }
       };
    }
+   function renderChannelVideos(list) {
+      return list.map(function generateItem(video) {
+         return <ChannelItem key={video._id} video={video} />;
+      });
+   }
    if (toLogin) return <Redirect to='/login' />;
 
    if (statusChannel === 'idle' || statusChannel === 'pending') return <Spinner modifiers='dark' />;
-   if (statusChannel === 'rejected' && errorChannel) return <Message text={errorChannel} />;
-   if (statusChannel === 'resolved')
+   if (statusChannel === 'rejected' && errorChannel)
       return (
          <Col col_10>
-            <div className={className}>
-               <div className='channel__info'>
-                  <div className='channel__userbox'>
-                     <ImageContainer size={{ width: '7.5rem' }}>
-                        <Image modifiers='round' src={channel.image} />
-                     </ImageContainer>
-                     <div>
-                        <Title modifiers={['medium', 'light']}>{channel.title}</Title>
-                        <Span modifiers={['medium', 'exlight']}>
-                           {channel.subscribes} subscribers
-                        </Span>
-                     </div>
+            <Message text={errorChannel} severity='error' />;
+         </Col>
+      );
+
+   if (statusChannel === 'resolved')
+      return (
+         <Col col_10 className={className}>
+            <div className='channel__info'>
+               <div className='channel__userbox'>
+                  <ImageContainer size={{ width: '7.5rem' }}>
+                     <Image modifiers='round' src={channel.image} />
+                  </ImageContainer>
+                  <div>
+                     <Title modifiers={['medium', 'light']}>{channel.title}</Title>
+                     <Span modifiers={['medium', 'exlight']}>{channel.subscribes} subscribers</Span>
                   </div>
-                  <Button
-                     modifiers={['light', `${isSubscribed ? 'disable' : 'outline'}`]}
-                     onClick={
-                        user
-                           ? onSubscribeHandle(isSubscribed, user, channel)
-                           : () => setToLogin(true)
-                     }
-                  >
-                     Subscribed
-                  </Button>
                </div>
-               <ListGroup flexY='center' flexWrap>
-                  {renderChannelVideos(channelVideos)}
-               </ListGroup>
+               <Button
+                  modifiers={['light', `${isSubscribed ? 'disable' : 'outline'}`]}
+                  onClick={
+                     user ? onSubscribeHandle(isSubscribed, user, channel) : () => setToLogin(true)
+                  }
+               >
+                  Subscribed
+               </Button>
             </div>
+            <ListGroup flexy='center' flexWrap>
+               {renderChannelVideos(channelVideos)}
+            </ListGroup>
          </Col>
       );
 };
 
 export default styled(ChannelView)`
    color: #fff;
-
    .channel {
       &__info {
          ${setFlex({ x: 'space-around', y: 'center' })}

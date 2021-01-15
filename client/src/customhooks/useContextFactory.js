@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 /* eslint-disable */
 function useContextFactory(name, context) {
    return function () {

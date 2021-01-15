@@ -20,11 +20,12 @@ const LISTGROUP_MODIFIERS = {
 export const ListGroup = styled.div`
    padding: 0.75rem 1.25rem;
    // flex & align-items
-   ${({ flexY }) => (flexY && typeof flexY === 'string' ? setFlex({ y: flexY }) : null)}
-   ${({ flexY }) => (flexY && flexY.desktop ? setFlex({ y: flexY.desktop }) : null)}
-   ${({ flexY }) => (flexY && flexY.tabland ? media.tabland(setFlex({ y: flexY.tabland })) : null)}
-   ${({ flexY }) => (flexY && flexY.tabport ? media.tabport(setFlex({ y: flexY.tabport })) : null)}
-   ${({ flexY }) => (flexY && flexY.phone ? media.phone(setFlex({ y: flexY.phone })) : null)}
+   ${({ flexy }) => (flexy && typeof flexy === 'string' ? setFlex({ y: flexy }) : null)}
+   ${({ flexy }) => (flexy && flexy.desktop ? setFlex({ y: flexy.desktop }) : null)}
+   ${({ flexy }) => (flexy && flexy.tabland ? media.tabland(setFlex({ y: flexy.tabland })) : null)}
+   ${({ flexy }) => (flexy && flexy.tabport ? media.tabport(setFlex({ y: flexy.tabport })) : null)}
+   ${({ flexy }) => (flexy && flexy.phone ? media.phone(setFlex({ y: flexy.phone })) : null)}
+ 
    //Position
    ${(props) => props.xcenter && setFlex({ x: 'center' })}
    ${(props) => props.ycenter && setFlex({ y: 'center' })}
@@ -56,26 +57,29 @@ const ListGroupItem = styled.div`
     ${(props) => props.p10 && setFlexWidth({ width: '10' })}
     ${(props) => props.p5 && setFlexWidth({ width: '5' })}
     // flex & align-items
-   ${({ flexY }) => (flexY && typeof flexY === 'string' ? setFlex({ y: flexY }) : null)}
-   ${({ flexY }) => (flexY && flexY.desktop ? setFlex({ y: flexY.desktop }) : null)}
-   ${({ flexY }) => (flexY && flexY.tabland ? media.tabland(setFlex({ y: flexY.tabland })) : null)}
-   ${({ flexY }) => (flexY && flexY.tabport ? media.tabport(setFlex({ y: flexY.tabport })) : null)}
-   ${({ flexY }) => (flexY && flexY.phone ? media.phone(setFlex({ y: flexY.phone })) : null)}
+    ${({ flexy }) => (flexy && typeof flexy === 'string' ? setFlex({ y: flexy }) : null)}
+   ${({ flexy }) => (flexy && flexy.desktop ? setFlex({ y: flexy.desktop }) : null)}
+   ${({ flexy }) => (flexy && flexy.tabland ? media.tabland(setFlex({ y: flexy.tabland })) : null)}
+   ${({ flexy }) => (flexy && flexy.tabport ? media.tabport(setFlex({ y: flexy.tabport })) : null)}
+   ${({ flexy }) => (flexy && flexy.phone ? media.phone(setFlex({ y: flexy.phone })) : null)}
+  
    // flex-basis
-   ${({ flexWidth }) =>
-      flexWidth && typeof flexWidth === 'string' ? setFlexWidth({ width: flexWidth }) : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.desktop ? setFlexWidth({ width: flexWidth.desktop }) : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.tabland
-         ? media.tabland(setFlexWidth({ width: flexWidth.tabland }))
+   ${({ flexwidth }) =>
+      flexwidth && typeof flexwidth === 'string' ? setFlexWidth({ width: flexwidth }) : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.desktop ? setFlexWidth({ width: flexwidth.desktop }) : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.tabland
+         ? media.tabland(setFlexWidth({ width: flexwidth.tabland }))
          : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.tabport
-         ? media.tabport(setFlexWidth({ width: flexWidth.tabport }))
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.tabport
+         ? media.tabport(setFlexWidth({ width: flexwidth.tabport }))
          : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.phone ? media.phone(setFlexWidth({ width: flexWidth.phone })) : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.phone
+         ? media.phone(setFlexWidth({ width: flexwidth.phone }))
+         : null}   
     //Margin
     ${(props) => (props.mg ? setMargin({ x: props.mg.x, y: props.mg.y }) : null)}
     // margin horizontal

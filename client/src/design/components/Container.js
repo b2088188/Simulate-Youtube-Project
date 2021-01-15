@@ -77,6 +77,21 @@ export const ImageContainer = styled.div`
    ${({ width }) => (width && width.tabland ? media.tabland(`width: ${width.tabland};`) : null)}
    ${({ width }) => (width && width.tabport ? media.tabport(`width: ${width.tabport};`) : null)}
    ${({ width }) => (width && width.phone ? media.phone(`width: ${width.phone};`) : null)}
+    // flex-basis
+   ${({ flexWidth }) =>
+      flexWidth && typeof flexWidth === 'string' ? setFlexWidth({ width: flexWidth }) : null}
+   ${({ flexWidth }) =>
+      flexWidth && flexWidth.desktop ? setFlexWidth({ width: flexWidth.desktop }) : null}
+   ${({ flexWidth }) =>
+      flexWidth && flexWidth.tabland
+         ? media.tabland(setFlexWidth({ width: flexWidth.tabland }))
+         : null}
+   ${({ flexWidth }) =>
+      flexWidth && flexWidth.tabport
+         ? media.tabport(setFlexWidth({ width: flexWidth.tabport }))
+         : null}
+   ${({ flexWidth }) =>
+      flexWidth && flexWidth.phone ? media.phone(setFlexWidth({ width: flexWidth.phone })) : null}
    //Margin
    ${({ mr }) => (mr && typeof mr === 'string' ? `margin-right: ${mr};` : null)}
    ${({ mr }) => (mr && mr.desktop ? `margin-right: ${mr.desktop};` : null)}
@@ -85,5 +100,4 @@ export const ImageContainer = styled.div`
    ${({ mr }) => (mr && mr.phone ? media.phone(`margin-right: ${mr.phone};`) : null)}
    ${(props) =>
       props.size ? setSize({ width: props.size.width, height: props.size.height }) : null}
-   ${(props) => (props.flexWidth ? setFlexWidth({ width: props.flexWidth }) : null)};
 `;

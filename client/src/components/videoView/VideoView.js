@@ -14,7 +14,7 @@ import {
    Image,
    Span
 } from '../../design/components';
-import { setFlex, colorGrey, media } from '../../design/utils';
+import { media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useVideoState } from '../../stores/video/videoStateContext';
 import { useVideoActions } from '../../stores/video/videoActionContext';
@@ -23,11 +23,8 @@ import { useLikeActions } from '../../stores/likes/likeActionContext';
 import { useSubscribeState } from '../../stores/subscriptions/subscribeStateContext';
 import { useSubscribeActions } from '../../stores/subscriptions/subscribeActionContext';
 import CommentView from '../commentView/CommentView';
-import { Embed } from 'semantic-ui-react';
 import { ThumbUp } from '@material-ui/icons';
-import { Accordion } from 'semantic-ui-react';
 import { formatDate } from '../../utils/Format';
-import axios from 'axios';
 import { Message, Spinner } from '../../design/elements';
 
 const VideoView = ({ history, className }) => {
@@ -35,16 +32,10 @@ const VideoView = ({ history, className }) => {
    const { videoId } = useParams();
    const { video, statusVideo, errorVideo } = useVideoState();
    const { getVideoById, videoLikeHandle, videoSubscribeHandle } = useVideoActions();
-   const { userLikes, currentUserLike, statusUserLikes, errorUserLikes } = useLikeState();
+   const { currentUserLike } = useLikeState();
    const { getCurrentLike, createLike, deleteLike } = useLikeActions();
-   const {
-      getCurrentSubscribe,
-      getUserSubscriptions,
-      createSubscribe,
-      deleteSubscribe
-   } = useSubscribeActions();
-   const { currentUserSub, statusUserSubscriptions, errorUserSubscriptions } = useSubscribeState();
-   const { fetchSubs } = useSubscribeActions();
+   const { getCurrentSubscribe, createSubscribe, deleteSubscribe } = useSubscribeActions();
+   const { currentUserSub } = useSubscribeState();
    const [descriptionShow, setDescriptionShow] = useState(false);
    const isSubscribed = currentUserSub ? true : false;
    const isLiked = currentUserLike ? true : false;
@@ -86,7 +77,12 @@ const VideoView = ({ history, className }) => {
    }
 
    if (statusVideo === 'idle' || statusVideo === 'pending') return <Spinner modifiers='dark' />;
-   if (statusVideo === 'rejected' && errorVideo) return <Message text={errorVideo} />;
+   if (statusVideo === 'rejected' && errorVideo)
+      return (
+         <Col width='10'>
+            <Message severity='error' text={errorVideo} />
+         </Col>
+      );
    if (statusVideo === 'resolved')
       return (
          <Col width='10' className={className}>
@@ -94,12 +90,12 @@ const VideoView = ({ history, className }) => {
                <div className='video__videobox'>
                   <Video src={videoSrc} title='video player' />
                </div>
-               <ListGroup ycenter className='video__titlebox'>
+               <ListGroup flexy='center' className='video__titlebox'>
                   <ListGroup.Item p70>
                      <Title modifiers='medium'>{video.title}</Title>
                      <Paragraph modifiers='small'>{formatDate(video.publishedAt)}</Paragraph>
                   </ListGroup.Item>
-                  <ListGroup.Item p30 flexY='center'>
+                  <ListGroup.Item p30 flexy='center'>
                      <Button
                         modifiers='transparent'
                         pd='0'
@@ -120,8 +116,8 @@ const VideoView = ({ history, className }) => {
                   </ListGroup.Item>
                </ListGroup>
                <ListGroup modifiers='vertical' className='video__info'>
-                  <ListGroup.Item flexY='center' mb='0.5rem'>
-                     <SLink as={Link} flexWidth='5' mr='1rem' to={`/channel/${video.channel._id}`}>
+                  <ListGroup.Item flexy='center' mb='0.5rem'>
+                     <SLink as={Link} flexwidth='5' mr='1rem' to={`/channel/${video.channel._id}`}>
                         <ImageContainer>
                            <Image modifiers='round' src={video.channel.image} alt='Author image' />
                         </ImageContainer>

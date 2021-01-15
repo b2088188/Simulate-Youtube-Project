@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Col, List, Link as SLink, Span, Button, Title, Icon } from '../../design/components';
 import { setFlex, colorGrey, colorPrimary } from '../../design/utils';
-import { ThumbUp, Home, Subscriptions } from '@material-ui/icons';
+import { ThumbUp, Home } from '@material-ui/icons';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import SubscribeView from '../../components/subscribeView/SubscribeView';
@@ -38,11 +38,10 @@ const Sidebar = ({ className }) => {
             <List
                my={{ desktop: '2.5rem', tabport: '0' }}
                flexDirection={{ desktop: 'column', tabport: 'row' }}
-               flexXY={{ tabport: { x: 'center', y: 'center' } }}
+               flexxy={{ tabport: { x: 'center', y: 'center' } }}
             >
                <SideBarItem icon={Home} text='Home' to='/' />
                {user ? <SideBarItem icon={ThumbUp} text='Liked Videos' to='/likelist' /> : null}
-               <SideBarItem icon={Subscriptions} text='Subscriptions' to='/' />
             </List>
             {user ? <SubscribeView /> : null}
             {!user ? renderSignIn() : null}
@@ -59,7 +58,7 @@ const Sidebar = ({ className }) => {
 function SideBarItem({ to, icon, text }) {
    return (
       <List.Item flow={{ color: colorPrimary.light }}>
-         <SLink as={Link} to={to} pdXY={{ x: '3rem', y: '1.5rem' }} className='link'>
+         <SLink as={Link} to={to} pdxy={{ x: '3rem', y: '1.5rem' }} className='link'>
             <Icon as={icon} modifiers='medium' />
             <Span modifiers='medium'>{text}</Span>
          </SLink>
