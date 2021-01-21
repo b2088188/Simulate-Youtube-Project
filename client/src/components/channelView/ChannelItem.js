@@ -4,11 +4,10 @@ import styled from 'styled-components';
 import { ListGroup, Link as SLink, ImageContainer, Image, Title } from '../../design/components';
 import { media } from '../../design/utils';
 import { formatShortTitle, formatDate } from '../../utils/Format';
-
 const ChannelItem = ({ video, className }) => {
    return (
       <ListGroup.Item
-         flexwidth={{ desktop: '15', tabland: '20', tabport: '30', phone: '90' }}
+         width={{ desktop: '15', tabland: '20', tabport: '30', phone: '90' }}
          spacing={{ desktop: '2.5', tabport: '1.5', phone: '5' }}
          className={className}
       >
@@ -16,7 +15,7 @@ const ChannelItem = ({ video, className }) => {
             <ImageContainer>
                <Image src={video.images} alt={video.title} />
             </ImageContainer>
-            <div className='channelinfobox'>
+            <div>
                <Title as='h2' modifiers='small'>
                   {formatShortTitle(video.title)}
                </Title>

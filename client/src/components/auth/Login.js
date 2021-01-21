@@ -29,7 +29,7 @@ const Login = () => {
                Account <Span modifiers='primary'>Login</Span>
             </Title>
             <Form onSubmit={handleSubmit(login)}>
-               <Form.Group vertical>
+               <Form.Group mb='1'>
                   <Label modifiers='large'>Email</Label>
                   <Form.Input
                      modifiers='outline'
@@ -45,7 +45,7 @@ const Login = () => {
                   />
                   <p className='form__errormessage'>{errors.email && errors.email.message}</p>
                </Form.Group>
-               <Form.Group vertical>
+               <Form.Group mb='1'>
                   <Label modifiers='large'>Password</Label>
                   <Form.Input
                      modifiers='outline'

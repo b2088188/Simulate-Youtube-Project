@@ -4,10 +4,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 import { colorNormal, colorGrey } from '../utils';
 
-const Spinner = ({ className }) => {
-   return <CircularProgress className={className} />;
-};
-
 const SPINNER_MODIFIERS = {
    white: () => `
     color: ${colorNormal.white};
@@ -16,11 +12,12 @@ const SPINNER_MODIFIERS = {
   color: ${colorGrey.dark2};
   `
 };
+const Spinner = ({ className }) => {
+   return <CircularProgress className={className} />;
+};
 
 export default styled(Spinner)`
-   margin-left: 50%;
-   margin-top: 5rem;
-   margin-bottom: 5rem;
+   margin: 5rem auto;
    ${(props) => (props.color ? `color: ${props.color};` : null)}
    ${applyStyleModifiers(SPINNER_MODIFIERS)}
 `;

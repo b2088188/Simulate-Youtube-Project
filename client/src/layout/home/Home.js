@@ -1,8 +1,7 @@
-import React, { useEffect, useContext, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
-import { Container, Col, ListGroup } from '../../design/components';
-import { setFlex } from '../../design/utils';
+import { Col, ListGroup } from '../../design/components';
 import { useHomeState } from '../../stores/home/homeStateContext';
 import { useHomeActions } from '../../stores/home/homeActionContext';
 import HomeItem from './HomeItem';
@@ -24,7 +23,7 @@ const Home = ({ className }) => {
          });
          if (node) observer.current.observe(node);
       },
-      [statusVideos, hasMore]
+      [statusVideos, hasMore, pageChange]
    );
    useEffect(() => {
       getHomeVideos(page);
@@ -48,7 +47,7 @@ const Home = ({ className }) => {
    }
    return (
       <Col width='10' className={className}>
-         <ListGroup flexY='center' flexWrap>
+         <ListGroup flexy='center' wrap='true'>
             {renderResults(videos)}
             {statusVideos === 'idle' || statusVideos === 'pending' ? (
                <Spinner modifiers='dark' />

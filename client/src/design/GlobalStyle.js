@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { media } from './utils';
+import { media, colorGrey } from './utils';
 
 const GlobalStyle = createGlobalStyle`
 html {
@@ -10,6 +10,9 @@ html {
       `)}
      ${media.tabport(`
         font-size: 50%;
+      `)}
+     ${media.phone(`
+        font-size: 43.75%;
       `)}
 }
 *,
@@ -27,8 +30,8 @@ body {
     font-weight: 400;
     line-height: 1.6;
     min-height: 100vh;
-      color: var(--color-grey-dark-2);
-    background-color: var(--color-grey-light-1);  
+      color: ${colorGrey.dark2};
+    background-color: ${colorGrey.light1};  
 }
 
 

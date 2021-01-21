@@ -1,5 +1,3 @@
-import styled, { css, keyframes } from 'styled-components';
-
 export const setTransition = (
    { property, time, timing } = {
       property: 'all',

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Span } from '../components';
-import { setFlex } from '../utils';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { setFlex, media } from '../utils';
+import { Alert } from '@material-ui/lab';
 
 const Message = ({ variant, text, severity = 'warning', full, className }) => {
    return (
@@ -13,7 +13,11 @@ const Message = ({ variant, text, severity = 'warning', full, className }) => {
 };
 
 export default styled(Message)`
-   ${setFlex({ x: 'center', y: 'center' })}
    width: 50%;
    margin: 2.5rem auto;
+   ${setFlex({ x: 'center', y: 'center' })}
+   align-self: flex-start;
+   ${media.phone(`
+      width: 90%;
+      `)}
 `;

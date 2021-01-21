@@ -1,9 +1,8 @@
-import * as R from 'ramda';
-import React, { useReducer, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { SubscribeStateProvider } from './subscribeStateContext';
 import { SubscribeActionProvider } from './subscribeActionContext';
 import subscribesReducer from './subscribesReducer';
-import axios from 'axios';
+import { userRequest } from '../../apis/backend';
 import { ADD_SUBSCRIBE, DELETE_SUBSCRIBE, GET_SUBSCRIPTIONS, GET_CURRENTSUB } from '../types';
 import useAsync from '../../customhooks/useAsync';
 
@@ -19,7 +18,7 @@ const SubscribeStore = ({ children }) => {
 
    const getUserSubscriptions = useCallback(
       async function (userId) {
-         const { status } = await fetchUserSubs(axios.get(`/api/v1/users/${userId}/subscriptions`));
+         const { status } = await fetchUserSubs(userRequest.get(`/${userId}/subscriptions`));
          if (status === 'success') dispatchUserSubs({ type: GET_SUBSCRIPTIONS });
       },
       [fetchUserSubs, dispatchUserSubs]
@@ -28,7 +27,7 @@ const SubscribeStore = ({ children }) => {
    const getCurrentSubscribe = useCallback(
       async function (userId, channelId) {
          const { status } = await fetchUserSubs(
-            axios.get(`/api/v1/users/${userId}/subscriptions/${channelId}`)
+            userRequest.get(`/${userId}/subscriptions/${channelId}`)
          );
          if (status === 'success') dispatchUserSubs({ type: GET_CURRENTSUB });
       },
@@ -37,9 +36,7 @@ const SubscribeStore = ({ children }) => {
 
    const createSubscribe = useCallback(
       async function (userId, channel) {
-         const { status } = await fetchUserSubs(
-            axios.post(`/api/v1/users/${userId}/subscriptions`, { channel })
-         );
+         const { status } = await fetchUserSubs(userRequest.post(`/${userId}/subscriptions`));
          if (status === 'success') dispatchUserSubs({ type: ADD_SUBSCRIBE });
       },
       [fetchUserSubs, dispatchUserSubs]
@@ -47,7 +44,7 @@ const SubscribeStore = ({ children }) => {
 
    const deleteSubscribe = useCallback(
       async function (userId, channelId) {
-         await fetchUserSubs(axios.delete(`/api/v1/users/${userId}/subscriptions/${channelId}`));
+         await fetchUserSubs(userRequest.delete(`/${userId}/subscriptions/${channelId}`));
          dispatchUserSubs({ type: DELETE_SUBSCRIBE, payload: { channelId } });
       },
       [fetchUserSubs, dispatchUserSubs]

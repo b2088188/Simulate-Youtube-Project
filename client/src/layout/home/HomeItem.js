@@ -1,20 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ListGroup, ImageContainer, Image, Link, Title } from '../../design/components';
+import { ListGroup, ImageContainer, Image, Link as SLink, Title } from '../../design/components';
 import { colorGrey, setFlex, media } from '../../design/utils';
-import { Link as ReactLink } from 'react-router-dom';
 import { formatShortTitle } from '../../utils/Format';
 
 const HomeItem = ({ video, className, isLast, lastHomeElementRef }) => {
    return (
       <ListGroup.Item
-         flexWidth={{ desktop: '20', tabland: '30', tabport: '45', phone: '90' }}
+         width={{ desktop: '20', tabland: '30', tabport: '45', phone: '90' }}
          spacing={{ desktop: '2.5', tabland: '1.5', tabport: '2.5', phone: '5' }}
          ref={isLast ? lastHomeElementRef : null}
          className={className}
       >
-         <Link as={ReactLink} className='link' to={`/watch/${video.videoId}`}>
-            <ImageContainer width='100%'>
+         <SLink as={Link} to={`/watch/${video.videoId}`}>
+            <ImageContainer>
                <Image src={video.images} alt={video.title} />
             </ImageContainer>
             <div className='infobox'>
@@ -28,7 +28,7 @@ const HomeItem = ({ video, className, isLast, lastHomeElementRef }) => {
                   </Title>
                </div>
             </div>
-         </Link>
+         </SLink>
       </ListGroup.Item>
    );
 };

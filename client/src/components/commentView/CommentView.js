@@ -79,7 +79,7 @@ const CommentView = ({ className }) => {
                   </div>
                </Form>
             ) : null}
-            <div className='comment-view__container'>{renderComments(comments)}</div>
+            <div>{renderComments(comments)}</div>
          </div>
       );
 };

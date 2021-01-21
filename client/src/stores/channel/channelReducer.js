@@ -8,7 +8,8 @@ function channelReducer(currentState, action) {
             ...currentState,
             channel: action.payload.data.channel,
             channelVideos: action.payload.data.videos,
-            status: 'resolved'
+            status: 'resolved',
+            error: null
          };
       case ADD_SUBSCRIBETOCHANNEL:
          return {

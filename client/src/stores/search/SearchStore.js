@@ -19,9 +19,8 @@ const SearchStore = ({ children }) => {
    );
    const getSearchVideos = useCallback(
       async function (q, page) {
-         search('UC5CF7mLQZhvx8O5GODZAhdA');
          const { status } = await fetchSearchResults(
-            axios.get(`/api/v1/videos/?q=${q}&page=${page}`)
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/?q=${q}&page=${page}`)
          );
          if (status === 'success')
             dispatchSearchResults({
@@ -45,40 +44,40 @@ const SearchStore = ({ children }) => {
       [dispatchSearchResults]
    );
 
-   async function search(term) {
-      try {
-         // Search results
-         // const { data } = await Youtube.get('/search', {
-         //    params: {
-         //       q: term,
-         //       maxResults: 10,
-         //    },
-         // });
-         // const videos = data.items.map((el) => {
-         //    return {
-         //       videoId: el.id.videoId,
-         //       title: el.snippet.title,
-         //       description: el.snippet.description,
-         //       publishedAt: el.snippet.publishedAt,
-         //       images: el.snippet.thumbnails.medium.url,
-         //    };
-         // });
+   // async function search(term) {
+   //    try {
+   // Search results
+   // const { data } = await Youtube.get('/search', {
+   //    params: {
+   //       q: term,
+   //       maxResults: 10,
+   //    },
+   // });
+   // const videos = data.items.map((el) => {
+   //    return {
+   //       videoId: el.id.videoId,
+   //       title: el.snippet.title,
+   //       description: el.snippet.description,
+   //       publishedAt: el.snippet.publishedAt,
+   //       images: el.snippet.thumbnails.medium.url,
+   //    };
+   // });
 
-         // Video Results
-         const { data } = await Youtube.get('/channels', {
-            params: {
-               id: term
-            }
-         });
-         console.log({
-            title: data.items[0].snippet.title,
-            publishedAt: data.items[0].snippet.publishedAt,
-            image: data.items[0].snippet.thumbnails.medium.url
-         });
-      } catch (err) {
-         console.log(err);
-      }
-   }
+   // Video Results
+   //       const { data } = await Youtube.get('/channels', {
+   //          params: {
+   //             id: term
+   //          }
+   //       });
+   //       console.log({
+   //          title: data.items[0].snippet.title,
+   //          publishedAt: data.items[0].snippet.publishedAt,
+   //          image: data.items[0].snippet.thumbnails.medium.url
+   //       });
+   //    } catch (err) {
+   //       console.log(err);
+   //    }
+   // }
 
    const value = useMemo(
       () => ({

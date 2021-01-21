@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Col, List, Link as SLink, Span, Button, Title, Icon } from '../../design/components';
+import { Col, List, Link as SLink, Span, Button, Icon } from '../../design/components';
 import { setFlex, colorGrey, colorPrimary } from '../../design/utils';
 import { ThumbUp, Home } from '@material-ui/icons';
 import { useLocation, useHistory } from 'react-router-dom';

@@ -1,5 +1,4 @@
-import * as R from 'ramda';
-import React, { useReducer, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { LikeStateProvider } from './likeStateContext';
 import { LikeActionProvider } from './likeActionContext';
 import likeReducer from './likeReducer';
@@ -18,7 +17,9 @@ const LikeStore = ({ children }) => {
 
    const getUserLikes = useCallback(
       async function (action, userId) {
-         const { status } = await fetchUserLikes(axios.get(`/api/v1/users/${userId}/likes`));
+         const { status } = await fetchUserLikes(
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${userId}/likes`)
+         );
          if (status === 'success') dispatchUserLikes({ type: GET_USERLIKES });
       },
       [fetchUserLikes, dispatchUserLikes]
@@ -27,7 +28,9 @@ const LikeStore = ({ children }) => {
    const getCurrentLike = useCallback(
       async function (userId, videoId) {
          const { status } = await fetchUserLikes(
-            axios.get(`/api/v1/users/${userId}/likes/${videoId}`)
+            axios.get(
+               `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${userId}/likes/${videoId}`
+            )
          );
          if (status === 'success') dispatchUserLikes({ type: GET_CURRENTLIKE });
       },
@@ -37,7 +40,7 @@ const LikeStore = ({ children }) => {
    const createLike = useCallback(
       async function (userId, video) {
          const { status } = await fetchUserLikes(
-            axios.post(`/api/v1/users/${userId}/likes`, {
+            axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${userId}/likes`, {
                videoId: video.videoId,
                title: video.title,
                channelTitle: video.channel.title,
@@ -52,7 +55,9 @@ const LikeStore = ({ children }) => {
 
    const deleteLike = useCallback(
       async function (videoId) {
-         await fetchUserLikes(axios.delete(`/api/v1/likes/${videoId}`));
+         await fetchUserLikes(
+            axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/v1/likes/${videoId}`)
+         );
          dispatchUserLikes({ type: DELETE_USERLIKE, payload: { videoId } });
       },
       [fetchUserLikes, dispatchUserLikes]

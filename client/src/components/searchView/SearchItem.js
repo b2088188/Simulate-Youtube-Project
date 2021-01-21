@@ -10,7 +10,8 @@ import {
    ImageContainer,
    ListGroup
 } from '../../design/components';
-import { formatDate } from '../../utils/Format';
+import { media } from '../../design/utils';
+import { formatDate, formatShortTitle } from '../../utils/Format';
 
 const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
    return (
@@ -22,7 +23,7 @@ const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
             <div className='search__descriptionbox'>
                <Title as='h2'>{result.title}</Title>
                <Paragraph modifiers='tini'>{formatDate(result.publishedAt)}</Paragraph>
-               <ListGroup flexY='center' pd={{ x: '0', y: '0' }}>
+               <ListGroup flexy='center' pd={{ x: '0', y: '0' }}>
                   <ImageContainer size={{ width: '3rem', height: '3rem' }}>
                      <Image src={result.channel?.image} modifiers='round' />
                   </ImageContainer>
@@ -30,8 +31,8 @@ const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
                      {result.channel?.title || ''}
                   </Title>
                </ListGroup>
-               <Paragraph modifiers='tini' className='search__descripton'>
-                  {result.description}
+               <Paragraph modifiers='tini' className='search__description'>
+                  {formatShortTitle(result.description)}
                </Paragraph>
             </div>
          </SLink>
@@ -61,20 +62,18 @@ export default styled(SearchItem)`
       &__descriptionbox {
          flex: 1;
          padding: 2rem 2rem;
-
-         @media only screen and (max-width: 75em) {
-            font-size: 50%;
+         ${media.tabport(`
             padding: 1rem 1rem;
-         }
+            `)}
       }
 
       &__description {
-         @media only screen and (max-width: 75em) {
+         ${media.tabport(`
             line-height: 1.5;
-         }
-         @media only screen and (max-width: 37.5em) {
+            `)}
+         ${media.phone(`
             display: none;
-         }
+            `)}
       }
    }
 `;

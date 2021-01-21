@@ -1,4 +1,4 @@
-import React, { useReducer, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { HomeStateProvider } from './homeStateContext';
 import { HomeActionProvider } from './homeActionContext';
 import homeReducer from './homeReducer';
@@ -20,7 +20,7 @@ const HomeStore = ({ children }) => {
    const getHomeVideos = useCallback(
       async function (page) {
          const { status } = await fetchHomeResults(
-            axios.get(`/api/v1/videos/?page=${page}&limit=12`)
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/?page=${page}&limit=12`)
          );
          if (status === 'success')
             dispatchHomeResults({

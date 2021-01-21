@@ -14,9 +14,14 @@ export const Container = styled.div`
 `;
 
 export const FormContainer = styled.div`
-   width: 50%;
-   margin: 2rem auto;
-   //Width
+   margin: 0 auto;
+   // margin vertical
+   ${({ my }) => (my && typeof my === 'string' ? `margin: ${my}rem auto;` : null)}
+   ${({ my }) => (my && my.desktop ? `margin: ${my.desktop}rem auto;` : null)}
+   ${({ my }) => (my && my.tabland ? media.tabland(`margin: ${my.tabland}rem auto;`) : null)}
+   ${({ my }) => (my && my.tabport ? media.tabport(`margin: ${my.tabport}rem auto;`) : null)}
+   ${({ my }) => (my && my.phone ? media.phone(`margin: ${my.phone}rem auto;`) : null)}
+   // width
    ${({ width }) => (width && typeof width === 'string' ? `width: ${width};` : null)}
    ${({ width }) => (width && width.desktop ? `width: ${width.desktop};` : null)}
    ${({ width }) => (width && width.tabland ? media.tabland(`width: ${width.tabland};`) : null)}
@@ -100,4 +105,45 @@ export const ImageContainer = styled.div`
    ${({ mr }) => (mr && mr.phone ? media.phone(`margin-right: ${mr.phone};`) : null)}
    ${(props) =>
       props.size ? setSize({ width: props.size.width, height: props.size.height }) : null}
+`;
+
+export const CenterWrapper = styled.div`
+   margin: 0 auto;
+   //margin vertical
+   ${({ my }) => (my && typeof my === 'string' ? `margin: ${my}rem auto;` : null)}
+   ${({ my }) => (my && my.desktop ? `margin: ${my.desktop}rem auto;` : null)}
+   ${({ my }) => (my && my.tabland ? media.tabland(`margin: ${my.tabland}rem auto;`) : null)}
+   ${({ my }) => (my && my.tabport ? media.tabport(`margin: ${my.tabport}rem auto;`) : null)}
+   ${({ my }) => (my && my.phone ? media.phone(`margin: ${my.phone}rem auto;`) : null)}
+   //Width
+   ${({ width }) => (width && typeof width === 'string' ? `width: ${width}%;` : null)}
+   ${({ width }) => (width && width.desktop ? `width: ${width.desktop}%;` : null)}
+   ${({ width }) => (width && width.tabland ? media.tabland(`width: ${width.tabland}%;`) : null)}
+   ${({ width }) => (width && width.tabport ? media.tabport(`width: ${width.tabport}%;`) : null)}
+   ${({ width }) => (width && width.phone ? media.phone(`width: ${width.phone}%;`) : null)}
+`;
+
+export const FlexWrapper = styled.div`
+   display: flex;
+   // flex-direction
+   ${({ direction }) =>
+      direction && typeof direction === 'string' ? `flex-direction: ${direction};` : null}
+   ${({ direction }) =>
+      direction && direction.desktop ? `flex-direction: ${direction.desktop};` : null}
+   ${({ direction }) =>
+      direction && direction.tabland
+         ? media.tabland(`flex-direction: ${direction.tabland};`)
+         : null}
+   ${({ direction }) =>
+      direction && direction.tabport
+         ? media.tabport(`flex-direction: ${direction.tabport};`)
+         : null}
+   ${({ direction }) =>
+      direction && direction.phone ? media.phone(`flex-direction: ${direction.phone};`) : null}
+         // align-items
+         ${({ y }) => (y && typeof y === 'string' ? `align-items: ${y};` : null)}
+   ${({ y }) => (y && y.desktop ? `align-items: ${y};` : null)}
+   ${({ y }) => (y && y.tabland ? media.tabland(`align-items: ${y.tabland};`) : null)}
+   ${({ y }) => (y && y.tabport ? media.tabport(`align-items: ${y.tabport};`) : null)}
+   ${({ y }) => (y && y.phone ? media.phone(`align-items: ${y.phone};`) : null)}
 `;

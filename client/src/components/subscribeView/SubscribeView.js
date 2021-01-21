@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Title, List } from '../../design/components';
-import { colorNormal, media } from '../../design/utils';
+import { colorGrey, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useSubscribeState } from '../../stores/subscriptions/subscribeStateContext';
 import { useSubscribeActions } from '../../stores/subscriptions/subscribeActionContext';
@@ -27,11 +27,11 @@ const SubscribeView = ({ className }) => {
    if (statusUserSubscriptions === 'resolved')
       return (
          <div className={className}>
-            <Title as='h2' color={colorNormal.white}>
+            <Title as='h2' className='subscribe__title'>
                Subscriptions
             </Title>
             <nav>
-               <List className='list'>{renderSubscriptions(userSubscriptions)}</List>
+               <List className='subscribe__list'>{renderSubscriptions(userSubscriptions)}</List>
             </nav>
          </div>
       );
@@ -41,9 +41,17 @@ export default styled(SubscribeView)`
    border-top: solid 0.1rem #fff;
    padding: 2rem 1rem;
    margin-bottom: auto;
-   .list {
-      ${media.tabport(`
+   ${media.tabport(`
+padding: 1rem;
+      `)}
+   .subscribe {
+      &__list {
+         ${media.tabport(`
        display: flex;
       `)}
+      }
+      &__title {
+         color: ${colorGrey.light1};
+      }
    }
 `;

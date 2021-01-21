@@ -13,7 +13,8 @@ function videoReducer(currentState, action) {
          return {
             ...currentState,
             video: action.payload.data.video,
-            status: 'resolved'
+            status: 'resolved',
+            error: null
          };
       case ADD_LIKETOVIDEO:
          return {

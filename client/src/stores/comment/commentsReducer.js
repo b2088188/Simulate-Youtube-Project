@@ -15,12 +15,13 @@ function commentsReducer(currentState, action) {
       case REQUEST_RESOLVED:
          return {
             ...currentState,
-            data: action.payload.data
+            data: action.payload.data,
+            error: null
          };
       case GET_COMMENTS:
          return {
             ...currentState,
-            comments: currentState.data.comments,
+            comments: currentState.data.doc,
             status: 'resolved'
          };
       case ADD_COMMENT:

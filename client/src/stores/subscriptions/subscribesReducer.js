@@ -13,7 +13,8 @@ function subscribeReducer(currentState, action) {
       case REQUEST_RESOLVED:
          return {
             ...currentState,
-            data: action.payload.data
+            data: action.payload.data,
+            error: null
          };
       case GET_SUBSCRIPTIONS:
          return {

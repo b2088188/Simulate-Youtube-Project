@@ -91,11 +91,11 @@ const VideoView = ({ history, className }) => {
                   <Video src={videoSrc} title='video player' />
                </div>
                <ListGroup flexy='center' className='video__titlebox'>
-                  <ListGroup.Item p70>
+                  <ListGroup.Item width='70'>
                      <Title modifiers='medium'>{video.title}</Title>
                      <Paragraph modifiers='small'>{formatDate(video.publishedAt)}</Paragraph>
                   </ListGroup.Item>
-                  <ListGroup.Item p30 flexy='center'>
+                  <ListGroup.Item flexy='center'>
                      <Button
                         modifiers='transparent'
                         pd='0'
@@ -123,10 +123,10 @@ const VideoView = ({ history, className }) => {
                         </ImageContainer>
                      </SLink>
                      <div>
-                        <Title as='h2' modifiers='bold'>
+                        <Title as='h2' modifiers='regular'>
                            {video.channel.title}
                         </Title>
-                        <Span>{video.channel.subscribes} subscribers</Span>
+                        <Span modifiers='medium'>{video.channel.subscribes} subscribers</Span>
                      </div>
                   </ListGroup.Item>
                   <ListGroup.Item>

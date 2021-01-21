@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorGrey, setFlex } from '../utils';
+import { colorGrey, setFlex, media } from '../utils';
 import { Title } from '../components/Title';
 import { Button } from '../components/Button';
-import { Span } from '../components/Span';
 import { Link } from '../components/Link';
 
 export const Form = styled.form`
@@ -13,9 +12,28 @@ export const Form = styled.form`
 `;
 
 export const FormGroup = styled.div`
-   margin-bottom: 1rem;
-   ${(props) => (props.vertical ? setFlex({ direction: 'column' }) : '')}
-   ${(props) => (props.horizontal ? setFlex({ direction: 'row' }) : '')}
+   // margin-bottom
+   ${({ mb }) => (mb && typeof mb === 'string' ? `margin-bottom: ${mb}rem;` : null)}
+   ${({ mb }) => (mb && mb.desktop ? `margin-bottom: ${mb.desktop}rem;` : null)}
+   ${({ mb }) => (mb && mb.tabland ? media.tabland(`margin-bottom: ${mb.tabland}rem;`) : null)}
+   ${({ mb }) => (mb && mb.tabport ? media.tabport(`margin-bottom: ${mb.tabport}rem;`) : null)}
+   ${({ mb }) => (mb && mb.phone ? media.phone(`margin-bottom: ${mb.phone}rem;`) : null)}
+   ${setFlex({ direction: 'column' })}
+   // flex-direction
+   ${({ direction }) =>
+      direction && typeof direction === 'string' ? setFlex({ direction }) : null}
+   ${({ direction }) =>
+      direction && direction.desktop ? setFlex({ direction: direction.desktop }) : null}
+   ${({ direction }) =>
+      direction && direction.tabland
+         ? media.tabland(setFlex({ direction: direction.tabland }))
+         : null}
+   ${({ direction }) =>
+      direction && direction.tabport
+         ? media.tabport(setFlex({ direction: direction.tabport }))
+         : null}
+   ${({ direction }) =>
+      direction && direction.phone ? media.phone(setFlex({ direction: direction.phone })) : null}
 `;
 Form.Group = FormGroup;
 

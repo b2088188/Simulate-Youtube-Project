@@ -1,21 +1,5 @@
 import styled from 'styled-components';
-import { applyStyleModifiers } from 'styled-components-modifiers';
-import { Title } from '../components/Title';
-import { Paragraph } from '../components/Paragraph';
-import { Span } from '../components/Span';
-import { Button } from '../components/Button';
 import { setFlex, setBorder, setFlexWidth, setMargin, setPadding, media } from '../utils';
-
-const LISTGROUP_MODIFIERS = {
-   horizontal: () => `
-        display: flex;
-        flex-direction: row;
-    `,
-   vertical: () => `
-        display: flex;
-        flex-direction: column;
-    `
-};
 
 export const ListGroup = styled.div`
    padding: 0.75rem 1.25rem;
@@ -34,52 +18,26 @@ export const ListGroup = styled.div`
   ${(props) => props.bdbottom && setBorder({ position: 'border-bottom' })}
     ${(props) => props.bdtop && setBorder({ position: 'border-top' })}
     ${(props) => props.pd && setPadding({ x: props.pd.x, y: props.pd.y })}
-    ${({ flexWrap }) => (flexWrap ? `flex-wrap: wrap` : null)}
-    ${applyStyleModifiers(LISTGROUP_MODIFIERS)}
+    ${({ wrap }) => (wrap ? `flex-wrap: wrap` : null)}
 `;
 
-const ITEM_MODIFIERS = {};
-
 const ListGroupItem = styled.div`
-   // Width
-   ${(props) => props.full && setFlexWidth({ width: '100' })}
-   ${(props) => props.p80 && setFlexWidth({ width: '80' })}
-    ${(props) => props.p75 && setFlexWidth({ width: '75' })}
-    ${(props) => props.p70 && setFlexWidth({ width: '70' })}
-    ${(props) => props.p60 && setFlexWidth({ width: '60' })}
-  ${(props) => props.half && setFlexWidth({ width: '50' })}
-    ${(props) => props.p40 && setFlexWidth({ width: '40' })}
-    ${(props) => props.p35 && setFlexWidth({ width: '35' })}
-    ${(props) => props.p30 && setFlexWidth({ width: '30' })}
-    ${(props) => props.p25 && setFlexWidth({ width: '25' })}
-    ${(props) => props.p20 && setFlexWidth({ width: '20' })}
-  ${(props) => props.p15 && setFlexWidth({ width: '15' })}
-    ${(props) => props.p10 && setFlexWidth({ width: '10' })}
-    ${(props) => props.p5 && setFlexWidth({ width: '5' })}
-    // flex & align-items
-    ${({ flexy }) => (flexy && typeof flexy === 'string' ? setFlex({ y: flexy }) : null)}
+   // flex & align-items
+   ${({ flexy }) => (flexy && typeof flexy === 'string' ? setFlex({ y: flexy }) : null)}
    ${({ flexy }) => (flexy && flexy.desktop ? setFlex({ y: flexy.desktop }) : null)}
    ${({ flexy }) => (flexy && flexy.tabland ? media.tabland(setFlex({ y: flexy.tabland })) : null)}
    ${({ flexy }) => (flexy && flexy.tabport ? media.tabport(setFlex({ y: flexy.tabport })) : null)}
    ${({ flexy }) => (flexy && flexy.phone ? media.phone(setFlex({ y: flexy.phone })) : null)}
   
    // flex-basis
-   ${({ flexwidth }) =>
-      flexwidth && typeof flexwidth === 'string' ? setFlexWidth({ width: flexwidth }) : null}
-   ${({ flexwidth }) =>
-      flexwidth && flexwidth.desktop ? setFlexWidth({ width: flexwidth.desktop }) : null}
-   ${({ flexwidth }) =>
-      flexwidth && flexwidth.tabland
-         ? media.tabland(setFlexWidth({ width: flexwidth.tabland }))
-         : null}
-   ${({ flexwidth }) =>
-      flexwidth && flexwidth.tabport
-         ? media.tabport(setFlexWidth({ width: flexwidth.tabport }))
-         : null}
-   ${({ flexwidth }) =>
-      flexwidth && flexwidth.phone
-         ? media.phone(setFlexWidth({ width: flexwidth.phone }))
-         : null}   
+   ${({ width }) => (width && typeof width === 'string' ? setFlexWidth({ width }) : null)}
+   ${({ width }) => (width && width.desktop ? setFlexWidth({ width: width.desktop }) : null)}
+   ${({ width }) =>
+      width && width.tabland ? media.tabland(setFlexWidth({ width: width.tabland })) : null}
+   ${({ width }) =>
+      width && width.tabport ? media.tabport(setFlexWidth({ width: width.tabport })) : null}
+   ${({ width }) =>
+      width && width.phone ? media.phone(setFlexWidth({ width: width.phone })) : null}   
     //Margin
     ${(props) => (props.mg ? setMargin({ x: props.mg.x, y: props.mg.y }) : null)}
     // margin horizontal

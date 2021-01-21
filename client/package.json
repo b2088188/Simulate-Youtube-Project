@@ -11,21 +11,15 @@
       "@testing-library/user-event": "^12.5.0",
       "axios": "^0.21.0",
       "moment": "^2.29.1",
-      "node-sass": "^4.14.1",
       "ramda": "^0.27.1",
       "ramda-extension": "^0.10.3",
       "react": "^17.0.1",
       "react-dom": "^17.0.1",
-      "react-error-boundary": "^3.1.0",
       "react-hook-form": "^6.12.2",
-      "react-infinite-scroller": "^1.2.4",
       "react-router-dom": "^5.2.0",
       "react-scripts": "4.0.1",
-      "semantic-ui-css": "^2.4.1",
-      "semantic-ui-react": "^2.0.1",
       "styled-components": "^5.2.1",
       "styled-components-modifiers": "^1.2.5",
-      "styled-system": "^5.1.5",
       "web-vitals": "^0.2.4"
    },
    "scripts": {
@@ -53,8 +47,8 @@
          "last 1 safari version"
       ]
    },
-   "proxy": "http://127.0.0.1:8000",
    "devDependencies": {
       "prettier": "^2.2.1"
-   }
+   },
+   "proxy": "http://127.0.0.1:8000"
 }

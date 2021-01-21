@@ -1,16 +1,13 @@
-import React, { useEffect, useContext } from 'react';
+import React from 'react';
 import { Link as ReactLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { Link, Icon } from '../../design/components';
 import { setFlex, colorNormal } from '../../design/utils';
 import YouTubeIcon from '@material-ui/icons/YouTube';
-import { useLocation } from 'react-router-dom';
 import SearchForm from './SearchForm';
 import UserNavigation from './UserNavigation';
 
 const Header = ({ className }) => {
-   let location = useLocation();
-
    return (
       <header className={className}>
          <Link as={ReactLink} to='/'>

@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ImageContainer, Link as SLink, Button, Image, Span } from '../../design/components';
@@ -8,7 +8,7 @@ import { useAuthActions } from '../../stores/auth/authActionContext';
 import { Spinner } from '../../design/elements';
 
 const UserNavigation = ({ className }) => {
-   const { user, statusAuth, errorAuth } = useAuthState();
+   const { user, statusAuth } = useAuthState();
    const { logout } = useAuthActions();
    function renderSignIn() {
       return (
@@ -16,7 +16,7 @@ const UserNavigation = ({ className }) => {
             <SLink
                as={Link}
                modifiers={['medium', 'round', 'gradient']}
-               pdXY={{ x: '1.25rem', y: '1rem' }}
+               className='user__button'
                to='/signup'
             >
                Register
@@ -24,7 +24,7 @@ const UserNavigation = ({ className }) => {
             <SLink
                as={Link}
                modifiers={['medium', 'round', 'gradient']}
-               pdXY={{ x: '1.25rem', y: '1rem' }}
+               className='user__button'
                mg={{ x: '1rem' }}
                to='/login'
             >
@@ -90,6 +90,9 @@ export default styled(UserNavigation)`
          ${media.phone(`
             display: none;
             `)}
+      }
+      &__button {
+         padding: 1rem 1.25rem;
       }
    }
 `;

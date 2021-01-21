@@ -1,30 +1,20 @@
 import styled from 'styled-components';
-import { applyStyleModifiers } from 'styled-components-modifiers';
-import {
-   colorGrey,
-   colorNormal,
-   setBorder,
-   setMargin,
-   setFlex,
-   setFlexWidth,
-   setPadding,
-   media
-} from '../utils';
+import { setFlexWidth, media } from '../utils';
 
 export const Navigation = styled.nav`
    // flex-basis
-   ${({ flexWidth }) =>
-      flexWidth && typeof flexWidth === 'string' ? setFlexWidth({ width: flexWidth }) : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.desktop ? setFlexWidth({ width: flexWidth.desktop }) : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.tabland
-         ? media.tabland(setFlexWidth({ width: flexWidth.tabland }))
+   ${({ flexwidth }) =>
+      flexwidth && typeof flexwidth === 'string' ? setFlexWidth({ width: flexwidth }) : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.desktop ? setFlexWidth({ width: flexwidth.desktop }) : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.tabland
+         ? media.tabland(setFlexWidth({ width: flexwidth.tabland }))
          : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.tabport
-         ? media.tabport(setFlexWidth({ width: flexWidth.tabport }))
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.tabport
+         ? media.tabport(setFlexWidth({ width: flexwidth.tabport }))
          : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.phone ? media.phone(setFlexWidth({ width: flexWidth.phone })) : null}
+   ${({ flexwidth }) =>
+      flexwidth && flexwidth.phone ? media.phone(setFlexWidth({ width: flexwidth.phone })) : null}
 `;

@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, Paragraph, ImageContainer, Image, ListGroup } from '../../design/components';
-import { setFlex } from '../../design/utils';
+import { Button, Paragraph, ImageContainer, Image, ListGroup, Icon } from '../../design/components';
+import { Menu } from '../../design/elements';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useCommentActions } from '../../stores/comment/commentActionContext';
-
+import { MenuItem } from '@material-ui/core';
+import { MoreVert } from '@material-ui/icons';
 const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
+   const [open, setOpen] = useState(false);
    const { user } = useAuthState();
    const { deleteComment } = useCommentActions();
    const { videoId } = useParams();
+   const anchorRef = useRef(null);
 
    function onDeleteClick(id) {
       return function () {
@@ -19,20 +22,32 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
 
    function renderActionBtn(comment) {
       return (
-         <ListGroup.Item flexwidth='15' className='comment__actionbox'>
-            <Button modifiers='seablue' onClick={() => setCurrentTypedComment(comment)}>
-               Edit
+         <ListGroup.Item>
+            {/*<Button modifiers='seablue' onClick={() => setCurrentTypedComment(comment)}>
+                           Edit
+                        </Button>
+                        <Button modifiers='primary' onClick={onDeleteClick(comment._id)}>
+                           Delete
+                        </Button>*/}
+
+            <Button
+               ref={anchorRef}
+               onClick={() => setOpen((prev) => !prev)}
+               modifiers='transparent'
+            >
+               <Icon as={MoreVert} />
             </Button>
-            <Button modifiers='primary' onClick={onDeleteClick(comment._id)}>
-               Delete
-            </Button>
+            <Menu open={open} setOpen={setOpen} anchorRef={anchorRef}>
+               <MenuItem onClick={() => setCurrentTypedComment(comment)}>Edit</MenuItem>
+               <MenuItem onClick={onDeleteClick(comment._id)}>Delete</MenuItem>
+            </Menu>
          </ListGroup.Item>
       );
    }
 
    return (
       <ListGroup flexy='center' className={className}>
-         <ListGroup.Item flexwidth='5'>
+         <ListGroup.Item width='5'>
             <ImageContainer>
                <Image
                   modifiers='round'
@@ -41,7 +56,7 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
                />
             </ImageContainer>
          </ListGroup.Item>
-         <ListGroup.Item flexwidth='75' className='comment__commentbox'>
+         <ListGroup.Item width='85' spacing='2.5'>
             <Paragraph modifiers={['small', 'bold']}>{comment.user.name}</Paragraph>
             <Paragraph modifiers='small'>{comment.comment}</Paragraph>
          </ListGroup.Item>
@@ -53,14 +68,5 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
 export default styled(CommentItem)`
    &:not(:last-child) {
       margin-bottom: 3rem;
-   }
-   .comment {
-      &__commentbox {
-         margin: 0 1%;
-      }
-      &__actionbox {
-         flex: 0 0 15%;
-         ${setFlex({ x: 'space-evenly' })}
-      }
    }
 `;

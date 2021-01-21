@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
+   FlexWrapper,
    List,
    Link as SLink,
    ImageContainer,
@@ -12,6 +13,7 @@ import {
    Button,
    Span
 } from '../../design/components';
+import { colorGrey } from '../../design/utils';
 import { Close, Delete } from '@material-ui/icons';
 import { Modal } from '../../design/elements';
 import { useLikeActions } from '../../stores/likes/likeActionContext';
@@ -42,22 +44,26 @@ const LikedItem = ({ like, className }) => {
                </Button>
             }
          >
-            <div>
+            <FlexWrapper direction='column' y='center'>
                <Title>Are you sure you want to remove this item?</Title>
-               <Button modifiers='outline' onClick={onDeleteClick(like.videoId)}>
+               <Button
+                  modifiers='outline'
+                  className='like__deletebtn'
+                  onClick={onDeleteClick(like.videoId)}
+               >
                   <Icon as={Delete} />
                   <Span>Remove</Span>
                </Button>
-            </div>
+            </FlexWrapper>
          </Modal>
          <SLink as={Link} to={`/watch/${like.videoId}`}>
-            <ListGroup ycenter>
-               <ListGroup.Item p20>
+            <ListGroup flexy='center'>
+               <ListGroup.Item width='20'>
                   <ImageContainer>
                      <Image src={like.image} alt={like.title} />
                   </ImageContainer>
                </ListGroup.Item>
-               <ListGroup.Item p75 mg={{ x: '1%' }}>
+               <ListGroup.Item width='75' mg={{ x: '1%' }}>
                   <Title as='h2' modifiers='small'>
                      {like.title}
                   </Title>
@@ -87,10 +93,14 @@ export default styled(LikedItem)`
       &__windowtitle {
          font-size: 1.7rem !important;
       }
+
       &__portalbtn {
          position: absolute;
          top: 0.5rem;
-         right: 0rem;
+         right: 0.5rem;
+      }
+      &__deletebtn {
+         color: ${colorGrey.dark2};
       }
    }
 `;

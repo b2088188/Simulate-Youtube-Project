@@ -1,12 +1,11 @@
-import * as R from 'ramda';
-import React, { useState, useEffect, useReducer, useMemo, useCallback } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { AuthStateProvider } from './authStateContext';
 import { AuthActionProvider } from './authActionContext';
 import authReducer from './authReducer';
 import useAsync from '../../customhooks/useAsync';
 import { Spinner } from '../../design/elements';
-import axios from 'axios';
-import { REQUEST_RESOLVED, GET_AUTHINFO, LOGOUT_AUTH, AUTH_ERRORRESET } from '../types';
+import { authRequest, userRequest } from '../../apis/backend';
+import { GET_AUTHINFO, LOGOUT_AUTH, AUTH_ERRORRESET } from '../types';
 
 const AuthStore = ({ children }) => {
    const [stateAuth, fetchAuth, dispatchAuth] = useAsync(
@@ -19,7 +18,7 @@ const AuthStore = ({ children }) => {
 
    const getInitialAuth = useCallback(
       async function () {
-         const { status } = await fetchAuth(axios.get('/api/v1/auth'));
+         const { status } = await fetchAuth(authRequest.get('/'));
          if (status === 'success') dispatchAuth({ type: GET_AUTHINFO });
       },
       [fetchAuth, dispatchAuth]
@@ -30,7 +29,7 @@ const AuthStore = ({ children }) => {
 
    const login = useCallback(
       async function (values) {
-         const { status } = await fetchAuth(axios.post('/api/v1/auth/login', values));
+         const { status } = await fetchAuth(authRequest.post('/login', values));
          if (status === 'success') dispatchAuth({ type: GET_AUTHINFO });
       },
       [fetchAuth, dispatchAuth]
@@ -38,7 +37,7 @@ const AuthStore = ({ children }) => {
 
    const signup = useCallback(
       async function (values) {
-         const { status } = await fetchAuth(axios.post('/api/v1/auth/signup', values));
+         const { status } = await fetchAuth(authRequest.post('/signup', values));
          if (status === 'success') dispatchAuth({ type: GET_AUTHINFO });
       },
       [fetchAuth, dispatchAuth]
@@ -46,7 +45,7 @@ const AuthStore = ({ children }) => {
 
    const logout = useCallback(
       async function (values) {
-         await fetchAuth(axios.get('/api/v1/auth/logout'));
+         await fetchAuth(authRequest.get('/logout'));
          dispatchAuth({ type: LOGOUT_AUTH });
       },
       [fetchAuth, dispatchAuth]
@@ -65,7 +64,7 @@ const AuthStore = ({ children }) => {
          formData.append('name', values.name);
          formData.append('email', values.email);
          formData.append('photo', values.photo[0]);
-         fetchAuth(axios.patch('/api/v1/users/updateMe', formData));
+         fetchAuth(userRequest.patch('/updateMe', formData));
       },
       [fetchAuth]
    );
@@ -81,7 +80,6 @@ const AuthStore = ({ children }) => {
 
    const actions = useMemo(
       () => ({
-         fetchAuth,
          login,
          signup,
          updateUserData,

@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { Col, List } from '../../design/components';
-import { media } from '../../design/utils';
+import { Col, CenterWrapper, List } from '../../design/components';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useLikeState } from '../../stores/likes/likeStateContext';
 import { useLikeActions } from '../../stores/likes/likeActionContext';
@@ -34,24 +32,13 @@ const LikedView = ({ className }) => {
    if (statusUserLikes === 'resolved')
       return (
          <Col width='10' className={className}>
-            <div className='like'>
+            <CenterWrapper width={{ desktop: '60', tabland: '70', tabport: '90' }} my='2'>
                <nav>
                   <List>{renderLikeList(userLikes)}</List>
                </nav>
-            </div>
+            </CenterWrapper>
          </Col>
       );
 };
 
-export default styled(LikedView)`
-   .like {
-      width: 60%;
-      margin: 2rem auto;
-      ${media.tabland(`
-      width: 70%;
-      `)}
-      ${media.tabport(`
-      width: 90%;
-      `)}
-   }
-`;
+export default LikedView;

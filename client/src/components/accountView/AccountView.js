@@ -35,13 +35,13 @@ const AccountView = ({ className }) => {
 
    return (
       <Col width='12' className={className}>
-         <FormContainer width={{ desktop: '50%', tabland: '70%', tabport: '90%' }}>
+         <FormContainer width={{ desktop: '50%', tabland: '70%', tabport: '90%' }} my='2'>
             <Title modifiers='big'>Your Account Settings</Title>
             {statusAuth === 'pending' ? (
                <Spinner modifiers='dark' />
             ) : (
                <Form onSubmit={handleSubmit(onUpdateUserData)}>
-                  <Form.Group vertical>
+                  <Form.Group mb='1'>
                      <Label modifiers='large'>Name</Label>
                      <Form.Input
                         modifiers='outline'
@@ -53,7 +53,7 @@ const AccountView = ({ className }) => {
                      />
                      <Paragraph>{errors.name && errors.name.message}</Paragraph>
                   </Form.Group>
-                  <Form.Group vertical>
+                  <Form.Group mb='1'>
                      <Label modifiers='large'>Email</Label>
                      <Form.Input
                         modifiers='outline'
@@ -69,11 +69,11 @@ const AccountView = ({ className }) => {
                      />
                      <Paragraph>{errors.email && errors.email.message}</Paragraph>
                   </Form.Group>
-                  <Form.Group horizontal>
+                  <Form.Group direction='row'>
                      <ImageContainer width={{ desktop: '5rem' }}>
                         <Image
                            modifiers='round'
-                           src='https://s.ytimg.com/yts/img/avatar_48-vfllY0UTT.png'
+                           src={`${process.env.REACT_APP_BACKEND_URL}/assets/users/user.jpg`}
                         />
                      </ImageContainer>
                      <Form.Input

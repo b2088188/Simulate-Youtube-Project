@@ -5,7 +5,7 @@ import channelReducer from './channelReducer';
 import Youtube from '../../apis/youtube';
 import useAsync from '../../customhooks/useAsync';
 import axios from 'axios';
-import { REQUEST_RESOLVED, ADD_SUBSCRIBETOCHANNEL, DELETE_SUBSCRIBETOCHANNEL } from '../types';
+import { ADD_SUBSCRIBETOCHANNEL, DELETE_SUBSCRIBETOCHANNEL } from '../types';
 
 const ChannelStore = ({ children }) => {
    const [stateChannel, fetchChannel, dispatchChannel] = useAsync(
@@ -18,7 +18,9 @@ const ChannelStore = ({ children }) => {
 
    const getChannelVideos = useCallback(
       async function (channelId) {
-         fetchChannel(axios.get(`/api/v1/channels/${channelId}/videos`));
+         fetchChannel(
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/channels/${channelId}/videos`)
+         );
       },
       [fetchChannel]
    );

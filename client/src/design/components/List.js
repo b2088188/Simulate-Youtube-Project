@@ -1,15 +1,5 @@
 import styled from 'styled-components';
-import {
-   colorGrey,
-   colorNormal,
-   setBorder,
-   setFlowToRight,
-   setMargin,
-   setFlex,
-   setFlexWidth,
-   setPadding,
-   media
-} from '../utils';
+import { setFlowToRight, setMargin, setFlex, setFlexWidth, setPadding, media } from '../utils';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
 const LIST_MODIFIERS = {};

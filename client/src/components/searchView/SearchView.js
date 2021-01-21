@@ -47,7 +47,6 @@ const SearchView = ({ className }) => {
                isLast={i + 1 === arr.length}
             />
          );
-         return <SearchItem key={result._id} result={result} />;
       });
    }
 
@@ -65,7 +64,7 @@ const SearchView = ({ className }) => {
       );
    return (
       <Col width='10' className={className}>
-         <Navigation flexWidth={{ desktop: '60', tabland: '70', tabport: '90' }}>
+         <Navigation flexwidth={{ desktop: '60', tabland: '70', tabport: '90' }}>
             <List>{renderSearchList(videos)}</List>
             {statusVideos === 'idle' || statusVideos === 'pending' ? (
                <Spinner modifiers='dark' />

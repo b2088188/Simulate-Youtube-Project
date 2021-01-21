@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { FormContainer, Form, Icon, Button } from '../../design/components';
+import { Form, Icon, Button } from '../../design/components';
 import { media } from '../../design/utils';
 import SearchIcon from '@material-ui/icons/Search';
 const SearchForm = ({ className }) => {
-   const { register, errors, handleSubmit, reset } = useForm();
+   const { register, handleSubmit } = useForm();
    const history = useHistory();
 
    function onSubmit({ term }) {
@@ -15,7 +15,7 @@ const SearchForm = ({ className }) => {
 
    return (
       <Form onSubmit={handleSubmit(onSubmit)} className={className}>
-         <Form.Group>
+         <Form.Group direction='row'>
             <Form.Input
                modifiers='round'
                type='text'
@@ -46,6 +46,9 @@ export default styled(SearchForm)`
       }
       &__icon {
          margin-left: -5rem;
+         ${media.phone(`
+            margin-left: 0;
+            `)}
       }
    }
 `;

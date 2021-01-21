@@ -4,15 +4,7 @@ import catchAsync from '../utils/catchAsync.js';
 import AppError from '../utils/appError.js';
 import {createOne} from './handlerFactory.js';
 
-export const createChannel = catchAsync(async (req, res, next) => {
-	const channel = await Channel.create(req.body);
-	res.status(201).json({
-		status: 'success',
-		data: {
-			channel
-		}
-	})
-})
+export const createChannel = createOne(Channel);
 
 export const getChannelVideos = catchAsync(async (req, res, next) => {
 	const channel = await Channel.findById(req.params.channelId);

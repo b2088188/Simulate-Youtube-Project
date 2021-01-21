@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { flexBox } from 'styled-system';
 import { colorGrey, setPadding, setMargin, setFlex, setFlexWidth, media } from '../utils';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
@@ -102,20 +101,6 @@ ${({ pdxy }) => (pdxy && typeof pdxy === 'object' ? setPadding({ x: pdxy.x, y: p
    ${({ flexwidth }) =>
       flexwidth && flexwidth.phone ? media.phone(setFlexWidth({ width: flexwidth.phone })) : null}
 
-   ${({ flexWidth }) =>
-      flexWidth && typeof flexWidth === 'string' ? setFlexWidth({ width: flexWidth }) : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.desktop ? setFlexWidth({ width: flexWidth.desktop }) : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.tabland
-         ? media.tabland(setFlexWidth({ width: flexWidth.tabland }))
-         : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.tabport
-         ? media.tabport(setFlexWidth({ width: flexWidth.tabport }))
-         : null}
-   ${({ flexWidth }) =>
-      flexWidth && flexWidth.phone ? media.phone(setFlexWidth({ width: flexWidth.phone })) : null}
   ${(props) =>
       props.mg
          ? setMargin({

@@ -1,7 +1,7 @@
 import Subscribe from '../models/subscribeModel.js'
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
-import {createOne} from './handlerFactory.js'
+import {createOne, getOneByUserAndParam} from './handlerFactory.js'
 
 
 export const addSubscribe = catchAsync(async (req, res, next) => {
@@ -22,8 +22,8 @@ export const addSubscribe = catchAsync(async (req, res, next) => {
 });
 
 export const getSubscribes = catchAsync(async (req, res, next) => {
-    const user = req.user;
-    const subscribes = await Subscribe.find({ user: user._id }).populate({
+    
+    const subscribes = await Subscribe.find({ user: req.user._id }).populate({
         path: 'channel',
         select: 'channelId title image'
     })

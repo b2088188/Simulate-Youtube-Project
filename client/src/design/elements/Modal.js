@@ -1,22 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
-import { Close } from '@material-ui/icons';
-import {
-   List,
-   Link as SLink,
-   ImageContainer,
-   Image,
-   Title,
-   ListGroup,
-   Icon,
-   Button,
-   Span,
-   Paragraph
-} from '../../design/components';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import { Modal, Backdrop, Fade, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
    modal: {
@@ -32,12 +16,8 @@ const useStyles = makeStyles((theme) => ({
    }
 }));
 
-function TransitionsModal({ toggleButton, open, setOpen, children, className }) {
+const TransitionsModal = ({ toggleButton, open, setOpen, children, className }) => {
    const classes = useStyles();
-
-   const handleOpen = () => {
-      setOpen(true);
-   };
 
    const handleClose = () => {
       setOpen(false);
@@ -64,6 +44,6 @@ function TransitionsModal({ toggleButton, open, setOpen, children, className }) 
          </Modal>
       </div>
    );
-}
+};
 
 export default styled(TransitionsModal)``;

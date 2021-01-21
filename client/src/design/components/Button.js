@@ -32,11 +32,12 @@ const BUTTON_MODIFIERS = {
     `,
    transparent: () => `
      background: none;
-     color: ${colorGrey.dark1};
+     color: currentColor;
+     padding: 0;
     `,
    outline: () => `
     background: none;
-     color: ${colorGrey.light2};
+     color: currentColor;
     border: solid .1rem currentColor;
     `,
    round: () => `

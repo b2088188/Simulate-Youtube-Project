@@ -32,7 +32,7 @@ const Signup = () => {
                Account <Span modifiers='primary'>Signup</Span>
             </Title>
             <Form onSubmit={handleSubmit(signup)}>
-               <Form.Group vertical>
+               <Form.Group mb='1'>
                   <Label modifiers='large'>Name</Label>
                   <Form.Input
                      modifiers='outline'
@@ -44,7 +44,7 @@ const Signup = () => {
                   />
                   <p className='form__errormessage'>{errors.name && errors.name.message}</p>
                </Form.Group>
-               <Form.Group vertical>
+               <Form.Group mb='1'>
                   <Label modifiers='large'>Email</Label>
                   <Form.Input
                      modifiers='outline'
@@ -60,7 +60,7 @@ const Signup = () => {
                   />
                   <p className='form__errormessage'>{errors.email && errors.email.message}</p>
                </Form.Group>
-               <Form.Group vertical>
+               <Form.Group mb='1'>
                   <Label modifiers='large'>Password</Label>
                   <Form.Input
                      modifiers='outline'
@@ -76,7 +76,7 @@ const Signup = () => {
                   />
                   <p className='form__errormessage'>{errors.password && errors.password.message}</p>
                </Form.Group>
-               <Form.Group vertical>
+               <Form.Group mb='1'>
                   <Label modifiers='large'>Password Confirm</Label>
                   <Form.Input
                      modifiers='outline'

@@ -3,6 +3,7 @@ import { useParams, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import {
    Col,
+   FlexWrapper,
    ImageContainer,
    Image,
    Title,
@@ -57,24 +58,24 @@ const ChannelView = ({ className }) => {
    if (statusChannel === 'idle' || statusChannel === 'pending') return <Spinner modifiers='dark' />;
    if (statusChannel === 'rejected' && errorChannel)
       return (
-         <Col col_10>
+         <Col width='10'>
             <Message text={errorChannel} severity='error' />;
          </Col>
       );
 
    if (statusChannel === 'resolved')
       return (
-         <Col col_10 className={className}>
+         <Col width='10' className={className}>
             <div className='channel__info'>
-               <div className='channel__userbox'>
-                  <ImageContainer size={{ width: '7.5rem' }}>
+               <FlexWrapper y='center'>
+                  <ImageContainer width='7.5rem'>
                      <Image modifiers='round' src={channel.image} />
                   </ImageContainer>
                   <div>
                      <Title modifiers={['medium', 'light']}>{channel.title}</Title>
                      <Span modifiers={['medium', 'exlight']}>{channel.subscribes} subscribers</Span>
                   </div>
-               </div>
+               </FlexWrapper>
                <Button
                   modifiers={['light', `${isSubscribed ? 'disable' : 'outline'}`]}
                   onClick={
@@ -84,7 +85,7 @@ const ChannelView = ({ className }) => {
                   Subscribed
                </Button>
             </div>
-            <ListGroup flexy='center' flexWrap>
+            <ListGroup flexy='center' wrap='true'>
                {renderChannelVideos(channelVideos)}
             </ListGroup>
          </Col>
@@ -101,11 +102,6 @@ export default styled(ChannelView)`
          ${media.phone(`
             padding: .5rem 1rem;
             `)}
-      }
-
-      &__userbox {
-         flex: 0 0 30%;
-         ${setFlex({ x: 'space-evenly', y: 'center' })}
       }
    }
 `;
