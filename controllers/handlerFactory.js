@@ -13,7 +13,7 @@ export const createOne = Model => catchAsync(async function (req, res, next) {
 });
 
 export const getAll = (Model, popOptions) => catchAsync(async function (req, res, next) {
-   const features = new APIFeatures(Model.find(), req.query).filter().paginate();
+   const features = new APIFeatures(Model.find(), req.query).filter().sort().paginate();
    if(popOptions)
       features.query = features.query.populate(popOptions);
    const doc = await features.query;

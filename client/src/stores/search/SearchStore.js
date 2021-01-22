@@ -1,9 +1,9 @@
-import React, { useReducer, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { SearchStateProvider } from './searchStateContext';
 import { SearchActionProvider } from './searchActionContext';
 import searchReducer from './searchReducer';
 import Youtube from '../../apis/youtube';
-import { GET_SEARCHRESULTS, PAGE_CHANGE, SEARCH_RESET } from '../types';
+import { GET_SEARCHRESULTS, SEARCH_RESET } from '../types';
 import useAsync from '../../customhooks/useAsync';
 import axios from 'axios';
 
@@ -12,7 +12,6 @@ const SearchStore = ({ children }) => {
       {
          data: {},
          videos: [],
-         page: 1,
          hasMore: false
       },
       searchReducer
@@ -28,13 +27,6 @@ const SearchStore = ({ children }) => {
             });
       },
       [fetchSearchResults, dispatchSearchResults]
-   );
-
-   const pageChange = useCallback(
-      function () {
-         dispatchSearchResults({ type: PAGE_CHANGE });
-      },
-      [dispatchSearchResults]
    );
 
    const searchReset = useCallback(
@@ -92,10 +84,9 @@ const SearchStore = ({ children }) => {
    const actions = useMemo(
       () => ({
          getSearchVideos,
-         pageChange,
          searchReset
       }),
-      [getSearchVideos, pageChange, searchReset]
+      [getSearchVideos, searchReset]
    );
 
    return (

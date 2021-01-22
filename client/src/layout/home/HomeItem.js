@@ -35,13 +35,13 @@ const HomeItem = ({ video, className, isLast, lastHomeElementRef }) => {
 
 export default styled(HomeItem)`
    margin-bottom: 1%;
+
    ${media.phone(`
     margin-bottom: 2.5%;
     `)}
    .infobox {
       ${setFlex({ y: 'center' })}
       margin-top: 1rem;
-      height: 30%;
    }
 
    .titlebox {

@@ -22,7 +22,9 @@ const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
             </ImageContainer>
             <div className='search__descriptionbox'>
                <Title as='h2'>{result.title}</Title>
-               <Paragraph modifiers='tini'>{formatDate(result.createdAt)}</Paragraph>
+               <Paragraph modifiers='tini'>
+                  {result.views} views • {formatDate(result.createdAt)}
+               </Paragraph>
                <ListGroup flexy='center' pd={{ x: '0', y: '0' }}>
                   <ImageContainer size={{ width: '3rem', height: '3rem' }}>
                      <Image src={result.channel?.image} modifiers='round' />

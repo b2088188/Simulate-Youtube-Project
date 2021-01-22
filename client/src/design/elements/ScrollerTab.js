@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AppBar, Tabs, Typography, Box } from '@material-ui/core';
+import { AppBar, Tabs } from '@material-ui/core';
 
 function ScrollerTab({ children, className }) {
    const [value, setValue] = React.useState(0);

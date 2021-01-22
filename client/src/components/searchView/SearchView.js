@@ -10,34 +10,46 @@ import { Spinner, Message } from '../../design/elements';
 import { NativeSelect, FormHelperText } from '@material-ui/core';
 
 const SearchView = ({ className }) => {
-   const { videos, page, hasMore, statusVideos, errorVideos } = useSearchState();
-   const { getSearchVideos, pageChange, searchReset } = useSearchActions();
+   const { videos, hasMore, statusVideos, errorVideos } = useSearchState();
+   const { getSearchVideos, searchReset } = useSearchActions();
    const { search } = useLocation();
    const observer = useRef();
    const lastSearchElementRef = useCallback(
       (node) => {
          if (statusVideos === 'pending') return;
          if (observer.current) observer.current.disconnect();
-         observer.current = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && hasMore) {
-               pageChange();
-            }
-         });
+         observer.current = new IntersectionObserver(
+            (entries) => {
+               console.log(entries[0]);
+               if (entries[0].isIntersecting && hasMore) {
+                  setPage((prev) => prev + 1);
+               }
+            },
+            { threshold: 0.9 }
+         );
          if (node) observer.current.observe(node);
       },
-      [statusVideos, hasMore, pageChange]
+      [statusVideos, hasMore]
    );
    const searchParams = new URLSearchParams(search);
    const q = searchParams.get('q');
    const [sortBy, setSortBy] = useState('');
+   const [page, setPage] = useState(1);
 
    useEffect(() => {
+      setPage(1);
       searchReset();
    }, [q, searchReset]);
 
    useEffect(() => {
-      getSearchVideos(q, page);
-   }, [q, page, getSearchVideos]);
+      getSearchVideos(q, page, sortBy);
+   }, [q, page, sortBy, getSearchVideos]);
+
+   function onSortClick(e) {
+      setPage(1);
+      searchReset();
+      setSortBy(e.target.value);
+   }
 
    function renderSearchList(list) {
       return list?.map(function generateItem(result, i, arr) {
@@ -67,20 +79,18 @@ const SearchView = ({ className }) => {
    return (
       <Col width='10' className={className}>
          <Navigation flexwidth={{ desktop: '60', tabland: '70', tabport: '90' }}>
-            {statusVideos === 'resolved' ? (
-               <>
-                  <NativeSelect
-                     value={sortBy}
-                     onChange={(e) => setSortBy(e.target.value)}
-                     name='category'
-                     inputProps={{ 'aria-label': 'age' }}
-                  >
-                     <option value=''>Relevance</option>
-                     <option value='createdAt'>Upload Date</option>
-                  </NativeSelect>
-                  <FormHelperText>Sort By</FormHelperText>
-               </>
-            ) : null}
+            <NativeSelect
+               value={sortBy}
+               onChange={onSortClick}
+               name='category'
+               inputProps={{ 'aria-label': 'age' }}
+            >
+               <option value=''>Relevance</option>
+               <option value='-createdAt'>Upload Date</option>
+               <option value='-views'>View Count</option>
+            </NativeSelect>
+            <FormHelperText>Sort By</FormHelperText>
+
             <List>{renderSearchList(videos)}</List>
             <FlexWrapper>
                {statusVideos === 'idle' || statusVideos === 'pending' ? (

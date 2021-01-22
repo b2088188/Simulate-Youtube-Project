@@ -93,7 +93,14 @@ const VideoView = ({ history, className }) => {
                <ListGroup flexy='center' className='video__titlebox'>
                   <ListGroup.Item width='70'>
                      <Title modifiers='medium'>{video.title}</Title>
-                     <Paragraph modifiers='small'>{formatDate(video.createdAt)}</Paragraph>
+                     <Paragraph modifiers='small'>
+                        {new Date(video.createdAt).toLocaleDateString('en-US', {
+                           year: 'numeric',
+                           month: 'long',
+                           day: 'numeric'
+                        })}{' '}
+                        • {video.views} views
+                     </Paragraph>
                   </ListGroup.Item>
                   <ListGroup.Item flexy='center'>
                      <Button

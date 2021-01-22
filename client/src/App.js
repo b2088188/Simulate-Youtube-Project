@@ -29,65 +29,49 @@ function App() {
       <StylesProvider injectFirst>
          <GlobalStyle />
          <AuthStore>
-            <HomeStore>
-               <LikeStore>
-                  <SearchStore>
-                     <SubscribeStore>
-                        <VideoStore>
+            <SubscribeStore>
+               <Suspense
+                  fallback={
+                     <Row>
+                        <Spinner modifiers='dark' />
+                     </Row>
+                  }
+               >
+                  <Router>
+                     <Header />
+                     <Container>
+                        <Row
+                           direction={{
+                              desktop: 'row',
+                              tabport: 'column'
+                           }}
+                        >
+                           <Sidebar />
+                           <Route exact path='/signup' component={Signup} />
+                           <Route exact path='/login' component={Login} />
+                           <HomeStore>
+                              <Route exact path='/' component={Home} />
+                           </HomeStore>
+                           <PrivateRoute exact path='/accounts' component={AccountView} />
+                           <SearchStore>
+                              <Route exact path='/results' component={SearchView} />
+                           </SearchStore>
+                           <LikeStore>
+                              <PrivateRoute exact path='/likelist' component={LikedView} />
+                              <VideoStore>
+                                 <CommentStore>
+                                    <Route exact path='/watch/:videoId' component={VideoView} />
+                                 </CommentStore>
+                              </VideoStore>
+                           </LikeStore>
                            <ChannelStore>
-                              <CommentStore>
-                                 <Suspense
-                                    fallback={
-                                       <Row>
-                                          <Spinner modifiers='dark' />
-                                       </Row>
-                                    }
-                                 >
-                                    <Router>
-                                       <Header />
-                                       <Container>
-                                          <Row
-                                             direction={{
-                                                desktop: 'row',
-                                                tabport: 'column'
-                                             }}
-                                          >
-                                             <Sidebar />
-                                             <Route exact path='/signup' component={Signup} />
-                                             <Route exact path='/login' component={Login} />
-                                             <Route exact path='/' component={Home} />
-                                             <PrivateRoute
-                                                exact
-                                                path='/accounts'
-                                                component={AccountView}
-                                             />
-                                             <PrivateRoute
-                                                exact
-                                                path='/likelist'
-                                                component={LikedView}
-                                             />
-                                             <Route exact path='/results' component={SearchView} />
-                                             <Route
-                                                exact
-                                                path='/watch/:videoId'
-                                                component={VideoView}
-                                             />
-                                             <Route
-                                                exact
-                                                path='/channel/:channelId'
-                                                component={ChannelView}
-                                             />
-                                          </Row>
-                                       </Container>
-                                    </Router>
-                                 </Suspense>
-                              </CommentStore>
+                              <Route exact path='/channel/:channelId' component={ChannelView} />
                            </ChannelStore>
-                        </VideoStore>
-                     </SubscribeStore>
-                  </SearchStore>
-               </LikeStore>
-            </HomeStore>
+                        </Row>
+                     </Container>
+                  </Router>
+               </Suspense>
+            </SubscribeStore>
          </AuthStore>
       </StylesProvider>
    );

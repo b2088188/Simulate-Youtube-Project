@@ -11,6 +11,11 @@ class APIFeatures {
 		this.query = this.query.find(queryObj);
 		return this;
 	}
+	sort(){
+		if(this.queryString.sort)
+			this.query = this.query.sort(this.queryString.sort.split(',').join(' '));
+		return this;
+	}
 	paginate() {
     const page = +this.queryString.page || 1;
     const limit = +this.queryString.limit || 5;
