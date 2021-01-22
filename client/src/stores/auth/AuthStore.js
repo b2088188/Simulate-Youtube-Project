@@ -3,9 +3,10 @@ import { AuthStateProvider } from './authStateContext';
 import { AuthActionProvider } from './authActionContext';
 import authReducer from './authReducer';
 import useAsync from '../../customhooks/useAsync';
+import { Row } from '../../design/components';
 import { Spinner } from '../../design/elements';
 import { authRequest, userRequest } from '../../apis/backend';
-import { GET_AUTHINFO, LOGOUT_AUTH, AUTH_ERRORRESET } from '../types';
+import { GET_AUTHINFO, LOGOUT_AUTH, AUTH_ERRORRESET, UPDATE_USERDATA } from '../types';
 
 const AuthStore = ({ children }) => {
    const [stateAuth, fetchAuth, dispatchAuth] = useAsync(
@@ -64,9 +65,10 @@ const AuthStore = ({ children }) => {
          formData.append('name', values.name);
          formData.append('email', values.email);
          formData.append('photo', values.photo[0]);
-         fetchAuth(userRequest.patch('/updateMe', formData));
+         const { status } = await fetchAuth(userRequest.patch('/updateMe', formData));
+         if (status === 'success') dispatchAuth({ type: UPDATE_USERDATA });
       },
-      [fetchAuth]
+      [fetchAuth, dispatchAuth]
    );
 
    const value = useMemo(
@@ -89,7 +91,12 @@ const AuthStore = ({ children }) => {
       [login, signup, updateUserData, logout, resetAuthError]
    );
 
-   if (!stateAuth.initialAuthCheck) return <Spinner modifiers='dark' />;
+   if (!stateAuth.initialAuthCheck)
+      return (
+         <Row>
+            <Spinner modifiers='dark' />
+         </Row>
+      );
 
    return (
       <AuthStateProvider value={value}>

@@ -18,6 +18,7 @@ const Spinner = ({ className }) => {
 
 export default styled(Spinner)`
    margin: 5rem auto;
-   ${(props) => (props.color ? `color: ${props.color};` : null)}
+   .MuiCircularProgress-root {
+   }
    ${applyStyleModifiers(SPINNER_MODIFIERS)}
 `;

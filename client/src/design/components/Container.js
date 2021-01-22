@@ -32,25 +32,24 @@ export const FormContainer = styled.div`
 
 export const Row = styled.div`
    ${setFlex({ wrap: 'wrap' })}
-   ${({ flexDirection }) =>
-      flexDirection && flexDirection.desktop ? setFlex({ direction: flexDirection.desktop }) : null}
-   ${({ flexDirection }) =>
-      flexDirection && flexDirection.tabland
-         ? media.tabland(setFlex({ direction: flexDirection.tabland }))
+   ${({ direction }) =>
+      direction && direction.desktop ? setFlex({ direction: direction.desktop }) : null}
+   ${({ direction }) =>
+      direction && direction.tabland
+         ? media.tabland(setFlex({ direction: direction.tabland }))
          : null}
-   ${({ flexDirection }) =>
-      flexDirection && flexDirection.tabport
-         ? media.tabport(setFlex({ direction: flexDirection.tabport }))
+   ${({ direction }) =>
+      direction && direction.tabport
+         ? media.tabport(setFlex({ direction: direction.tabport }))
          : null}
-   ${({ flexDirection }) =>
-      flexDirection && flexDirection.phone
-         ? media.phone(setFlex({ direction: flexDirection.phone }))
-         : null}
-   width: 100%;
+   ${({ direction }) =>
+      direction && direction.phone ? media.phone(setFlex({ direction: direction.phone })) : null}
+   max-width: 100%;
    min-height: inherit;
 `;
 
 export const Col = styled.div`
+   max-width: 100%;
    //Margin
    ${(props) => (props.mg ? setMargin({ x: props.mg.x, y: props.mg.y }) : null)}
    //Width

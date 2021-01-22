@@ -25,6 +25,7 @@ export default styled(Header)`
    background-color: ${colorNormal.white};
    border-bottom: solid 0.1rem var(--color-grey-light-2);
    ${setFlex({ x: 'space-between', y: 'center' })}
+
    @media only screen and (max-width: 37.5em) {
       flex-wrap: wrap;
       height: 11rem;

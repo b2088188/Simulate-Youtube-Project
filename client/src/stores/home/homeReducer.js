@@ -1,5 +1,5 @@
 import { fetchReducer } from '../../customhooks/useAsync';
-import { REQUEST_RESOLVED, GET_HOMERESULTS, PAGE_CHANGE, HOME_RESET } from '../types';
+import { REQUEST_RESOLVED, GET_HOMERESULTS, HOME_RESET } from '../types';
 
 function searchReducer(currentState, action) {
    switch (action.type) {
@@ -14,11 +14,6 @@ function searchReducer(currentState, action) {
             videos: [...currentState.videos, ...currentState.data.data],
             hasMore: currentState.data.data.length > 0,
             status: 'resolved'
-         };
-      case PAGE_CHANGE:
-         return {
-            ...currentState,
-            page: currentState.page + 1
          };
       case HOME_RESET:
          return {

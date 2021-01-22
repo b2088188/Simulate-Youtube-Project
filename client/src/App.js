@@ -36,12 +36,18 @@ function App() {
                         <VideoStore>
                            <ChannelStore>
                               <CommentStore>
-                                 <Suspense fallback={<Spinner />}>
+                                 <Suspense
+                                    fallback={
+                                       <Row>
+                                          <Spinner modifiers='dark' />
+                                       </Row>
+                                    }
+                                 >
                                     <Router>
                                        <Header />
                                        <Container>
                                           <Row
-                                             flexDirection={{
+                                             direction={{
                                                 desktop: 'row',
                                                 tabport: 'column'
                                              }}

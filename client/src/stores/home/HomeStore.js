@@ -3,7 +3,7 @@ import { HomeStateProvider } from './homeStateContext';
 import { HomeActionProvider } from './homeActionContext';
 import homeReducer from './homeReducer';
 import Youtube from '../../apis/youtube';
-import { GET_HOMERESULTS, PAGE_CHANGE, HOME_RESET } from '../types';
+import { GET_HOMERESULTS, HOME_RESET } from '../types';
 import useAsync from '../../customhooks/useAsync';
 import axios from 'axios';
 
@@ -12,29 +12,21 @@ const HomeStore = ({ children }) => {
       {
          data: {},
          videos: [],
-         page: 1,
          hasMore: false
       },
       homeReducer
    );
    const getHomeVideos = useCallback(
-      async function (page) {
-         const { status } = await fetchHomeResults(
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/?page=${page}&limit=12`)
-         );
+      async function (page, query) {
+         let url = `${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/?page=${page}&limit=16`;
+         if (query) url = `${url}&category=${query}`;
+         const { status } = await fetchHomeResults(axios.get(url));
          if (status === 'success')
             dispatchHomeResults({
                type: GET_HOMERESULTS
             });
       },
       [fetchHomeResults, dispatchHomeResults]
-   );
-
-   const pageChange = useCallback(
-      function () {
-         dispatchHomeResults({ type: PAGE_CHANGE });
-      },
-      [dispatchHomeResults]
    );
 
    const homeReset = useCallback(
@@ -92,10 +84,9 @@ const HomeStore = ({ children }) => {
    const actions = useMemo(
       () => ({
          getHomeVideos,
-         pageChange,
          homeReset
       }),
-      [getHomeVideos, pageChange, homeReset]
+      [getHomeVideos, homeReset]
    );
 
    return (

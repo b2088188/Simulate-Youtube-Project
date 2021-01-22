@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useCallback } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { Col, ListGroup } from '../../design/components';
 import { useHomeState } from '../../stores/home/homeStateContext';
 import { useHomeActions } from '../../stores/home/homeActionContext';
 import HomeItem from './HomeItem';
-import { Spinner } from '../../design/elements';
+import { Spinner, ScrollerTab } from '../../design/elements';
+import { Tab } from '@material-ui/core';
 
 const Home = ({ className }) => {
-   const { videos, statusVideos, page, hasMore } = useHomeState();
-   const { getHomeVideos, pageChange, homeReset } = useHomeActions();
-   const { url } = useRouteMatch();
+   const { videos, statusVideos, hasMore } = useHomeState();
+   const { getHomeVideos, homeReset } = useHomeActions();
+   const [query, setQuery] = useState('');
+   const [page, setPage] = useState(1);
    const observer = useRef();
    const lastHomeElementRef = useCallback(
       (node) => {
@@ -18,20 +19,28 @@ const Home = ({ className }) => {
          if (observer.current) observer.current.disconnect();
          observer.current = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && hasMore) {
-               pageChange();
+               setPage((prev) => prev + 1);
             }
          });
          if (node) observer.current.observe(node);
       },
-      [statusVideos, hasMore, pageChange]
+      [statusVideos, hasMore]
    );
-   useEffect(() => {
-      getHomeVideos(page);
-   }, [getHomeVideos, page]);
 
    useEffect(() => {
       homeReset();
-   }, [homeReset, url]);
+   }, [homeReset, query]);
+
+   useEffect(() => {
+      getHomeVideos(page, query);
+   }, [getHomeVideos, page, query]);
+
+   function queryChange(queryString) {
+      return function () {
+         setPage(1);
+         setQuery(queryString);
+      };
+   }
 
    function renderResults(list) {
       return list.map(function generateItem(video, i, arr) {
@@ -47,8 +56,23 @@ const Home = ({ className }) => {
    }
    return (
       <Col width='10' className={className}>
+         <ScrollerTab>
+            {['All', 'ASMR', 'React', 'JavaScript', 'Node', 'CSS', 'Bootstrap'].map(
+               function renderTabs(queryString) {
+                  return (
+                     <Tab
+                        label={queryString}
+                        key={queryString}
+                        onClick={queryChange(queryString === 'All' ? '' : queryString)}
+                     />
+                  );
+               }
+            )}
+         </ScrollerTab>
          <ListGroup flexy='center' wrap='true'>
             {renderResults(videos)}
+         </ListGroup>
+         <ListGroup flexy='center'>
             {statusVideos === 'idle' || statusVideos === 'pending' ? (
                <Spinner modifiers='dark' />
             ) : null}
@@ -58,5 +82,5 @@ const Home = ({ className }) => {
 };
 
 export default styled(Home)`
-   padding: 2rem;
+   padding: 0;
 `;

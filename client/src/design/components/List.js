@@ -7,24 +7,20 @@ export const List = styled.ul`
    font-size: 1.4rem;
    list-style: none;
    // flex & flex-direction
-   ${({ flexDirection }) =>
-      flexDirection && typeof flexDirection === 'string'
-         ? setFlex({ direction: flexDirection })
+   ${({ direction }) =>
+      direction && typeof direction === 'string' ? setFlex({ direction }) : null}
+   ${({ direction }) =>
+      direction && direction.desktop ? setFlex({ direction: direction.desktop }) : null}
+   ${({ direction }) =>
+      direction && direction.tabland
+         ? media.tabland(setFlex({ direction: direction.tabland }))
          : null}
-   ${({ flexDirection }) =>
-      flexDirection && flexDirection.desktop ? setFlex({ direction: flexDirection.desktop }) : null}
-   ${({ flexDirection }) =>
-      flexDirection && flexDirection.tabland
-         ? media.tabland(setFlex({ direction: flexDirection.tabland }))
+   ${({ direction }) =>
+      direction && direction.tabport
+         ? media.tabport(setFlex({ direction: direction.tabport }))
          : null}
-   ${({ flexDirection }) =>
-      flexDirection && flexDirection.tabport
-         ? media.tabport(setFlex({ direction: flexDirection.tabport }))
-         : null}
-   ${({ flexDirection }) =>
-      flexDirection && flexDirection.phone
-         ? media.phone(setFlex({ direction: flexDirection.phone }))
-         : null}
+   ${({ direction }) =>
+      direction && direction.phone ? media.phone(setFlex({ direction: direction.phone })) : null}
    // flex & justify-content & align-items
     ${({ flexxy }) =>
       flexxy && typeof flexxy === 'object' ? setFlex({ x: flexxy.x, y: flexxy.y }) : null}

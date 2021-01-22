@@ -18,10 +18,10 @@ const SearchStore = ({ children }) => {
       searchReducer
    );
    const getSearchVideos = useCallback(
-      async function (q, page) {
-         const { status } = await fetchSearchResults(
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/?q=${q}&page=${page}`)
-         );
+      async function (q, page, sortBy) {
+         let url = `${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/?q=${q}&page=${page}`;
+         if (sortBy) url = `${url}&sort=${sortBy}`;
+         const { status } = await fetchSearchResults(axios.get(url));
          if (status === 'success')
             dispatchSearchResults({
                type: GET_SEARCHRESULTS

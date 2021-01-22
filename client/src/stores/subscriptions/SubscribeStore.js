@@ -36,7 +36,9 @@ const SubscribeStore = ({ children }) => {
 
    const createSubscribe = useCallback(
       async function (userId, channel) {
-         const { status } = await fetchUserSubs(userRequest.post(`/${userId}/subscriptions`));
+         const { status } = await fetchUserSubs(
+            userRequest.post(`/${userId}/subscriptions`, { channel })
+         );
          if (status === 'success') dispatchUserSubs({ type: ADD_SUBSCRIBE });
       },
       [fetchUserSubs, dispatchUserSubs]

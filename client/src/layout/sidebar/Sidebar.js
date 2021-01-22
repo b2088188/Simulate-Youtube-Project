@@ -25,7 +25,7 @@ const Sidebar = ({ className }) => {
             <Span modifiers={['medium', 'light']} className='info'>
                Sign in to like videos, comment, and subscribe.
             </Span>
-            <Button modifiers='outline' onClick={() => history.push('/login')}>
+            <Button className='signin' modifiers='outline' onClick={() => history.push('/login')}>
                Sign In
             </Button>
          </div>
@@ -33,11 +33,11 @@ const Sidebar = ({ className }) => {
    }
 
    return (
-      <Col col_2>
+      <Col width='2'>
          <nav className={className}>
             <List
                my={{ desktop: '2.5rem', tabport: '0' }}
-               flexDirection={{ desktop: 'column', tabport: 'row' }}
+               direction={{ desktop: 'column', tabport: 'row' }}
                flexxy={{ tabport: { x: 'center', y: 'center' } }}
             >
                <SideBarItem icon={Home} text='Home' to='/' />
@@ -91,6 +91,10 @@ export default styled(Sidebar)`
    .info {
       color: ${colorGrey.light1};
       margin-bottom: 1rem;
+   }
+
+   .signin {
+      color: ${colorGrey.light1};
    }
 
    //Legal

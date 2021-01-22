@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Form, Button } from '../../design/components';
+import { Form, Button, FlexWrapper } from '../../design/components';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useCommentState } from '../../stores/comment/commentStateContext';
 import { useCommentActions } from '../../stores/comment/commentActionContext';
@@ -53,7 +53,11 @@ const CommentView = ({ className }) => {
    }
 
    if (statusComments === 'idle' || statusComments === 'pending')
-      return <Spinner modifiers='dark' />;
+      return (
+         <FlexWrapper>
+            <Spinner modifiers='dark' />
+         </FlexWrapper>
+      );
    if (statusComments === 'rejected' && errorComments)
       return <Message severity='error' text={errorComments} />;
    if (statusComments === 'resolved')

@@ -2,6 +2,7 @@ import { fetchReducer } from '../../customhooks/useAsync';
 import {
    REQUEST_RESOLVED,
    GET_AUTHINFO,
+   UPDATE_USERDATA,
    LOGOUT_AUTH,
    AUTH_ERRORRESET,
    REQUEST_REJECTED
@@ -16,6 +17,7 @@ function homeReducer(currentState, action) {
             error: null
          };
       case GET_AUTHINFO:
+      case UPDATE_USERDATA:
          if (!currentState.initialAuthCheck)
             return {
                ...currentState,
