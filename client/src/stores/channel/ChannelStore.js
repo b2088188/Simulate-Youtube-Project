@@ -16,7 +16,7 @@ const ChannelStore = ({ children }) => {
       channelReducer
    );
 
-   const [stateChannelVideos, fetchChannelVideos, dispatchChannelVideos] = useAsync({
+   const [stateChannelVideos, fetchChannelVideos] = useAsync({
       data: {}
    });
 

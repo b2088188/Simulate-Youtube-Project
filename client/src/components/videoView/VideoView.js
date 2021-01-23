@@ -24,7 +24,6 @@ import { useSubscribeState } from '../../stores/subscriptions/subscribeStateCont
 import { useSubscribeActions } from '../../stores/subscriptions/subscribeActionContext';
 import CommentView from '../commentView/CommentView';
 import { ThumbUp } from '@material-ui/icons';
-import { formatDate } from '../../utils/Format';
 import { Message, Spinner } from '../../design/elements';
 
 const VideoView = ({ history, className }) => {
