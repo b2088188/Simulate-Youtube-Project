@@ -7,6 +7,7 @@ import { Row } from '../../design/components';
 import { Spinner } from '../../design/elements';
 import { authRequest, userRequest } from '../../apis/backend';
 import { GET_AUTHINFO, LOGOUT_AUTH, AUTH_ERRORRESET, UPDATE_USERDATA } from '../types';
+import axios from 'axios';
 
 const AuthStore = ({ children }) => {
    const [stateAuth, fetchAuth, dispatchAuth] = useAsync(
