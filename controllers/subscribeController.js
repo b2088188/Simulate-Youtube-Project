@@ -5,7 +5,8 @@ import {createOne, getOneByUserAndParam} from './handlerFactory.js'
 
 
 export const addSubscribe = catchAsync(async (req, res, next) => {
-    let subscribe = new Subscribe({ user: req.user._id, ...req.body });
+    const userId = req.params.userId ? req.params.userId : req.user._id;
+    let subscribe = new Subscribe({ user: userId, ...req.body });
     subscribe =  await subscribe.save(function (err, subscribe) {
         subscribe.populate({
         path: 'channel',
@@ -22,8 +23,8 @@ export const addSubscribe = catchAsync(async (req, res, next) => {
 });
 
 export const getSubscribes = catchAsync(async (req, res, next) => {
-    
-    const subscribes = await Subscribe.find({ user: req.user._id }).populate({
+    const userId = req.params.userId ? req.params.userId : req.user._id;
+    const subscribes = await Subscribe.find({ user: userId }).populate({
         path: 'channel',
         select: 'channelId title image'
     })
@@ -37,8 +38,8 @@ export const getSubscribes = catchAsync(async (req, res, next) => {
 
 
 export const getSubscribe = catchAsync(async (req, res, next) => {
-    const user = req.user;
-    const subscribe = await Subscribe.findOne({ user: user._id, channel: req.params.channelId }).populate({
+    const userId = req.params.userId ? req.params.userId : req.user._id;
+    const subscribe = await Subscribe.findOne({ user: userId, channel: req.params.channelId }).populate({
         path: 'channel',
         select: 'channelId title image'
     })
@@ -51,7 +52,8 @@ export const getSubscribe = catchAsync(async (req, res, next) => {
 })
 
 export const deleteSubscribe = catchAsync(async (req, res, next) => {
-    const subscribe = await Subscribe.findOneAndRemove({user: req.user._id, channel: req.params.channelId});
+    const userId = req.params.userId ? req.params.userId : req.user._id;
+    const subscribe = await Subscribe.findOneAndRemove({user: userId, channel: req.params.channelId});
     if (!subscribe)
         return next(new AppError('Subscribe not found', 404));  
     res.status(204).json({
