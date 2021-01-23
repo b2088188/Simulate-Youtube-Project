@@ -11,12 +11,10 @@ export const signup = catchAsync(async (req, res, next) => {
 
 function createSendToken(user, statusCode, res) {
     const token = signToken(user._id);
-    const cookieOptions = {
-        //Cookie expired time
+    const cookieOptions = {        
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
-        //Send in HTTPS 
-
-        //Cookie cannot be accessed or modified by browser
+        secure: true,
+      sameSite: 'None',
         httpOnly: true
     }
     // if(process.env.NODE_ENV === 'production')
@@ -87,7 +85,9 @@ export const isLoggedIn = catchAsync(async (req, res, next) => {
 export const logout = (req, res) => {
     res.cookie('jwt', 'Logged Out', {
         expires: new Date(Date.now() + 10 * 1000),
-        httpOnly: true
+        httpOnly: true,
+        secure: true,
+      sameSite: 'None'
     })
     res.status(200).json({
         status: 'success'

@@ -9,9 +9,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.enable('trust proxy');
 app.use(
-    cors()
+    cors({
+        origin: 'https://app0529-7b508.web.app',
+        credentials: true
+    })
 );
 app.options('*', cors());
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'https://app0529-7b508.web.app');
+    res.header('Access-Control-Allow-Credentials', true);
+    next();
+});
 // app.use(function (req, res, next) {
 //     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
 //     res.header('Access-Control-Allow-Credentials', true);
