@@ -22,8 +22,15 @@ import { Spinner, Message } from '../../design/elements';
 
 const ChannelView = ({ className }) => {
    const { user } = useAuthState();
-   const { channel, channelVideos, statusChannel, errorChannel } = useChannelState();
-   const { getChannelVideos, channelSubscribeHandle } = useChannelActions();
+   const {
+      channel,
+      statusChannel,
+      errorChannel,
+      channelVideos,
+      statusChannelVideos,
+      errorChannelVideos
+   } = useChannelState();
+   const { getChannel, getChannelVideos, channelSubscribeHandle } = useChannelActions();
    const { getCurrentSubscribe, createSubscribe, deleteSubscribe } = useSubscribeActions();
    const { currentUserSub } = useSubscribeState();
    const { channelId } = useParams();
@@ -31,8 +38,9 @@ const ChannelView = ({ className }) => {
    const isSubscribed = currentUserSub ? true : false;
 
    useEffect(() => {
+      getChannel(channelId);
       getChannelVideos(channelId);
-   }, [channelId, getChannelVideos]);
+   }, [channelId, getChannelVideos, getChannel]);
    useEffect(() => {
       if (user && channel) getCurrentSubscribe(user._id, channel._id);
    }, [user, channel, getCurrentSubscribe]);
@@ -53,6 +61,7 @@ const ChannelView = ({ className }) => {
          return <ChannelItem key={video._id} video={video} />;
       });
    }
+
    if (toLogin) return <Redirect to='/login' />;
 
    if (statusChannel === 'idle' || statusChannel === 'pending') return <Spinner modifiers='dark' />;
@@ -71,7 +80,7 @@ const ChannelView = ({ className }) => {
                   <ImageContainer width='7.5rem'>
                      <Image modifiers='round' src={channel.image} />
                   </ImageContainer>
-                  <div>
+                  <div className='channel__titlebox'>
                      <Title modifiers={['medium', 'light']}>{channel.title}</Title>
                      <Span modifiers={['medium', 'exlight']}>{channel.subscribes} subscribers</Span>
                   </div>
@@ -86,7 +95,13 @@ const ChannelView = ({ className }) => {
                </Button>
             </div>
             <ListGroup flexy='center' wrap='true'>
-               {renderChannelVideos(channelVideos)}
+               {statusChannelVideos === 'idle' || statusChannelVideos === 'pending' ? (
+                  <Spinner modifiers='dark' />
+               ) : statusChannelVideos === 'rejected' && errorChannelVideos ? (
+                  <Message severity='error' text={errorChannelVideos} />
+               ) : statusChannelVideos === 'resolved' ? (
+                  renderChannelVideos(channelVideos)
+               ) : null}
             </ListGroup>
          </Col>
       );
@@ -102,6 +117,9 @@ export default styled(ChannelView)`
          ${media.phone(`
             padding: .5rem 1rem;
             `)}
+      }
+      &__titlebox {
+         margin-left: 0.5rem;
       }
    }
 `;

@@ -7,6 +7,7 @@ function channelReducer(currentState, action) {
          return {
             ...currentState,
             channel: action.payload.data.channel,
+            channelVideos: action.payload.data.videos,
             status: 'resolved',
             error: null
          };

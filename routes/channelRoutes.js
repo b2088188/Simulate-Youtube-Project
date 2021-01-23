@@ -1,13 +1,17 @@
 import express from 'express'
 const router = express.Router();
 import videoRouter from './videoRoutes.js';
-import { createChannel, getChannelVideos } from '../controllers/channelController.js'
+import { createChannel, getChannel } from '../controllers/channelController.js'
 
 
+router.use('/:channelId/videos', videoRouter);
 
-router.post('/', createChannel)
+router.route('/')
+			.post(createChannel)			
 
-router.use('/:channelId/videos', getChannelVideos);
+router.route('/:channelId')
+			.get(getChannel)
+
 
 
 export default router;

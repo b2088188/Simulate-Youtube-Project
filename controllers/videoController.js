@@ -6,7 +6,6 @@ import {getAll, getOne} from './handlerFactory.js';
 export const getAllVideos = getAll(Video, {path: 'channel', select: 'title image'});
 
 export const getVideo = catchAsync(async (req, res, next) => {
-	
 	const video = await Video.findOne({videoId: req.params.videoId}, async function (err, video) {
 		if(!video)
 		return next(new AppError('No video found with that Id.', 404));

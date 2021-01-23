@@ -20,12 +20,11 @@ const SearchView = ({ className }) => {
          if (observer.current) observer.current.disconnect();
          observer.current = new IntersectionObserver(
             (entries) => {
-               console.log(entries[0]);
                if (entries[0].isIntersecting && hasMore) {
                   setPage((prev) => prev + 1);
                }
             },
-            { threshold: 0.9 }
+            { threshold: 0.5 }
          );
          if (node) observer.current.observe(node);
       },

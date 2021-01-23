@@ -10,16 +10,20 @@ import { ADD_SUBSCRIBETOCHANNEL, DELETE_SUBSCRIBETOCHANNEL } from '../types';
 const ChannelStore = ({ children }) => {
    const [stateChannel, fetchChannel, dispatchChannel] = useAsync(
       {
-         channel: null,
-         channelVideos: []
+         data: [],
+         channel: null
       },
       channelReducer
    );
 
-   const getChannelVideos = useCallback(
+   const [stateChannelVideos, fetchChannelVideos, dispatchChannelVideos] = useAsync({
+      data: {}
+   });
+
+   const getChannel = useCallback(
       async function (channelId) {
          fetchChannel(
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/channels/${channelId}/videos`)
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/channels/${channelId}`)
          );
       },
       [fetchChannel]
@@ -31,6 +35,15 @@ const ChannelStore = ({ children }) => {
          if (type === 'delete') dispatchChannel({ type: DELETE_SUBSCRIBETOCHANNEL });
       },
       [dispatchChannel]
+   );
+
+   const getChannelVideos = useCallback(
+      async function (channelId) {
+         fetchChannelVideos(
+            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/channels/${channelId}/videos`)
+         );
+      },
+      [fetchChannelVideos]
    );
 
    //   async function getChannelVideos(id) {
@@ -83,19 +96,22 @@ const ChannelStore = ({ children }) => {
    const value = useMemo(
       () => ({
          channel: stateChannel.channel,
-         channelVideos: stateChannel.channelVideos,
          statusChannel: stateChannel.status,
-         errorChannel: stateChannel.error
+         errorChannel: stateChannel.error,
+         channelVideos: stateChannelVideos.data.data,
+         statusChannelVideos: stateChannelVideos.status,
+         errorChannelVideos: stateChannelVideos.error
       }),
-      [stateChannel]
+      [stateChannel, stateChannelVideos]
    );
 
    const actions = useMemo(
       () => ({
+         getChannel,
          getChannelVideos,
          channelSubscribeHandle
       }),
-      [getChannelVideos, channelSubscribeHandle]
+      [getChannel, getChannelVideos, channelSubscribeHandle]
    );
 
    return (
