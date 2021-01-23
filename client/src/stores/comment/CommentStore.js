@@ -4,7 +4,7 @@ import { CommentActionProvider } from './commentActionContext';
 import commentsReducer from './commentsReducer';
 import useAsync from '../../customhooks/useAsync';
 import { GET_COMMENTS, ADD_COMMENT, UPDATE_COMMENT, DELETE_COMMENT } from '../types';
-import axios from 'axios';
+import { videoRequest } from '../../apis/backend';
 
 const CommentStore = ({ children }) => {
    const [stateComments, fetchComments, dispatchComments] = useAsync(
@@ -16,9 +16,7 @@ const CommentStore = ({ children }) => {
 
    const getVideoComments = useCallback(
       async function (videoId) {
-         const { status } = await fetchComments(
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/${videoId}/comments`)
-         );
+         const { status } = await fetchComments(videoRequest.get(`/${videoId}/comments`));
          if (status === 'success')
             dispatchComments({
                type: GET_COMMENTS
@@ -29,12 +27,7 @@ const CommentStore = ({ children }) => {
 
    const createComment = useCallback(
       async function (videoId, values) {
-         const { status } = await fetchComments(
-            axios.post(
-               `${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/${videoId}/comments`,
-               values
-            )
-         );
+         const { status } = await fetchComments(videoRequest.post(`/${videoId}/comments`, values));
          if (status === 'success')
             dispatchComments({
                type: ADD_COMMENT
@@ -46,10 +39,7 @@ const CommentStore = ({ children }) => {
    const updateComment = useCallback(
       async function (videoId, commentId, values) {
          const { status } = await fetchComments(
-            axios.patch(
-               `${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/${videoId}/comments/${commentId}`,
-               values
-            )
+            videoRequest.patch(`/${videoId}/comments/${commentId}`, values)
          );
          if (status === 'success') dispatchComments({ type: UPDATE_COMMENT });
       },
@@ -58,11 +48,7 @@ const CommentStore = ({ children }) => {
 
    const deleteComment = useCallback(
       async function (videoId, commentId) {
-         await fetchComments(
-            axios.delete(
-               `${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/${videoId}/comments/${commentId}`
-            )
-         );
+         await fetchComments(videoRequest.delete(`/${videoId}/comments/${commentId}`));
          dispatchComments({ type: DELETE_COMMENT, payload: { commentId } });
       },
       [fetchComments, dispatchComments]

@@ -51,7 +51,7 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
             <ImageContainer>
                <Image
                   modifiers='round'
-                  src={`http://127.0.0.1:8000/${comment.user.photo}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${comment.user.photo}`}
                   alt='User Image'
                />
             </ImageContainer>

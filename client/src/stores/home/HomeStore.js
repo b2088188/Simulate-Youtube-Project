@@ -5,7 +5,7 @@ import homeReducer from './homeReducer';
 import Youtube from '../../apis/youtube';
 import { GET_HOMERESULTS, HOME_RESET } from '../types';
 import useAsync from '../../customhooks/useAsync';
-import axios from 'axios';
+import { videoRequest } from '../../apis/backend';
 
 const HomeStore = ({ children }) => {
    const [stateHomeResults, fetchHomeResults, dispatchHomeResults] = useAsync(
@@ -18,9 +18,9 @@ const HomeStore = ({ children }) => {
    );
    const getHomeVideos = useCallback(
       async function (page, query) {
-         let url = `${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/?page=${page}&limit=16`;
-         if (query) url = `${url}&category=${query}`;
-         const { status } = await fetchHomeResults(axios.get(url));
+         let queryUrl = `/?page=${page}&limit=16`;
+         if (query) queryUrl = `${queryUrl}&category=${query}`;
+         const { status } = await fetchHomeResults(videoRequest.get(queryUrl));
          if (status === 'success')
             dispatchHomeResults({
                type: GET_HOMERESULTS

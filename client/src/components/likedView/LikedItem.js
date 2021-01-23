@@ -16,15 +16,17 @@ import {
 import { colorGrey } from '../../design/utils';
 import { Close, Delete } from '@material-ui/icons';
 import { Modal } from '../../design/elements';
+import { useAuthState } from '../../stores/auth/authStateContext';
 import { useLikeActions } from '../../stores/likes/likeActionContext';
 
 const LikedItem = ({ like, className }) => {
+   const { user } = useAuthState();
    const { deleteLike } = useLikeActions();
    const [open, setOpen] = useState(false);
 
-   function onDeleteClick(id) {
+   function onDeleteClick(userId, videoId) {
       return function () {
-         deleteLike(id);
+         deleteLike(userId, videoId);
          setOpen(false);
       };
    }
@@ -49,7 +51,7 @@ const LikedItem = ({ like, className }) => {
                <Button
                   modifiers='outline'
                   className='like__deletebtn'
-                  onClick={onDeleteClick(like.videoId)}
+                  onClick={onDeleteClick(user._id, like.videoId)}
                >
                   <Icon as={Delete} />
                   <Span>Remove</Span>

@@ -58,7 +58,7 @@ const VideoView = ({ history, className }) => {
             await createLike(user._id, video);
             videoLikeHandle('add');
          } else {
-            await deleteLike(video.videoId);
+            await deleteLike(user._id, video.videoId);
             videoLikeHandle('delete');
          }
       };

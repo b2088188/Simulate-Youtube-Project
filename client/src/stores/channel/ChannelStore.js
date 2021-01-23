@@ -4,7 +4,7 @@ import { ChannelActionProvider } from './channelActionContext';
 import channelReducer from './channelReducer';
 import Youtube from '../../apis/youtube';
 import useAsync from '../../customhooks/useAsync';
-import axios from 'axios';
+import { channelRequest } from '../../apis/backend';
 import { ADD_SUBSCRIBETOCHANNEL, DELETE_SUBSCRIBETOCHANNEL } from '../types';
 
 const ChannelStore = ({ children }) => {
@@ -22,9 +22,7 @@ const ChannelStore = ({ children }) => {
 
    const getChannel = useCallback(
       async function (channelId) {
-         fetchChannel(
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/channels/${channelId}`)
-         );
+         fetchChannel(channelRequest.get(`/${channelId}`));
       },
       [fetchChannel]
    );
@@ -39,9 +37,7 @@ const ChannelStore = ({ children }) => {
 
    const getChannelVideos = useCallback(
       async function (channelId) {
-         fetchChannelVideos(
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/channels/${channelId}/videos`)
-         );
+         fetchChannelVideos(channelRequest.get(`/${channelId}/videos`));
       },
       [fetchChannelVideos]
    );

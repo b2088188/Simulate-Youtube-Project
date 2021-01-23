@@ -43,7 +43,7 @@ const UserNavigation = ({ className }) => {
                <ImageContainer width={{ desktop: '5rem', phone: '4rem' }}>
                   <Image
                      modifiers='round'
-                     src={`http://127.0.0.1:8000/${user.photo}`}
+                     src={`${process.env.REACT_APP_BACKEND_URL}/${user.photo}`}
                      alt='User image'
                   />
                </ImageContainer>

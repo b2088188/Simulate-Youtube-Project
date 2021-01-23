@@ -73,7 +73,7 @@ const AccountView = ({ className }) => {
                      <ImageContainer width={{ desktop: '5rem' }}>
                         <Image
                            modifiers='round'
-                           src={`${process.env.REACT_APP_BACKEND_URL}/assets/users/user.jpg`}
+                           src={`${process.env.REACT_APP_BACKEND_URL}/assets/users/default.jpg`}
                         />
                      </ImageContainer>
                      <Form.Input

@@ -5,7 +5,7 @@ import searchReducer from './searchReducer';
 import Youtube from '../../apis/youtube';
 import { GET_SEARCHRESULTS, SEARCH_RESET } from '../types';
 import useAsync from '../../customhooks/useAsync';
-import axios from 'axios';
+import { videoRequest } from '../../apis/backend';
 
 const SearchStore = ({ children }) => {
    const [stateSearchResults, fetchSearchResults, dispatchSearchResults] = useAsync(
@@ -18,9 +18,9 @@ const SearchStore = ({ children }) => {
    );
    const getSearchVideos = useCallback(
       async function (q, page, sortBy) {
-         let url = `${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/?q=${q}&page=${page}`;
-         if (sortBy) url = `${url}&sort=${sortBy}`;
-         const { status } = await fetchSearchResults(axios.get(url));
+         let queryUrl = `/?q=${q}&page=${page}`;
+         if (sortBy) queryUrl = `${queryUrl}&sort=${sortBy}`;
+         const { status } = await fetchSearchResults(videoRequest.get(queryUrl));
          if (status === 'success')
             dispatchSearchResults({
                type: GET_SEARCHRESULTS

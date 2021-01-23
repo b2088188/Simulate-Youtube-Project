@@ -4,7 +4,7 @@ import { VideoActionProvider } from './videoActionContext';
 import videoReducer from './videoReducer';
 import Youtube from '../../apis/youtube';
 import useAsync from '../../customhooks/useAsync';
-import axios from 'axios';
+import { videoRequest } from '../../apis/backend';
 import {
    ADD_LIKETOVIDEO,
    DELETE_LIKETOVIDEO,
@@ -22,7 +22,7 @@ const VideoStore = ({ children }) => {
 
    const getVideoById = useCallback(
       async function (videoId) {
-         fetchVideo(axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/${videoId}`));
+         fetchVideo(videoRequest.get(`/${videoId}`));
       },
       [fetchVideo]
    );
