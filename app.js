@@ -1,6 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors';
+import compression from 'compression';
 import cookieParser from 'cookie-parser'
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -21,6 +22,7 @@ if (process.env.NODE_ENV === 'development')
 //Body parser, reading data from body into req.body
 app.use(express.json());
 app.use(cookieParser());
+app.use(compression());
 app.use(express.static(join(__dirname, 'public')));
 
 import videoRouter from './routes/videoRoutes.js';
