@@ -13,6 +13,5 @@ router.route('/:videoId')
             .get(getLike)
            .delete(deleteLike)
 
-//router.get('/:videoId', checkLikeExist);    
 
 export default router;

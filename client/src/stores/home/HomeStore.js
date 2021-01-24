@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { HomeStateProvider } from './homeStateContext';
-import { HomeActionProvider } from './homeActionContext';
+import { HomeStateProvider, HomeActionProvider } from './homeContext';
 import homeReducer from './homeReducer';
 import Youtube from '../../apis/youtube';
 import { GET_HOMERESULTS, HOME_RESET } from '../types';

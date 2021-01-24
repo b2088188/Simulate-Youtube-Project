@@ -32,7 +32,7 @@ export const addComment = catchAsync(async (req, res, next) => {
 });
 
 export const updateComment = catchAsync(async (req, res, next) => {
-    const comment = await Comment.findByIdAndUpdate(req.params.id, req.body, {
+    const comment = await Comment.findByIdAndUpdate(req.params.commentId, req.body, {
         new: true,
         runValidators: true
     }).populate({
@@ -50,12 +50,12 @@ export const updateComment = catchAsync(async (req, res, next) => {
 });
 
 export const deleteComment = catchAsync(async (req, res, next) => {
-    const comment = await Comment.findById(req.params.id);
+    const comment = await Comment.findById(req.params.commentId);
     if (!comment)
         return next(new AppError('Comment not found', 404));
     if (comment.user._id.toString() != req.user._id)
         return next(new AppError('Not Authorized', 401));
-    await Comment.findByIdAndRemove(req.params.id);
+    await Comment.findByIdAndRemove(comment._id);
     res.status(204).json({
         status: 'success'
     })

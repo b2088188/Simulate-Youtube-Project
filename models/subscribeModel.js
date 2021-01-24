@@ -12,7 +12,7 @@ const subscribeSchema = new mongoose.Schema({
         ref: 'Channel',
         required: [true, 'Subscription must belong to a channel']
     },
-    createdDate: {
+    createdAt: {
         type: Date,
         default: Date.now(),
         selected: false

@@ -9,8 +9,9 @@ router.route('/')
            .post(protect, addComment)
            .get(getComments)
 router.use(protect);
-router.patch('/:id', updateComment)
-router.delete('/:id', deleteComment)
+router.route('/:commentId')
+.patch(updateComment)
+.delete(deleteComment)
 
 
 

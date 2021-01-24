@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { Col, ListGroup } from '../../design/components';
-import { useHomeState } from '../../stores/home/homeStateContext';
-import { useHomeActions } from '../../stores/home/homeActionContext';
+import useHome from '../../stores/home/homeContext';
 import HomeItem from './HomeItem';
 import { Spinner, ScrollerTab } from '../../design/elements';
 import { Tab } from '@material-ui/core';
 
 const Home = ({ className }) => {
-   const { videos, statusVideos, hasMore } = useHomeState();
-   const { getHomeVideos, homeReset } = useHomeActions();
+   const [{ videos, statusVideos, hasMore }, { getHomeVideos, homeReset }] = useHome();
    const [query, setQuery] = useState('');
    const [page, setPage] = useState(1);
    const observer = useRef();
