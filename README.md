@@ -4,7 +4,7 @@ YouTube 復刻 MERN(React, Node.js, Express, MongoDB) Project
 * [General info](#general-info)
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
-* [Setup](#setup)
+* [Deploy URL](#deploy-url)
 * [Features](#features)
 * [Status](#status)
 * [Contact](#contact)
@@ -33,12 +33,11 @@ Motivation: 動機單純是自己天天使用到YouTube, 並認為影片社群�
 * bcrypt
 * multer
 * sharp
-## Setup
-要開啟這個專案, 請在專案載到本地端，並在文件的路徑下使用Command輸入以下指令:
-```
-$ npm install
-$ npm run dev
-```
+## Deploy URL
+URL:
+* https://app0529-7b508.web.app  
+API文件:
+* shorturl.at/gh456
 ## Features
 * 影片檢索、排序
 * 個別影片資訊檢視
