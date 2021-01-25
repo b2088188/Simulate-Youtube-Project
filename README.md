@@ -9,7 +9,7 @@ YouTube 復刻 MERN(React, Node.js, Express, MongoDB) Project
 * [Status](#status)
 * [Contact](#contact)
 ## General info
-Purpose: 開發這個專案主要的目的是將自身前端學習路途上所學到的技術進行統整及應用, 而對於專案的目的是給予使用者高互動性的動態網站
+Purpose: 開發這個專案主要的目的是將自身前端學習路途上所學到的技術進行統整及應用, 而對於專案的目的是給予使用者高互動性的動態網站  
 Motivation: 動機單純是自己天天使用到YouTube, 並認為影片社群網站這個現代社會人人會使用到的主題實用度相當高
 ## Screenshots
 ![Example screenshot](https://i.imgur.com/clM2VFI.png)
