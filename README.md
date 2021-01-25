@@ -1,5 +1,8 @@
 # Simulate Youtube Project
 YouTube 復刻 MERN(React, Node.js, Express, MongoDB) Project
+* 使用 SPA 前後端分離的架構
+* 前端使用 React Hooks 進行狀態管控
+* 後端使用 MVC 架構
 ## Table of contents
 * [General info](#general-info)
 * [Screenshots](#screenshots)
@@ -9,8 +12,8 @@ YouTube 復刻 MERN(React, Node.js, Express, MongoDB) Project
 * [Status](#status)
 * [Contact](#contact)
 ## General info
-Purpose: 開發這個專案主要的目的是將自身前端學習路途上所學到的技術進行統整及應用, 而對於專案的目的是給予使用者高互動性的動態網站  
-Motivation: 動機單純是自己天天使用到YouTube, 並認為影片社群網站這個現代社會人人會使用到的主題實用度相當高
+Purpose: 專案的目的是給予使用者高互動性的動態影片社群網站  
+Motivation: 開發這個專案主要的動機是將自身前端學習路途上所學到的技術進行統整及應用, 在實務開發方面所遇到的問題像是前後端媒合, 對問題的發現並進行解決除了使我在技術面進步外, 也學習到獨立解決問題的態度
 ## Screenshots
 ![Example screenshot](https://i.imgur.com/clM2VFI.png)
 ## Technologies
@@ -26,13 +29,14 @@ Motivation: 動機單純是自己天天使用到YouTube, 並認為影片社群�
 * Node.js
 * Express
 * MongoDB & Mongoose
-* Ramda
-* Styled Components
 * JSON Web Token
 * cors
 * bcrypt
 * multer
 * sharp
+> Others:
+* SPA
+* MVC
 ## Deploy URL
 URL:
 * https://app0529-7b508.web.app
