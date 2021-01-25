@@ -35,7 +35,8 @@ Motivation: 動機單純是自己天天使用到YouTube, 並認為影片社群�
 * sharp
 ## Deploy URL
 URL:
-* https://app0529-7b508.web.app  
+* https://app0529-7b508.web.app
+
 API文件:
 * shorturl.at/gh456
 ## Features
