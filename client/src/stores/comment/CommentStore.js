@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { CommentStateProvider } from './commentStateContext';
-import { CommentActionProvider } from './commentActionContext';
+import { CommentStateProvider, CommentActionProvider } from './commentContext';
 import commentsReducer from './commentsReducer';
 import useAsync from '../../customhooks/useAsync';
 import { GET_COMMENTS, ADD_COMMENT, UPDATE_COMMENT, DELETE_COMMENT } from '../types';

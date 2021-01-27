@@ -16,8 +16,7 @@ import {
 } from '../../design/components';
 import { media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import { useVideoState } from '../../stores/video/videoStateContext';
-import { useVideoActions } from '../../stores/video/videoActionContext';
+import useVideo from '../../stores/video/videoContext';
 import { useLikeState } from '../../stores/likes/likeStateContext';
 import { useLikeActions } from '../../stores/likes/likeActionContext';
 import { useSubscribeState } from '../../stores/subscriptions/subscribeStateContext';
@@ -29,8 +28,10 @@ import { Message, Spinner } from '../../design/elements';
 const VideoView = ({ history, className }) => {
    const { user } = useAuthState();
    const { videoId } = useParams();
-   const { video, statusVideo, errorVideo } = useVideoState();
-   const { getVideoById, videoLikeHandle, videoSubscribeHandle } = useVideoActions();
+   const [
+      { video, statusVideo, errorVideo },
+      { getVideoById, videoLikeHandle, videoSubscribeHandle }
+   ] = useVideo();
    const { currentUserLike } = useLikeState();
    const { getCurrentLike, createLike, deleteLike } = useLikeActions();
    const { getCurrentSubscribe, createSubscribe, deleteSubscribe } = useSubscribeActions();

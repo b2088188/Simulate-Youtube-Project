@@ -4,13 +4,14 @@ import styled from 'styled-components';
 import { Button, Paragraph, ImageContainer, Image, ListGroup, Icon } from '../../design/components';
 import { Menu } from '../../design/elements';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import { useCommentActions } from '../../stores/comment/commentActionContext';
+import useComment from '../../stores/comment/commentContext';
 import { MenuItem } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
+
 const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
    const [open, setOpen] = useState(false);
    const { user } = useAuthState();
-   const { deleteComment } = useCommentActions();
+   const [, { deleteComment }] = useComment();
    const { videoId } = useParams();
    const anchorRef = useRef(null);
 

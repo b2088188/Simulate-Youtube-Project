@@ -3,15 +3,16 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Col, List, Navigation, FlexWrapper } from '../../design/components';
 import { setFlex } from '../../design/utils';
-import { useSearchState } from '../../stores/search/searchStateContext';
-import { useSearchActions } from '../../stores/search/searchActionContext';
+import useSearch from '../../stores/search/searchContext';
 import SearchItem from './SearchItem';
 import { Spinner, Message } from '../../design/elements';
 import { NativeSelect, FormHelperText } from '@material-ui/core';
 
 const SearchView = ({ className }) => {
-   const { videos, hasMore, statusVideos, errorVideos } = useSearchState();
-   const { getSearchVideos, searchReset } = useSearchActions();
+   const [
+      { videos, hasMore, statusVideos, errorVideos },
+      { getSearchVideos, searchReset }
+   ] = useSearch();
    const { search } = useLocation();
    const observer = useRef();
    const lastSearchElementRef = useCallback(

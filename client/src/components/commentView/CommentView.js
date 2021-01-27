@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Form, Button, FlexWrapper } from '../../design/components';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import { useCommentState } from '../../stores/comment/commentStateContext';
-import { useCommentActions } from '../../stores/comment/commentActionContext';
+import useComment from '../../stores/comment/commentContext';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import CommentItem from './CommentItem';
@@ -11,9 +10,11 @@ import { Spinner, Message } from '../../design/elements';
 
 const CommentView = ({ className }) => {
    const { user } = useAuthState();
-   const { comments, statusComments, errorComments } = useCommentState();
+   const [
+      { comments, statusComments, errorComments },
+      { getVideoComments, createComment, updateComment }
+   ] = useComment();
    const { register, handleSubmit, setValue, reset } = useForm();
-   const { getVideoComments, createComment, updateComment } = useCommentActions();
    const [currentTypedComment, setCurrentTypedComment] = useState(null);
    let { videoId } = useParams();
 

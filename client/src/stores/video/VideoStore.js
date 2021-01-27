@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { VideoStateProvider } from './videoStateContext';
-import { VideoActionProvider } from './videoActionContext';
+import { VideoStateProvider, VideoActionProvider } from './videoContext';
 import videoReducer from './videoReducer';
 import Youtube from '../../apis/youtube';
 import useAsync from '../../customhooks/useAsync';

@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { ChannelStateProvider } from './channelStateContext';
-import { ChannelActionProvider } from './channelActionContext';
+import { ChannelStateProvider, ChannelActionProvider } from './channelContext';
 import channelReducer from './channelReducer';
 import Youtube from '../../apis/youtube';
 import useAsync from '../../customhooks/useAsync';

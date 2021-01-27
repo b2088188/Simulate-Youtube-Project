@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { SearchStateProvider } from './searchStateContext';
-import { SearchActionProvider } from './searchActionContext';
+import { SearchStateProvider, SearchActionProvider } from './searchContext';
 import searchReducer from './searchReducer';
 import Youtube from '../../apis/youtube';
 import { GET_SEARCHRESULTS, SEARCH_RESET } from '../types';
