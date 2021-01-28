@@ -17,11 +17,11 @@ import { colorGrey } from '../../design/utils';
 import { Close, Delete } from '@material-ui/icons';
 import { Modal } from '../../design/elements';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import { useLikeActions } from '../../stores/likes/likeActionContext';
+import useLike from '../../stores/likes/likeContext';
 
 const LikedItem = ({ like, className }) => {
    const { user } = useAuthState();
-   const { deleteLike } = useLikeActions();
+   const [, { deleteLike }] = useLike();
    const [open, setOpen] = useState(false);
 
    function onDeleteClick(userId, videoId) {

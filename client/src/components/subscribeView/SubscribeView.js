@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import { Title, List } from '../../design/components';
 import { colorGrey, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import { useSubscribeState } from '../../stores/subscriptions/subscribeStateContext';
-import { useSubscribeActions } from '../../stores/subscriptions/subscribeActionContext';
+import useSubscribe from '../../stores/subscriptions/subscribeContext';
 import SubscribeItem from './SubscribeItem';
 import Spinner from '../../design/elements/Spinner';
 
 const SubscribeView = ({ className }) => {
-   const { userSubscriptions, statusUserSubscriptions } = useSubscribeState();
-   const { getUserSubscriptions } = useSubscribeActions();
+   const [
+      { userSubscriptions, statusUserSubscriptions },
+      { getUserSubscriptions }
+   ] = useSubscribe();
    const { user } = useAuthState();
    useEffect(() => {
       if (user) getUserSubscriptions(user._id);

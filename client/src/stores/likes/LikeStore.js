@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { LikeStateProvider } from './likeStateContext';
-import { LikeActionProvider } from './likeActionContext';
+import { LikeStateProvider, LikeActionProvider } from './likeContext';
 import likeReducer from './likeReducer';
 import useAsync from '../../customhooks/useAsync';
 import { CREATE_USERLIKE, GET_USERLIKES, GET_CURRENTLIKE, DELETE_USERLIKE } from '../types';
@@ -16,7 +15,7 @@ const LikeStore = ({ children }) => {
    );
 
    const getUserLikes = useCallback(
-      async function (action, userId) {
+      async function (userId) {
          const { status } = await fetchUserLikes(userRequest.get(`/${userId}/likes`));
          if (status === 'success') dispatchUserLikes({ type: GET_USERLIKES });
       },

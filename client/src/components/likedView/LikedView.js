@@ -1,18 +1,16 @@
 import React, { useEffect } from 'react';
 import { Col, CenterWrapper, List } from '../../design/components';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import { useLikeState } from '../../stores/likes/likeStateContext';
-import { useLikeActions } from '../../stores/likes/likeActionContext';
+import useLike from '../../stores/likes/likeContext';
 import LikedItem from './LikedItem';
 import { Spinner, Message } from '../../design/elements';
 
 const LikedView = ({ className }) => {
    const { user } = useAuthState();
-   const { userLikes, statusUserLikes, errorUserLikes } = useLikeState();
-   const { getUserLikes } = useLikeActions();
+   const [{ userLikes, statusUserLikes, errorUserLikes }, { getUserLikes }] = useLike();
 
    useEffect(() => {
-      if (user) getUserLikes(user.id);
+      if (user) getUserLikes(user._id);
    }, [user, getUserLikes]);
 
    function renderLikeList(list) {

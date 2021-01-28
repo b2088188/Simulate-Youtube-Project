@@ -14,8 +14,7 @@ import {
 import { setFlex, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import useChannel from '../../stores/channel/channelContext';
-import { useSubscribeState } from '../../stores/subscriptions/subscribeStateContext';
-import { useSubscribeActions } from '../../stores/subscriptions/subscribeActionContext';
+import useSubscribe from '../../stores/subscriptions/subscribeContext';
 import ChannelItem from './ChannelItem';
 import { Spinner, Message } from '../../design/elements';
 
@@ -32,8 +31,10 @@ const ChannelView = ({ className }) => {
       },
       { getChannel, getChannelVideos, channelSubscribeHandle }
    ] = useChannel();
-   const { getCurrentSubscribe, createSubscribe, deleteSubscribe } = useSubscribeActions();
-   const { currentUserSub } = useSubscribeState();
+   const [
+      { currentUserSub },
+      { getCurrentSubscribe, createSubscribe, deleteSubscribe }
+   ] = useSubscribe();
    const { channelId } = useParams();
    const [toLogin, setToLogin] = useState(false);
    const isSubscribed = currentUserSub ? true : false;

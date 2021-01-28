@@ -1,6 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { SubscribeStateProvider } from './subscribeStateContext';
-import { SubscribeActionProvider } from './subscribeActionContext';
+import { SubscribeStateProvider, SubscribeActionProvider } from './subscribeContext';
 import subscribesReducer from './subscribesReducer';
 import { userRequest } from '../../apis/backend';
 import { ADD_SUBSCRIBE, DELETE_SUBSCRIBE, GET_SUBSCRIPTIONS, GET_CURRENTSUB } from '../types';
