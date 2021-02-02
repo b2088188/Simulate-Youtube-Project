@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useSubscribeItems } from '../../utils/subscription';
 import { Title, List } from '../../design/components';
 import { colorGrey, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import useSubscribe from '../../stores/subscriptions/subscribeContext';
 import SubscribeItem from './SubscribeItem';
 import Spinner from '../../design/elements/Spinner';
 

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { Col, ListGroup } from '../../design/components';
 import { useHomeVideoSearch } from '../../utils/video';
 import HomeItem from './HomeItem';
-import { Spinner, ScrollerTab } from '../../design/elements';
+import { Spinner, ScrollerTab, Message } from '../../design/elements';
 import { Tab } from '@material-ui/core';
 
 const Home = ({ className }) => {
@@ -13,7 +13,6 @@ const Home = ({ className }) => {
       videos,
       hasNextPage,
       fetchNextPage,
-      isSuccess,
       isFetching,
       isFetchingNextPage,
       isError,
@@ -50,7 +49,12 @@ const Home = ({ className }) => {
          });
       });
    }
-
+   if (isError && error)
+      return (
+         <Col width='10'>
+            <Message severity='error' text={error.message} />
+         </Col>
+      );
    return (
       <Col width='10' className={className}>
          <ScrollerTab>

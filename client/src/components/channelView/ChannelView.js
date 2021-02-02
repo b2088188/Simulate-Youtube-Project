@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import { useChannelInfo, useChannelVideos } from '../../utils/channel';
 import {
@@ -44,14 +44,14 @@ const ChannelView = ({ className }) => {
    } = useChannelVideos(channelId);
    const {
       isLoading: isMutateLoading,
-      isError: isMutateError,
-      error: errorMutate,
-      run,
-      reset
+      //isError: isMutateError,
+      // error: errorMutate,
+      run
+      // reset
    } = useAsync();
    const subscribeItem = useSubscribeItem(user, channelId);
-   const { create } = useCreateSubscribeItem(user);
-   const { remove } = useRemoveSubscribeItem(user);
+   const { createSubscribe } = useCreateSubscribeItem(user);
+   const { removeSubscribe } = useRemoveSubscribeItem(user);
    const [toLogin, setToLogin] = useState(false);
 
    function renderChannelVideos(list) {
@@ -95,8 +95,8 @@ const ChannelView = ({ className }) => {
                      onClick={
                         user
                            ? !subscribeItem
-                              ? handleClick(() => create(channelId))
-                              : handleClick(() => remove(channelId))
+                              ? handleClick(() => createSubscribe({ channel: channelId }))
+                              : handleClick(() => removeSubscribe({ channelId }))
                            : () => setToLogin(true)
                      }
                   >

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useVideoInfo } from '../../utils/video';
 import {
@@ -6,6 +6,7 @@ import {
    useCreateSubscribeItem,
    useRemoveSubscribeItem
 } from '../../utils/subscription';
+import { useLikeItems, useLikeItem, useCreateLikeItem, useRemoveLikeItem } from '../../utils/like';
 import { useAsync } from '../../utils/hooks';
 import styled from 'styled-components';
 import {
@@ -23,9 +24,7 @@ import {
 } from '../../design/components';
 import { media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import useVideo from '../../stores/video/videoContext';
 import useLike from '../../stores/likes/likeContext';
-import useSubscribe from '../../stores/subscriptions/subscribeContext';
 import CommentView from '../commentView/CommentView';
 import { ThumbUp } from '@material-ui/icons';
 import { Message, Spinner } from '../../design/elements';
@@ -34,38 +33,36 @@ const VideoView = ({ history, className }) => {
    const { user } = useAuthState();
    const { videoId } = useParams();
    const { video, isIdle, isLoading, isSuccess, isError, error } = useVideoInfo(videoId);
-   const [{ currentUserLike }, { getCurrentLike, createLike, deleteLike }] = useLike();
+   const likeItem = useLikeItem(user, videoId);
    const {
       isLoading: isMutateLoading,
       isError: isMutateError,
       error: errorMutate,
-      run,
-      reset
+      run
+      //  reset
    } = useAsync();
-   const { create } = useCreateSubscribeItem(user);
-   const { remove } = useRemoveSubscribeItem(user);
+   const {
+      isLoading: isMutateLikeLoading,
+      isError: isMutateLikeError,
+      error: errorMutateLike,
+      run: runLike
+      // reset
+   } = useAsync();
+   const { createSubscribe } = useCreateSubscribeItem(user);
+   const { removeSubscribe } = useRemoveSubscribeItem(user);
+   const { createLike } = useCreateLikeItem(user, videoId);
+   const { removeLike } = useRemoveLikeItem(user, videoId);
    const subscribeItem = useSubscribeItem(user, video?.channel?._id || null);
    const [descriptionShow, setDescriptionShow] = useState(false);
-   const isLiked = currentUserLike ? true : false;
    const videoSrc = `https://www.youtube.com/embed/${videoId}`;
 
-   // useEffect(() => {
-   //    if (user) getCurrentLike(user._id, videoId);
-   // }, [user, videoId, getCurrentLike]);
-
-   function onLikeHandle(user, video) {
-      // return async function () {
-      //    if (!isLiked) {
-      //       await createLike(user._id, video);
-      //       videoLikeHandle('add');
-      //    } else {
-      //       await deleteLike(user._id, video.videoId);
-      //       videoLikeHandle('delete');
-      //    }
-      // };
+   function handleLikeClick(clickCB) {
+      return function () {
+         runLike(clickCB());
+      };
    }
 
-   function handleClick(clickCB) {
+   function handleSubscribeClick(clickCB) {
       return function () {
          run(clickCB());
       };
@@ -102,9 +99,15 @@ const VideoView = ({ history, className }) => {
                      <Button
                         modifiers='transparent'
                         pd='0'
-                        onClick={user ? onLikeHandle(user, video) : () => history.push('/login')}
+                        onClick={
+                           user
+                              ? !likeItem
+                                 ? handleLikeClick(() => createLike(video))
+                                 : handleLikeClick(() => removeLike({ videoId }))
+                              : () => history.push('/login')
+                        }
                      >
-                        <Icon as={ThumbUp} modifiers={`${isLiked ? 'secondary' : null}`} />
+                        <Icon as={ThumbUp} modifiers={`${likeItem ? 'secondary' : null}`} />
                      </Button>
                      <Span modifiers={['medium', 'regular']}>{video.likes}</Span>
                      {isMutateLoading ? (
@@ -116,8 +119,12 @@ const VideoView = ({ history, className }) => {
                            onClick={
                               user
                                  ? !subscribeItem
-                                    ? handleClick(() => create(video.channel._id))
-                                    : handleClick(() => remove(video.channel._id))
+                                    ? handleSubscribeClick(() =>
+                                         createSubscribe({ channel: video.channel._id })
+                                      )
+                                    : handleSubscribeClick(() =>
+                                         removeSubscribe({ channelId: video.channel._id })
+                                      )
                                  : () => history.push('/login')
                            }
                         >

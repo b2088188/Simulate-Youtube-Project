@@ -1,4 +1,5 @@
 import { channelRequest } from '../apis/backend';
+import { setQueryDataForVideoInfo } from './video';
 import { useQuery } from 'react-query';
 
 function useChannelInfo(channelId) {
@@ -10,8 +11,7 @@ function useChannelInfo(channelId) {
             .then(({ data: { data } }) => data.channel)
             .catch(({ response: { data } }) => {
                throw data;
-            }),
-      retry: false
+            })
    });
    return { ...result, channel: result.data };
 }
@@ -26,7 +26,12 @@ function useChannelVideos(channelId) {
             .catch(({ response: { data } }) => {
                throw data;
             }),
-      retry: false
+      onSuccess: (videos) => {
+         //Once getting the video results, insert all results into the video info query
+         for (let video of videos) {
+            setQueryDataForVideoInfo(video);
+         }
+      }
    });
    return { ...result, channelVideos: result.data };
 }

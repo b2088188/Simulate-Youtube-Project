@@ -24,8 +24,7 @@ function useSubscribeItems(userId) {
             .then(({ data: { data } }) => data.subscribes)
             .catch(({ response: { data } }) => {
                throw data;
-            }),
-      retry: false
+            })
    });
    return { ...result, userSubscriptions: result.data ?? [] };
 }
@@ -42,12 +41,12 @@ function useCreateSubscribeItem(user) {
    const defaultOptions = useDefaultMutationOptions();
    if (!user) return null;
    const mutation = useMutation(
-      (channel) => userRequest.post(`/${user._id}/subscriptions`, { channel }),
+      ({ channel }) => userRequest.post(`/${user._id}/subscriptions`, { channel }),
       {
          ...defaultOptions
       }
    );
-   return { ...mutation, create: mutation.mutateAsync };
+   return { ...mutation, createSubscribe: mutation.mutateAsync };
 }
 
 function useRemoveSubscribeItem(user) {
@@ -55,10 +54,10 @@ function useRemoveSubscribeItem(user) {
    const defaultOptions = useDefaultMutationOptions();
    if (!user) return null;
    const mutation = useMutation(
-      (channelId) => userRequest.delete(`/${user._id}/subscriptions/${channelId}`),
+      ({ channelId }) => userRequest.delete(`/${user._id}/subscriptions/${channelId}`),
       {
          ...defaultOptions,
-         onMutate: (channelId) => {
+         onMutate: ({ channelId }) => {
             const prevSubscribeItems = queryClient.getQueryData(['subscribe-items', user._id]);
             queryClient.setQueryData(['subscribe-items', user._id], (oldData) => {
                return R.reject((el) => el.channel._id === channelId, oldData);
@@ -68,7 +67,7 @@ function useRemoveSubscribeItem(user) {
          }
       }
    );
-   return { ...mutation, remove: mutation.mutateAsync };
+   return { ...mutation, removeSubscribe: mutation.mutateAsync };
 }
 
 export { useSubscribeItems, useSubscribeItem, useCreateSubscribeItem, useRemoveSubscribeItem };

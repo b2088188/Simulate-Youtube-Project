@@ -88,4 +88,4 @@ function refetchVideoSearchQuery() {
 	queryClient.prefetchQuery();
 }
 
-export { useVideoSearch, useVideoInfo, useHomeVideoSearch };
+export { useVideoSearch, useVideoInfo, useHomeVideoSearch, setQueryDataForVideoInfo };

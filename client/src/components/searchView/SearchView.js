@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useVideoSearch } from '../../utils/video';
 import styled from 'styled-components';
@@ -14,7 +14,6 @@ const SearchView = ({ className }) => {
    const observer = useRef();
    const q = searchParams.get('q');
    const [sortBy, setSortBy] = useState('');
-   const [page, setPage] = useState(1);
    const {
       videos,
       hasNextPage,

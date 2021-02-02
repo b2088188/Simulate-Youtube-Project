@@ -4,7 +4,6 @@ import { useCommentSearch, useCreateComment, useUpdateComment } from '../../util
 import { Form, Button, FlexWrapper } from '../../design/components';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useAsync } from '../../utils/hooks';
-import useComment from '../../stores/comment/commentContext';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import CommentItem from './CommentItem';
@@ -18,8 +17,8 @@ const CommentView = ({ className }) => {
    const { comments, isIdle, isLoading, isSuccess, isError, error } = useCommentSearch(videoId);
    const {
       isLoading: isMutateLoading,
-      isError: isMutateError,
-      error: errorMutate,
+      // isError: isMutateError,
+      // error: errorMutate,
       run
    } = useAsync();
    const { create } = useCreateComment(videoId);
