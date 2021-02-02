@@ -11,7 +11,7 @@ import {
    ListGroup
 } from '../../design/components';
 import { media } from '../../design/utils';
-import { formatDate, formatShortTitle } from '../../utils/Format';
+import { formatDate, formatShortTitle } from '../../utils/format';
 
 const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
    return (

@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useVideoInfo } from '../../utils/video';
+import {
+   useSubscribeItem,
+   useCreateSubscribeItem,
+   useRemoveSubscribeItem
+} from '../../utils/subscription';
 import styled from 'styled-components';
 import {
    Col,
@@ -26,63 +32,39 @@ import { Message, Spinner } from '../../design/elements';
 const VideoView = ({ history, className }) => {
    const { user } = useAuthState();
    const { videoId } = useParams();
-   const [
-      { video, statusVideo, errorVideo },
-      { getVideoById, videoLikeHandle, videoSubscribeHandle }
-   ] = useVideo();
+   const { video, isIdle, isLoading, isSuccess, isError, error } = useVideoInfo(videoId);
    const [{ currentUserLike }, { getCurrentLike, createLike, deleteLike }] = useLike();
-   const [
-      { currentUserSub },
-      { getCurrentSubscribe, createSubscribe, deleteSubscribe }
-   ] = useSubscribe();
+   const { create } = useCreateSubscribeItem(user);
+   const { remove } = useRemoveSubscribeItem(user);
+   const subscribeItem = useSubscribeItem(user, video?.channel?._id || null);
    const [descriptionShow, setDescriptionShow] = useState(false);
-   const isSubscribed = currentUserSub ? true : false;
    const isLiked = currentUserLike ? true : false;
    const videoSrc = `https://www.youtube.com/embed/${videoId}`;
 
-   useEffect(() => {
-      getVideoById(videoId);
-   }, [videoId, getVideoById]);
-
-   useEffect(() => {
-      if (user) getCurrentLike(user._id, videoId);
-   }, [user, videoId, getCurrentLike]);
-
-   useEffect(() => {
-      if (user && video) getCurrentSubscribe(user._id, video.channel._id);
-   }, [user, video, getCurrentSubscribe]);
+   // useEffect(() => {
+   //    if (user) getCurrentLike(user._id, videoId);
+   // }, [user, videoId, getCurrentLike]);
 
    function onLikeHandle(user, video) {
-      return async function () {
-         if (!isLiked) {
-            await createLike(user._id, video);
-            videoLikeHandle('add');
-         } else {
-            await deleteLike(user._id, video.videoId);
-            videoLikeHandle('delete');
-         }
-      };
-   }
-   function onSubscribeHandle(user, video) {
-      return async function () {
-         if (!isSubscribed) {
-            await createSubscribe(user._id, video.channel._id);
-            videoSubscribeHandle('add');
-         } else {
-            await deleteSubscribe(user._id, video.channel._id);
-            videoSubscribeHandle('delete');
-         }
-      };
+      // return async function () {
+      //    if (!isLiked) {
+      //       await createLike(user._id, video);
+      //       videoLikeHandle('add');
+      //    } else {
+      //       await deleteLike(user._id, video.videoId);
+      //       videoLikeHandle('delete');
+      //    }
+      // };
    }
 
-   if (statusVideo === 'idle' || statusVideo === 'pending') return <Spinner modifiers='dark' />;
-   if (statusVideo === 'rejected' && errorVideo)
+   if (isIdle || isLoading) return <Spinner modifiers='dark' />;
+   if (isError && error)
       return (
          <Col width='10'>
-            <Message severity='error' text={errorVideo} />
+            <Message severity='error' text={error.message} />
          </Col>
       );
-   if (statusVideo === 'resolved')
+   if (isSuccess)
       return (
          <Col width='10' className={className}>
             <div className='video'>
@@ -111,10 +93,14 @@ const VideoView = ({ history, className }) => {
                      </Button>
                      <Span modifiers={['medium', 'regular']}>{video.likes}</Span>
                      <Button
-                        modifiers={[`${isSubscribed ? 'disable' : 'primary'}`]}
+                        modifiers={[`${subscribeItem ? 'disable' : 'primary'}`]}
                         className='video__subscribebtn'
                         onClick={
-                           user ? onSubscribeHandle(user, video) : () => history.push('/login')
+                           user
+                              ? !subscribeItem
+                                 ? () => create(video.channel._id)
+                                 : () => remove(video.channel._id)
+                              : () => history.push('/login')
                         }
                      >
                         Subscribe

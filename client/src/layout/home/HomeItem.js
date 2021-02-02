@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ListGroup, ImageContainer, Image, Link as SLink, Title } from '../../design/components';
 import { colorGrey, setFlex, media } from '../../design/utils';
-import { formatShortTitle } from '../../utils/Format';
+import { formatShortTitle } from '../../utils/format';
 
 const HomeItem = ({ video, className, isLast, lastHomeElementRef }) => {
    return (

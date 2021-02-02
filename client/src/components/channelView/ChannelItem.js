@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ListGroup, Link as SLink, ImageContainer, Image, Title } from '../../design/components';
 import { media } from '../../design/utils';
-import { formatShortTitle, formatDate } from '../../utils/Format';
+import { formatShortTitle, formatDate } from '../../utils/format';
 const ChannelItem = ({ video, className }) => {
    return (
       <ListGroup.Item

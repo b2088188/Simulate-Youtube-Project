@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useSubscribeItems } from '../../utils/subscription';
 import { Title, List } from '../../design/components';
 import { colorGrey, media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
@@ -8,14 +9,8 @@ import SubscribeItem from './SubscribeItem';
 import Spinner from '../../design/elements/Spinner';
 
 const SubscribeView = ({ className }) => {
-   const [
-      { userSubscriptions, statusUserSubscriptions },
-      { getUserSubscriptions }
-   ] = useSubscribe();
    const { user } = useAuthState();
-   useEffect(() => {
-      if (user) getUserSubscriptions(user._id);
-   }, [user, getUserSubscriptions]);
+   const { userSubscriptions, isIdle, isLoading, isSuccess } = useSubscribeItems(user._id);
 
    function renderSubscriptions(list) {
       return list.map(function generateItem(subscribe) {
@@ -23,9 +18,8 @@ const SubscribeView = ({ className }) => {
       });
    }
 
-   if (statusUserSubscriptions === 'idle' || statusUserSubscriptions === 'pending')
-      return <Spinner modifiers='white' />;
-   if (statusUserSubscriptions === 'resolved')
+   if (isIdle || isLoading) return <Spinner modifiers='white' />;
+   if (isSuccess)
       return (
          <div className={className}>
             <Title as='h2' className='subscribe__title'>
