@@ -23,7 +23,7 @@ const VideoView = lazy(() => import('./components/videoView/VideoView'));
 const LikedView = lazy(() => import('./components/likedView/LikedView'));
 const ChannelView = lazy(() => import('./components/channelView/ChannelView'));
 const AccountView = lazy(() => import('./components/accountView/AccountView'));
-
+console.log('123456');
 function App() {
    return (
       <StylesProvider injectFirst>
