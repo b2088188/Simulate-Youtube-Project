@@ -11,7 +11,7 @@ export const queryClient = new QueryClient({
          // when user re-focus the app window, refetch data
          refetchOnWindowFocus: false,
          retry(failureCount, error) {
-            if (error.status === 404) return false;
+            if (error.status === 'fail') return false;
             if (failureCount < 2) return true;
             return false;
          }

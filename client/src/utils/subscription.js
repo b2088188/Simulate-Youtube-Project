@@ -23,7 +23,7 @@ function useSubscribeItems(userId) {
             .get(`/${userId}/subscriptions`)
             .then(({ data: { data } }) => data.subscribes)
             .catch(({ response: { data } }) => {
-               throw new Error(data.message);
+               throw data;
             }),
       retry: false
    });
@@ -47,7 +47,7 @@ function useCreateSubscribeItem(user) {
          ...defaultOptions
       }
    );
-   return { ...mutation, create: mutation.mutate };
+   return { ...mutation, create: mutation.mutateAsync };
 }
 
 function useRemoveSubscribeItem(user) {
@@ -68,7 +68,7 @@ function useRemoveSubscribeItem(user) {
          }
       }
    );
-   return { ...mutation, remove: mutation.mutate };
+   return { ...mutation, remove: mutation.mutateAsync };
 }
 
 export { useSubscribeItems, useSubscribeItem, useCreateSubscribeItem, useRemoveSubscribeItem };

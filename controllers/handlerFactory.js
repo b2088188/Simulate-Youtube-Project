@@ -22,9 +22,10 @@ export const getAll = (Model, popOptions) => catchAsync(async function (req, res
    const doc = await features.query;
    res.status(200).json({
         status: 'success',
-        resutls: doc.length,
+        results: doc.length,
         data: {
-            data: doc
+            data: doc,
+            nextPage: features.nextPage
         }
     })
 })

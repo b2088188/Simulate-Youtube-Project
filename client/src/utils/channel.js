@@ -9,7 +9,7 @@ function useChannelInfo(channelId) {
             .get(`/${channelId}`)
             .then(({ data: { data } }) => data.channel)
             .catch(({ response: { data } }) => {
-               throw new Error(data.message);
+               throw data;
             }),
       retry: false
    });
@@ -24,7 +24,7 @@ function useChannelVideos(channelId) {
             .get(`/${channelId}/videos`)
             .then(({ data: { data } }) => data.data)
             .catch(({ response: { data } }) => {
-               throw new Error(data.message);
+               throw data;
             }),
       retry: false
    });

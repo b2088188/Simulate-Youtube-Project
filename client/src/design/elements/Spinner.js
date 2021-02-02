@@ -5,11 +5,14 @@ import { applyStyleModifiers } from 'styled-components-modifiers';
 import { colorNormal, colorGrey } from '../utils';
 
 const SPINNER_MODIFIERS = {
-   white: () => `
-    color: ${colorNormal.white};
+   light: () => `
+    color: ${colorGrey.light1};
   `,
    dark: () => `
   color: ${colorGrey.dark2};
+  `,
+   noSpace: () => `
+  margin: 0;
   `
 };
 const Spinner = ({ className }) => {

@@ -1,82 +1,78 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { Col, ListGroup } from '../../design/components';
-import useHome from '../../stores/home/homeContext';
+import { useHomeVideoSearch } from '../../utils/video';
 import HomeItem from './HomeItem';
 import { Spinner, ScrollerTab } from '../../design/elements';
 import { Tab } from '@material-ui/core';
 
 const Home = ({ className }) => {
-   const [{ videos, statusVideos, hasMore }, { getHomeVideos, homeReset }] = useHome();
-   const [query, setQuery] = useState('');
-   const [page, setPage] = useState(1);
+   const [filter, setFilter] = useState('');
    const observer = useRef();
+   const {
+      videos,
+      hasNextPage,
+      fetchNextPage,
+      isSuccess,
+      isFetching,
+      isFetchingNextPage,
+      isError,
+      error
+   } = useHomeVideoSearch(filter);
    const lastHomeElementRef = useCallback(
       (node) => {
-         if (statusVideos === 'pending') return;
+         if (!hasNextPage || isFetchingNextPage) return;
          if (observer.current) observer.current.disconnect();
          observer.current = new IntersectionObserver(
             (entries) => {
-               if (entries[0].isIntersecting && hasMore) {
-                  setPage((prev) => prev + 1);
+               if (entries[0].isIntersecting && hasNextPage) {
+                  fetchNextPage();
                }
             },
-            { threshold: 1 }
+            { threshold: 0.5 }
          );
          if (node) observer.current.observe(node);
       },
-      [statusVideos, hasMore]
+      [isFetchingNextPage, hasNextPage, fetchNextPage]
    );
 
-   useEffect(() => {
-      homeReset();
-   }, [homeReset, query]);
-
-   useEffect(() => {
-      getHomeVideos(page, query);
-   }, [getHomeVideos, page, query]);
-
-   function queryChange(queryString) {
-      return function () {
-         setPage(1);
-         setQuery(queryString);
-      };
-   }
-
-   function renderResults(list) {
-      return list.map(function generateItem(video, i, arr) {
-         return (
-            <HomeItem
-               key={video._id}
-               video={video}
-               isLast={i + 1 === arr.length}
-               lastHomeElementRef={lastHomeElementRef}
-            />
-         );
+   function renderHomeList(videos) {
+      return videos.map((videoGroup) => {
+         return videoGroup.data.map(function generateItem(video, i, arr) {
+            return (
+               <HomeItem
+                  key={video._id}
+                  video={video}
+                  lastHomeElementRef={lastHomeElementRef}
+                  isLast={i + 1 === arr.length}
+               />
+            );
+         });
       });
    }
+
    return (
       <Col width='10' className={className}>
          <ScrollerTab>
             {['All', 'ASMR', 'React', 'JavaScript', 'Node', 'CSS', 'Bootstrap'].map(
-               function renderTabs(queryString) {
+               function renderTabs(filterString) {
                   return (
                      <Tab
-                        label={queryString}
-                        key={queryString}
-                        onClick={queryChange(queryString === 'All' ? '' : queryString)}
+                        label={filterString}
+                        key={filterString}
+                        onClick={() =>
+                           filterString === 'All' ? setFilter('') : setFilter(filterString)
+                        }
                      />
                   );
                }
             )}
          </ScrollerTab>
          <ListGroup flexy='center' wrap='true'>
-            {renderResults(videos)}
+            {renderHomeList(videos)}
          </ListGroup>
          <ListGroup flexy='center'>
-            {statusVideos === 'idle' || statusVideos === 'pending' ? (
-               <Spinner modifiers='dark' />
-            ) : null}
+            {isFetching || isFetchingNextPage ? <Spinner modifiers='dark' /> : null}
          </ListGroup>
       </Col>
    );

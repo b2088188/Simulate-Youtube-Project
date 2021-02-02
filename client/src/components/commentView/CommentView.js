@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useCommentSearch, useCreateComment, useUpdateComment } from '../../utils/comment';
 import { Form, Button, FlexWrapper } from '../../design/components';
 import { useAuthState } from '../../stores/auth/authStateContext';
+import { useAsync } from '../../utils/hooks';
 import useComment from '../../stores/comment/commentContext';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -10,18 +12,18 @@ import { Spinner, Message } from '../../design/elements';
 
 const CommentView = ({ className }) => {
    const { user } = useAuthState();
-   const [
-      { comments, statusComments, errorComments },
-      { getVideoComments, createComment, updateComment }
-   ] = useComment();
+   let { videoId } = useParams();
    const { register, handleSubmit, setValue, reset } = useForm();
    const [currentTypedComment, setCurrentTypedComment] = useState(null);
-   let { videoId } = useParams();
-
-   useEffect(() => {
-      getVideoComments(videoId);
-   }, [getVideoComments, videoId]);
-
+   const { comments, isIdle, isLoading, isSuccess, isError, error } = useCommentSearch(videoId);
+   const {
+      isLoading: isMutateLoading,
+      isError: isMutateError,
+      error: errorMutate,
+      run
+   } = useAsync();
+   const { create } = useCreateComment(videoId);
+   const { update } = useUpdateComment(videoId);
    useEffect(() => {
       if (currentTypedComment) setValue('comment', currentTypedComment.comment);
    }, [currentTypedComment, setValue]);
@@ -31,13 +33,12 @@ const CommentView = ({ className }) => {
       setCurrentTypedComment(null);
    }
 
-   async function onCreate(values) {
-      createComment(videoId, values);
-      setCurrentTypedComment(null);
-   }
-
-   function onUpdate(values) {
-      updateComment(videoId, currentTypedComment._id, values);
+   function handleClick(values) {
+      if (!currentTypedComment) {
+         run(create(values));
+      } else {
+         run(update({ commentId: currentTypedComment._id, comment: values }));
+      }
       setCurrentTypedComment(null);
    }
 
@@ -53,22 +54,18 @@ const CommentView = ({ className }) => {
       });
    }
 
-   if (statusComments === 'idle' || statusComments === 'pending')
+   if (isIdle || isLoading || isMutateLoading)
       return (
          <FlexWrapper>
             <Spinner modifiers='dark' />
          </FlexWrapper>
       );
-   if (statusComments === 'rejected' && errorComments)
-      return <Message severity='error' text={errorComments} />;
-   if (statusComments === 'resolved')
+   if (isError && error) return <Message severity='error' text={error} />;
+   if (isSuccess)
       return (
          <div className={className}>
             {user ? (
-               <Form
-                  className='comment__form'
-                  onSubmit={handleSubmit(!currentTypedComment ? onCreate : onUpdate)}
-               >
+               <Form className='comment__form' onSubmit={handleSubmit(handleClick)}>
                   <Form.Input
                      modifiers='transparent'
                      type='text'

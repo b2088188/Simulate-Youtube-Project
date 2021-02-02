@@ -6,6 +6,7 @@ import {
    useCreateSubscribeItem,
    useRemoveSubscribeItem
 } from '../../utils/subscription';
+import { useAsync } from '../../utils/hooks';
 import styled from 'styled-components';
 import {
    Col,
@@ -41,6 +42,13 @@ const ChannelView = ({ className }) => {
       isError: isChannelVideosError,
       error: errorChannelVideos
    } = useChannelVideos(channelId);
+   const {
+      isLoading: isMutateLoading,
+      isError: isMutateError,
+      error: errorMutate,
+      run,
+      reset
+   } = useAsync();
    const subscribeItem = useSubscribeItem(user, channelId);
    const { create } = useCreateSubscribeItem(user);
    const { remove } = useRemoveSubscribeItem(user);
@@ -50,6 +58,12 @@ const ChannelView = ({ className }) => {
       return list.map(function generateItem(video) {
          return <ChannelItem key={video._id} video={video} />;
       });
+   }
+
+   function handleClick(clickCB) {
+      return function () {
+         run(clickCB());
+      };
    }
 
    if (toLogin) return <Redirect to='/login' />;
@@ -75,18 +89,22 @@ const ChannelView = ({ className }) => {
                      <Span modifiers={['medium', 'exlight']}>{channel.subscribes} subscribers</Span>
                   </div>
                </FlexWrapper>
-               <Button
-                  modifiers={['light', `${subscribeItem ? 'disable' : 'outline'}`]}
-                  onClick={
-                     user
-                        ? !subscribeItem
-                           ? () => create(channelId)
-                           : () => remove(channelId)
-                        : () => setToLogin(true)
-                  }
-               >
-                  Subscribed
-               </Button>
+               {!isMutateLoading ? (
+                  <Button
+                     modifiers={['light', `${subscribeItem ? 'disable' : 'outline'}`]}
+                     onClick={
+                        user
+                           ? !subscribeItem
+                              ? handleClick(() => create(channelId))
+                              : handleClick(() => remove(channelId))
+                           : () => setToLogin(true)
+                     }
+                  >
+                     Subscribed
+                  </Button>
+               ) : (
+                  <Spinner modifiers={['light', 'noSpace']} />
+               )}
             </div>
             <ListGroup flexy='center' wrap='true'>
                {isChannelVideosIdle || isChannelVideosLoading ? (
@@ -105,9 +123,9 @@ export default styled(ChannelView)`
    color: #fff;
    .channel {
       &__info {
-         ${setFlex({ x: 'space-around', y: 'center' })}
+         ${setFlex({ x: 'space-between', y: 'center' })}
          background-image: linear-gradient(to right bottom, var(--color-primary-light), var(--color-primary-dark));
-         padding: 2rem 1rem;
+         padding: 2rem 20%;
          ${media.phone(`
             padding: .5rem 1rem;
             `)}

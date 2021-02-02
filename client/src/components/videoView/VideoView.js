@@ -6,6 +6,7 @@ import {
    useCreateSubscribeItem,
    useRemoveSubscribeItem
 } from '../../utils/subscription';
+import { useAsync } from '../../utils/hooks';
 import styled from 'styled-components';
 import {
    Col,
@@ -34,6 +35,13 @@ const VideoView = ({ history, className }) => {
    const { videoId } = useParams();
    const { video, isIdle, isLoading, isSuccess, isError, error } = useVideoInfo(videoId);
    const [{ currentUserLike }, { getCurrentLike, createLike, deleteLike }] = useLike();
+   const {
+      isLoading: isMutateLoading,
+      isError: isMutateError,
+      error: errorMutate,
+      run,
+      reset
+   } = useAsync();
    const { create } = useCreateSubscribeItem(user);
    const { remove } = useRemoveSubscribeItem(user);
    const subscribeItem = useSubscribeItem(user, video?.channel?._id || null);
@@ -57,6 +65,12 @@ const VideoView = ({ history, className }) => {
       // };
    }
 
+   function handleClick(clickCB) {
+      return function () {
+         run(clickCB());
+      };
+   }
+
    if (isIdle || isLoading) return <Spinner modifiers='dark' />;
    if (isError && error)
       return (
@@ -64,6 +78,7 @@ const VideoView = ({ history, className }) => {
             <Message severity='error' text={error.message} />
          </Col>
       );
+
    if (isSuccess)
       return (
          <Col width='10' className={className}>
@@ -92,19 +107,23 @@ const VideoView = ({ history, className }) => {
                         <Icon as={ThumbUp} modifiers={`${isLiked ? 'secondary' : null}`} />
                      </Button>
                      <Span modifiers={['medium', 'regular']}>{video.likes}</Span>
-                     <Button
-                        modifiers={[`${subscribeItem ? 'disable' : 'primary'}`]}
-                        className='video__subscribebtn'
-                        onClick={
-                           user
-                              ? !subscribeItem
-                                 ? () => create(video.channel._id)
-                                 : () => remove(video.channel._id)
-                              : () => history.push('/login')
-                        }
-                     >
-                        Subscribe
-                     </Button>
+                     {isMutateLoading ? (
+                        <Spinner modifiers={['dark', 'noSpace']} />
+                     ) : (
+                        <Button
+                           modifiers={[`${subscribeItem ? 'disable' : 'primary'}`]}
+                           className='video__subscribebtn'
+                           onClick={
+                              user
+                                 ? !subscribeItem
+                                    ? handleClick(() => create(video.channel._id))
+                                    : handleClick(() => remove(video.channel._id))
+                                 : () => history.push('/login')
+                           }
+                        >
+                           Subscribe
+                        </Button>
+                     )}
                   </ListGroup.Item>
                </ListGroup>
                <ListGroup modifiers='vertical' className='video__info'>
