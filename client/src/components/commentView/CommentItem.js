@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button, Paragraph, ImageContainer, Image, ListGroup, Icon } from '../../design/components';
-import { Menu } from '../../design/elements';
+import { Menu, MenuOpenButton, MenuCloseButton, MenuContent } from '../../design/elements';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import useComment from '../../stores/comment/commentContext';
 import { MenuItem } from '@material-ui/core';
@@ -24,23 +24,20 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
    function renderActionBtn(comment) {
       return (
          <ListGroup.Item>
-            {/*<Button modifiers='seablue' onClick={() => setCurrentTypedComment(comment)}>
-                           Edit
-                        </Button>
-                        <Button modifiers='primary' onClick={onDeleteClick(comment._id)}>
-                           Delete
-                        </Button>*/}
-
-            <Button
-               ref={anchorRef}
-               onClick={() => setOpen((prev) => !prev)}
-               modifiers='transparent'
-            >
-               <Icon as={MoreVert} />
-            </Button>
-            <Menu open={open} setOpen={setOpen} anchorRef={anchorRef}>
-               <MenuItem onClick={() => setCurrentTypedComment(comment)}>Edit</MenuItem>
-               <MenuItem onClick={onDeleteClick(comment._id)}>Delete</MenuItem>
+            <Menu>
+               <MenuOpenButton>
+                  <Button modifiers='transparent'>
+                     <Icon as={MoreVert} />
+                  </Button>
+               </MenuOpenButton>
+               <MenuContent>
+                  <MenuCloseButton>
+                     <MenuItem onClick={() => setCurrentTypedComment(comment)}>Edit</MenuItem>
+                  </MenuCloseButton>
+                  <MenuCloseButton>
+                     <MenuItem onClick={onDeleteClick(comment._id)}>Delete</MenuItem>
+                  </MenuCloseButton>
+               </MenuContent>
             </Menu>
          </ListGroup.Item>
       );

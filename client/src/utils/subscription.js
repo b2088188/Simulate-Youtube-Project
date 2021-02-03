@@ -1,73 +1,103 @@
 import * as R from 'ramda';
 import { userRequest } from '../apis/backend';
+import { setQueryDataForVideoSubscribe } from './video';
+import { setQueryDataForChannelSubscribe } from './channel';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { queryClient } from '../context';
+import { useAuthState } from '../stores/auth/authStateContext';
 
-function useDefaultMutationOptions() {
+function useDefaultMutationOptions(videoId, channelId) {
    const queryClient = useQueryClient();
    return {
-      onSettled: () => queryClient.invalidateQueries('subscribe-items'),
+      onSettled: () => {
+         queryClient.invalidateQueries('subscribe-items');
+         if (videoId) queryClient.invalidateQueries(['videoInfo', { videoId }]);
+         if (channelId) queryClient.invalidateQueries(['channelInfo', { channelId }]);
+      },
       onError: (err, variables, recover) => {
          if (typeof recover === 'function') {
             // () => queryClient.setQueryData(['subscribe-items', user._id], prevSubscribeItems);
+            // () => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
             recover();
          }
       }
    };
 }
 
-function useSubscribeItems(userId) {
+function useSubscribeItems() {
+   const { user } = useAuthState();
+
    const result = useQuery({
-      queryKey: ['subscribe-items', userId],
+      queryKey: ['subscribe-items', user?._id],
       queryFn: () =>
          userRequest
-            .get(`/${userId}/subscriptions`)
+            .get(`/${user?._id}/subscriptions`)
             .then(({ data: { data } }) => data.subscribes)
             .catch(({ response: { data } }) => {
                throw data;
             })
    });
-   return { ...result, userSubscriptions: result.data ?? [] };
+   return { ...result, subscribeItems: result.data ?? [] };
 }
 
 /* eslint-disable */
-function useSubscribeItem(user, channelId) {
-   if (!user) return null;
-   const { userSubscriptions } = useSubscribeItems(user.id);
-   return userSubscriptions.find((el) => el.channel._id === channelId) ?? null;
+function useSubscribeItem(channelId) {
+   //const { user } = useAuthState();
+
+   const { subscribeItems } = useSubscribeItems();
+   return subscribeItems.find((el) => el.channel._id === channelId) ?? null;
 }
 
-function useCreateSubscribeItem(user) {
+function useCreateSubscribeItem({ videoId, channelId }) {
+   const { user } = useAuthState();
    const queryClient = useQueryClient();
-   const defaultOptions = useDefaultMutationOptions();
-   if (!user) return null;
+   const defaultOptions = useDefaultMutationOptions(videoId, channelId);
+
    const mutation = useMutation(
-      ({ channel }) => userRequest.post(`/${user._id}/subscriptions`, { channel }),
+      ({ channel }) => userRequest.post(`/${user?._id}/subscriptions`, { channel }),
       {
-         ...defaultOptions
+         ...defaultOptions,
+         onMutate: () => {
+            if (videoId) {
+               const prevVideoInfo = setQueryDataForVideoSubscribe(videoId, 'create');
+               return () => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
+            }
+         }
       }
    );
    return { ...mutation, createSubscribe: mutation.mutateAsync };
 }
 
-function useRemoveSubscribeItem(user) {
+function useRemoveSubscribeItem({ videoId, channelId }) {
+   const { user } = useAuthState();
    const queryClient = useQueryClient();
-   const defaultOptions = useDefaultMutationOptions();
-   if (!user) return null;
+   const defaultOptions = useDefaultMutationOptions(videoId, channelId);
+
    const mutation = useMutation(
-      ({ channelId }) => userRequest.delete(`/${user._id}/subscriptions/${channelId}`),
+      ({ channelId }) => userRequest.delete(`/${user?._id}/subscriptions/${channelId}`),
       {
          ...defaultOptions,
          onMutate: ({ channelId }) => {
-            const prevSubscribeItems = queryClient.getQueryData(['subscribe-items', user._id]);
-            queryClient.setQueryData(['subscribe-items', user._id], (oldData) => {
-               return R.reject((el) => el.channel._id === channelId, oldData);
-            });
-            return () =>
-               queryClient.setQueryData(['subscribe-items', user._id], prevSubscribeItems);
+            if (videoId) {
+               const prevVideoInfo = setQueryDataForVideoSubscribe(videoId, 'remove');
+            }
+            const prevSubscribeItems = setQueryDataForSubscribeItems(user?._id, channelId);
+            return () => {
+               queryClient.setQueryData(['subscribe-items', user?._id], prevSubscribeItems);
+               if (videoId) queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
+            };
          }
       }
    );
    return { ...mutation, removeSubscribe: mutation.mutateAsync };
+}
+
+function setQueryDataForSubscribeItems(userId, channelId) {
+   const prevSubscribeItems = queryClient.getQueryData(['subscribe-items', userId]);
+   queryClient.setQueryData(['subscribe-items', userId], (oldData) => {
+      return R.reject((el) => el.channel._id === channelId, oldData);
+   });
+   return prevSubscribeItems;
 }
 
 export { useSubscribeItems, useSubscribeItem, useCreateSubscribeItem, useRemoveSubscribeItem };

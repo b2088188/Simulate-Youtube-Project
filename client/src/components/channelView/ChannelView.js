@@ -49,9 +49,9 @@ const ChannelView = ({ className }) => {
       run
       // reset
    } = useAsync();
-   const subscribeItem = useSubscribeItem(user, channelId);
-   const { createSubscribe } = useCreateSubscribeItem(user);
-   const { removeSubscribe } = useRemoveSubscribeItem(user);
+   const subscribeItem = useSubscribeItem(channelId);
+   const { createSubscribe } = useCreateSubscribeItem({ channelId });
+   const { removeSubscribe } = useRemoveSubscribeItem({ channelId });
    const [toLogin, setToLogin] = useState(false);
 
    function renderChannelVideos(list) {

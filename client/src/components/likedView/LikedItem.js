@@ -15,48 +15,37 @@ import {
 } from '../../design/components';
 import { colorGrey } from '../../design/utils';
 import { Close, Delete } from '@material-ui/icons';
-import { Modal } from '../../design/elements';
+import { Modal, ModalOpenButton, ModalCloseButton, ModalContent } from '../../design/elements';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import useLike from '../../stores/likes/likeContext';
 
 const LikedItem = ({ like, className }) => {
    const { user } = useAuthState();
    const [, { deleteLike }] = useLike();
-   const [open, setOpen] = useState(false);
-
-   function onDeleteClick(userId, videoId) {
-      return function () {
-         deleteLike(userId, videoId);
-         setOpen(false);
-      };
-   }
 
    return (
       <List.Item className={className}>
-         <Modal
-            open={open}
-            setOpen={setOpen}
-            toggleButton={
-               <Button
-                  modifiers='transparent'
-                  className='like__portalbtn'
-                  onClick={() => setOpen(true)}
-               >
+         <Modal>
+            <ModalOpenButton>
+               <Button modifiers='transparent' className='like__portalbtn'>
                   <Icon as={Close} />
                </Button>
-            }
-         >
-            <FlexWrapper direction='column' y='center'>
-               <Title>Are you sure you want to remove this item?</Title>
-               <Button
-                  modifiers='outline'
-                  className='like__deletebtn'
-                  onClick={onDeleteClick(user._id, like.videoId)}
-               >
-                  <Icon as={Delete} />
-                  <Span>Remove</Span>
-               </Button>
-            </FlexWrapper>
+            </ModalOpenButton>
+            <ModalContent>
+               <FlexWrapper direction='column' y='center'>
+                  <Title>Are you sure you want to remove this item?</Title>
+                  <ModalCloseButton>
+                     <Button
+                        modifiers='outline'
+                        className='like__deletebtn'
+                        onClick={() => deleteLike(user._id, like.videoId)}
+                     >
+                        <Icon as={Delete} />
+                        <Span>Remove</Span>
+                     </Button>
+                  </ModalCloseButton>
+               </FlexWrapper>
+            </ModalContent>
          </Modal>
          <SLink as={Link} to={`/watch/${like.videoId}`}>
             <ListGroup flexy='center'>

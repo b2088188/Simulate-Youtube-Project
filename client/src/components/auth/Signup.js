@@ -7,7 +7,7 @@ import { useAuthActions } from '../../stores/auth/authActionContext';
 import { Message, Spinner } from '../../design/elements';
 
 const Signup = () => {
-   const { user, statusAuth, errorAuth } = useAuthState();
+   const { user, isError, error } = useAuthState();
    const { signup, resetAuthError } = useAuthActions();
    const { register, errors, handleSubmit, watch } = useForm();
    const { url } = useRouteMatch();
@@ -19,14 +19,12 @@ const Signup = () => {
       resetAuthError();
    }, [resetAuthError, url]);
 
-   if (statusAuth === 'pending') return <Spinner />;
+   // if (statusAuth === 'pending') return <Spinner />;
    if (user) return <Redirect to={location.state?.from || '/'} />;
 
    return (
       <Col width='12'>
-         {statusAuth === 'rejected' && errorAuth ? (
-            <Message severity='error' text={errorAuth} />
-         ) : null}
+         {isError && error ? <Message severity='error' text={error} /> : null}
          <FormContainer width={{ desktop: '50%', tabland: '70%', tabport: '90%' }}>
             <Title modifiers='big'>
                Account <Span modifiers='primary'>Signup</Span>

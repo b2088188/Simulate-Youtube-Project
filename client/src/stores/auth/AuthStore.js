@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import { AuthStateProvider } from './authStateContext';
 import { AuthActionProvider } from './authActionContext';
 import authReducer from './authReducer';
-import useAsync from '../../customhooks/useAsync';
+import { useAsync } from '../../utils/hooks';
+import { useQueryClient } from 'react-query';
 import { Row } from '../../design/components';
 import { Spinner } from '../../design/elements';
 import { authRequest, userRequest } from '../../apis/backend';
@@ -10,89 +11,114 @@ import { GET_AUTHINFO, LOGOUT_AUTH, AUTH_ERRORRESET, UPDATE_USERDATA } from '../
 import axios from 'axios';
 
 const AuthStore = ({ children }) => {
-   const [stateAuth, fetchAuth, dispatchAuth] = useAsync(
-      {
-         user: null,
-         initialAuthCheck: false
-      },
-      authReducer
-   );
+   const {
+      data: user,
+      error,
+      isLoading,
+      isIdle,
+      isError,
+      isSuccess,
+      run,
+      setData,
+      setError
+   } = useAsync();
 
-   const getInitialAuth = useCallback(
-      async function () {
-         const { status } = await fetchAuth(authRequest.get('/'));
-         if (status === 'success') dispatchAuth({ type: GET_AUTHINFO });
-      },
-      [fetchAuth, dispatchAuth]
-   );
+   const getInitialAuth = useCallback(async function () {
+      try {
+         const {
+            data: { data }
+         } = await authRequest.get('/');
+         return data.user;
+      } catch (err) {
+         return;
+      }
+   }, []);
+
    useEffect(() => {
-      getInitialAuth();
-   }, [getInitialAuth]);
+      run(getInitialAuth());
+   }, [getInitialAuth, run]);
 
    const login = useCallback(
       async function (values) {
-         const { status } = await fetchAuth(authRequest.post('/login', values));
-         if (status === 'success') dispatchAuth({ type: GET_AUTHINFO });
+         try {
+            const {
+               data: { data }
+            } = await authRequest.post('/login', values);
+            setData(data.user);
+         } catch ({ response: { data } }) {
+            setError(data.message);
+         }
       },
-      [fetchAuth, dispatchAuth]
+      [setData, setError]
    );
 
    const signup = useCallback(
       async function (values) {
-         const { status } = await fetchAuth(authRequest.post('/signup', values));
-         if (status === 'success') dispatchAuth({ type: GET_AUTHINFO });
+         try {
+            const {
+               data: { data }
+            } = await authRequest.post('/signup', values);
+            setData(data.user);
+         } catch ({ response: { data } }) {
+            setError(data.message);
+         }
       },
-      [fetchAuth, dispatchAuth]
+      [setData, setError]
    );
 
    const logout = useCallback(
       async function (values) {
-         await fetchAuth(authRequest.get('/logout'));
-         dispatchAuth({ type: LOGOUT_AUTH });
+         try {
+            await authRequest.get('/logout');
+            setData(null);
+         } catch (err) {
+            setData(null);
+         }
       },
-      [fetchAuth, dispatchAuth]
+      [setData]
    );
 
-   const resetAuthError = useCallback(
-      function () {
-         dispatchAuth({ type: AUTH_ERRORRESET });
-      },
-      [dispatchAuth]
-   );
+   // const resetAuthError = useCallback(
+   //    function () {
+   //       dispatchAuth({ type: AUTH_ERRORRESET });
+   //    },
+   //    [dispatchAuth]
+   // );
 
-   const updateUserData = useCallback(
-      async function (values) {
-         const formData = new FormData();
-         formData.append('name', values.name);
-         formData.append('email', values.email);
-         formData.append('photo', values.photo[0]);
-         const { status } = await fetchAuth(userRequest.patch('/updateMe', formData));
-         if (status === 'success') dispatchAuth({ type: UPDATE_USERDATA });
-      },
-      [fetchAuth, dispatchAuth]
-   );
+   // const updateUserData = useCallback(
+   //    async function (values) {
+   //       const formData = new FormData();
+   //       formData.append('name', values.name);
+   //       formData.append('email', values.email);
+   //       formData.append('photo', values.photo[0]);
+   //       const { status } = await fetchAuth(userRequest.patch('/updateMe', formData));
+   //       if (status === 'success') dispatchAuth({ type: UPDATE_USERDATA });
+   //    },
+   //    [fetchAuth, dispatchAuth]
+   // );
 
    const value = useMemo(
       () => ({
-         user: stateAuth.user,
-         statusAuth: stateAuth.status,
-         errorAuth: stateAuth.error
+         user,
+         isLoading,
+         isError,
+         error
       }),
-      [stateAuth]
+      [user, isLoading, isError, error]
    );
 
    const actions = useMemo(
       () => ({
          login,
          signup,
-         updateUserData,
-         logout,
-         resetAuthError
+         // updateUserData,
+         logout
+         //resetAuthError
       }),
-      [login, signup, updateUserData, logout, resetAuthError]
+      [login, signup, logout]
    );
 
-   if (!stateAuth.initialAuthCheck)
+   if (isIdle || isLoading)
       return (
          <Row>
             <Spinner modifiers='dark' />

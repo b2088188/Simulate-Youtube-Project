@@ -1,6 +1,7 @@
 import { channelRequest } from '../apis/backend';
 import { setQueryDataForVideoInfo } from './video';
 import { useQuery } from 'react-query';
+import { queryClient } from '../context';
 
 function useChannelInfo(channelId) {
    const result = useQuery({
@@ -36,4 +37,15 @@ function useChannelVideos(channelId) {
    return { ...result, channelVideos: result.data };
 }
 
-export { useChannelInfo, useChannelVideos };
+function setQueryDataForChannelSubscribe(channelId, type) {
+   const prevChannelInfo = queryClient.getQueryData(['channelInfo', { channelId }]);
+   queryClient.setQueryData(['channelInfo', { channelId }], (oldData) => {
+      return {
+         ...oldData,
+         subscribes: type === 'create' ? oldData.subscribes + 1 : oldData.subscribes - 1
+      };
+   });
+   return prevChannelInfo;
+}
+
+export { useChannelInfo, useChannelVideos, setQueryDataForChannelSubscribe };

@@ -33,7 +33,7 @@ const VideoView = ({ history, className }) => {
    const { user } = useAuthState();
    const { videoId } = useParams();
    const { video, isIdle, isLoading, isSuccess, isError, error } = useVideoInfo(videoId);
-   const likeItem = useLikeItem(user, videoId);
+   const likeItem = useLikeItem(videoId);
    const {
       isLoading: isMutateLoading,
       isError: isMutateError,
@@ -48,11 +48,11 @@ const VideoView = ({ history, className }) => {
       run: runLike
       // reset
    } = useAsync();
-   const { createSubscribe } = useCreateSubscribeItem(user);
-   const { removeSubscribe } = useRemoveSubscribeItem(user);
-   const { createLike } = useCreateLikeItem(user, videoId);
-   const { removeLike } = useRemoveLikeItem(user, videoId);
-   const subscribeItem = useSubscribeItem(user, video?.channel?._id || null);
+   const { createSubscribe } = useCreateSubscribeItem({ videoId });
+   const { removeSubscribe } = useRemoveSubscribeItem({ videoId });
+   const { createLike } = useCreateLikeItem(videoId);
+   const { removeLike } = useRemoveLikeItem(videoId);
+   const subscribeItem = useSubscribeItem(video?.channel?._id || null);
    const [descriptionShow, setDescriptionShow] = useState(false);
    const videoSrc = `https://www.youtube.com/embed/${videoId}`;
 

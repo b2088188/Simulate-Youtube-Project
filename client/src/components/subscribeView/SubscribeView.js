@@ -9,7 +9,7 @@ import Spinner from '../../design/elements/Spinner';
 
 const SubscribeView = ({ className }) => {
    const { user } = useAuthState();
-   const { userSubscriptions, isIdle, isLoading, isSuccess } = useSubscribeItems(user._id);
+   const { subscribeItems, isIdle, isLoading, isSuccess } = useSubscribeItems(user._id);
 
    function renderSubscriptions(list) {
       return list.map(function generateItem(subscribe) {
@@ -25,7 +25,7 @@ const SubscribeView = ({ className }) => {
                Subscriptions
             </Title>
             <nav>
-               <List className='subscribe__list'>{renderSubscriptions(userSubscriptions)}</List>
+               <List className='subscribe__list'>{renderSubscriptions(subscribeItems)}</List>
             </nav>
          </div>
       );

@@ -1,9 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import GlobalStyle from './design/GlobalStyle';
-import { StylesProvider } from '@material-ui/styles';
 import { Container, Row } from './design/components';
-import AuthStore from './stores/auth/AuthStore';
 import HomeStore from './stores/home/HomeStore';
 import LikeStore from './stores/likes/LikeStore';
 import SearchStore from './stores/search/SearchStore';
@@ -26,54 +23,47 @@ const AccountView = lazy(() => import('./components/accountView/AccountView'));
 
 function App() {
    return (
-      <StylesProvider injectFirst>
-         <GlobalStyle />
-         <AuthStore>
-            <SubscribeStore>
-               <Suspense
-                  fallback={
-                     <Row>
-                        <Spinner modifiers='dark' />
-                     </Row>
-                  }
+      <SubscribeStore>
+         <Suspense
+            fallback={
+               <Row>
+                  <Spinner modifiers='dark' />
+               </Row>
+            }
+         >
+            <Header />
+            <Container>
+               <Row
+                  direction={{
+                     desktop: 'row',
+                     tabport: 'column'
+                  }}
                >
-                  <Router>
-                     <Header />
-                     <Container>
-                        <Row
-                           direction={{
-                              desktop: 'row',
-                              tabport: 'column'
-                           }}
-                        >
-                           <Sidebar />
-                           <Route exact path='/signup' component={Signup} />
-                           <Route exact path='/login' component={Login} />
-                           <HomeStore>
-                              <Route exact path='/' component={Home} />
-                           </HomeStore>
-                           <PrivateRoute exact path='/accounts' component={AccountView} />
-                           <SearchStore>
-                              <Route exact path='/results' component={SearchView} />
-                           </SearchStore>
-                           <LikeStore>
-                              <PrivateRoute exact path='/likelist' component={LikedView} />
-                              <VideoStore>
-                                 <CommentStore>
-                                    <Route exact path='/watch/:videoId' component={VideoView} />
-                                 </CommentStore>
-                              </VideoStore>
-                           </LikeStore>
-                           <ChannelStore>
-                              <Route exact path='/channel/:channelId' component={ChannelView} />
-                           </ChannelStore>
-                        </Row>
-                     </Container>
-                  </Router>
-               </Suspense>
-            </SubscribeStore>
-         </AuthStore>
-      </StylesProvider>
+                  <Sidebar />
+                  <Route exact path='/signup' component={Signup} />
+                  <Route exact path='/login' component={Login} />
+                  <HomeStore>
+                     <Route exact path='/' component={Home} />
+                  </HomeStore>
+                  <PrivateRoute exact path='/accounts' component={AccountView} />
+                  <SearchStore>
+                     <Route exact path='/results' component={SearchView} />
+                  </SearchStore>
+                  <LikeStore>
+                     <PrivateRoute exact path='/likelist' component={LikedView} />
+                     <VideoStore>
+                        <CommentStore>
+                           <Route exact path='/watch/:videoId' component={VideoView} />
+                        </CommentStore>
+                     </VideoStore>
+                  </LikeStore>
+                  <ChannelStore>
+                     <Route exact path='/channel/:channelId' component={ChannelView} />
+                  </ChannelStore>
+               </Row>
+            </Container>
+         </Suspense>
+      </SubscribeStore>
    );
 }
 

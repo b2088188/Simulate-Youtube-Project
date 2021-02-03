@@ -1,6 +1,6 @@
 import { videoRequest } from '../apis/backend';
 import { useQuery, useInfiniteQuery } from 'react-query';
-import { queryClient } from '../index';
+import { queryClient } from '../context';
 
 function useVideoSearch(q, sort) {
 	const result = useInfiniteQuery({
@@ -81,6 +81,21 @@ function setQueryDataForVideoInfo(video) {
 	queryClient.setQueryData(['videoInfo', { videoId: video.videoId }], video);
 }
 
+function setQueryDataForVideoSubscribe(videoId, type) {
+	const prevVideoInfo = queryClient.getQueryData(['videoInfo', { videoId }]);
+	queryClient.setQueryData(['videoInfo', { videoId }], (oldData) => {
+		const { channel } = oldData;
+		return {
+			...oldData,
+			channel: {
+				...channel,
+				subscribes: type === 'create' ? channel.subscribes + 1 : channel.subscribes - 1
+			}
+		};
+	});
+	return prevVideoInfo;
+}
+
 function refetchVideoSearchQuery() {
 	// remove old video search query
 	queryClient.remoQueries('videoSearch');
@@ -88,4 +103,10 @@ function refetchVideoSearchQuery() {
 	queryClient.prefetchQuery();
 }
 
-export { useVideoSearch, useVideoInfo, useHomeVideoSearch, setQueryDataForVideoInfo };
+export {
+	useVideoSearch,
+	useVideoInfo,
+	useHomeVideoSearch,
+	setQueryDataForVideoInfo,
+	setQueryDataForVideoSubscribe
+};
