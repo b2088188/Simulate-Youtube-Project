@@ -6,7 +6,7 @@ import {
    useCreateSubscribeItem,
    useRemoveSubscribeItem
 } from '../../utils/subscription';
-import { useLikeItems, useLikeItem, useCreateLikeItem, useRemoveLikeItem } from '../../utils/like';
+import { useLikeItem, useCreateLikeItem, useRemoveLikeItem } from '../../utils/like';
 import { useAsync } from '../../utils/hooks';
 import styled from 'styled-components';
 import {
@@ -24,7 +24,6 @@ import {
 } from '../../design/components';
 import { media } from '../../design/utils';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import useLike from '../../stores/likes/likeContext';
 import CommentView from '../commentView/CommentView';
 import { ThumbUp } from '@material-ui/icons';
 import { Message, Spinner } from '../../design/elements';
@@ -36,18 +35,12 @@ const VideoView = ({ history, className }) => {
    const likeItem = useLikeItem(videoId);
    const {
       isLoading: isMutateLoading,
-      isError: isMutateError,
-      error: errorMutate,
+      //isError: isMutateError,
+      //error: errorMutate,
       run
       //  reset
    } = useAsync();
-   const {
-      isLoading: isMutateLikeLoading,
-      isError: isMutateLikeError,
-      error: errorMutateLike,
-      run: runLike
-      // reset
-   } = useAsync();
+
    const { createSubscribe } = useCreateSubscribeItem({ videoId });
    const { removeSubscribe } = useRemoveSubscribeItem({ videoId });
    const { createLike } = useCreateLikeItem(videoId);
@@ -55,12 +48,6 @@ const VideoView = ({ history, className }) => {
    const subscribeItem = useSubscribeItem(video?.channel?._id || null);
    const [descriptionShow, setDescriptionShow] = useState(false);
    const videoSrc = `https://www.youtube.com/embed/${videoId}`;
-
-   function handleLikeClick(clickCB) {
-      return function () {
-         runLike(clickCB());
-      };
-   }
 
    function handleSubscribeClick(clickCB) {
       return function () {
@@ -102,8 +89,8 @@ const VideoView = ({ history, className }) => {
                         onClick={
                            user
                               ? !likeItem
-                                 ? handleLikeClick(() => createLike(video))
-                                 : handleLikeClick(() => removeLike({ videoId }))
+                                 ? () => createLike(video)
+                                 : () => removeLike({ videoId })
                               : () => history.push('/login')
                         }
                      >

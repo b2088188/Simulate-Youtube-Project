@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react';
-import { Redirect, useRouteMatch, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Redirect, useLocation } from 'react-router-dom';
 import { Col, FormContainer, Title, Span, Form, Label, Button } from '../../design/components';
 import { useForm } from 'react-hook-form';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useAuthActions } from '../../stores/auth/authActionContext';
-import { Spinner, Message } from '../../design/elements';
+import { Message } from '../../design/elements';
 
 const Login = () => {
    const { user, isError, error } = useAuthState();
-   const { login, resetAuthError } = useAuthActions();
+   const { login } = useAuthActions();
    const { register, errors, handleSubmit } = useForm();
    const location = useLocation();
-   const { url } = useRouteMatch();
 
    //if (statusAuth === 'pending') return <Spinner modifiers='dark' />;
    if (user) return <Redirect to={location.state?.from || '/'} />;

@@ -4,7 +4,7 @@ import { Col, FormContainer, Title, Span, Form, Label, Button } from '../../desi
 import { useForm } from 'react-hook-form';
 import { useAuthState } from '../../stores/auth/authStateContext';
 import { useAuthActions } from '../../stores/auth/authActionContext';
-import { Message, Spinner } from '../../design/elements';
+import { Message } from '../../design/elements';
 
 const Signup = () => {
    const { user, isError, error } = useAuthState();

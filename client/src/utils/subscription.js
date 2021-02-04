@@ -42,8 +42,6 @@ function useSubscribeItems() {
 
 /* eslint-disable */
 function useSubscribeItem(channelId) {
-   //const { user } = useAuthState();
-
    const { subscribeItems } = useSubscribeItems();
    return subscribeItems.find((el) => el.channel._id === channelId) ?? null;
 }

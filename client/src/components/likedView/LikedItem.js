@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
@@ -16,12 +16,10 @@ import {
 import { colorGrey } from '../../design/utils';
 import { Close, Delete } from '@material-ui/icons';
 import { Modal, ModalOpenButton, ModalCloseButton, ModalContent } from '../../design/elements';
-import { useAuthState } from '../../stores/auth/authStateContext';
-import useLike from '../../stores/likes/likeContext';
+import { useRemoveLikeItem } from '../../utils/like';
 
 const LikedItem = ({ like, className }) => {
-   const { user } = useAuthState();
-   const [, { deleteLike }] = useLike();
+   const { removeLike } = useRemoveLikeItem(like.videoId);
 
    return (
       <List.Item className={className}>
@@ -38,7 +36,7 @@ const LikedItem = ({ like, className }) => {
                      <Button
                         modifiers='outline'
                         className='like__deletebtn'
-                        onClick={() => deleteLike(user._id, like.videoId)}
+                        onClick={() => removeLike({ videoId: like.videoId })}
                      >
                         <Icon as={Delete} />
                         <Span>Remove</Span>

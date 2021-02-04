@@ -1,5 +1,7 @@
+import * as R from 'ramda';
 import { videoRequest } from '../apis/backend';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { queryClient } from '../context';
 
 function useCommentSearch(videoId) {
 	const result = useQuery({
@@ -43,22 +45,21 @@ function useUpdateComment(videoId, customOptions) {
 	return { ...mutation, update: mutation.mutateAsync };
 }
 
-export { useCommentSearch, useCreateComment, useUpdateComment };
+function useDeleteComment(videoId, customOptions) {
+	const defaultOptions = useDefaultMutationOptions(videoId);
+	const mutation = useMutation(
+		({ commentId }) => videoRequest.delete(`/${videoId}/comments/${commentId}`),
+		{
+			...defaultOptions,
+			...customOptions,
+			onMutate: () => {
+				queryClient.setQueryData(['commentSearch', { videoId }], (oldData) => {
+					return R.reject((el) => el.videoId === videoId, oldData);
+				});
+			}
+		}
+	);
+	return { ...mutation, remove: mutation.mutateAsync };
+}
 
-// const updateComment = useCallback(
-//    async function (videoId, commentId, values) {
-//       const { status } = await fetchComments(
-//          videoRequest.patch(`/${videoId}/comments/${commentId}`, values)
-//       );
-//       if (status === 'success') dispatchComments({ type: UPDATE_COMMENT });
-//    },
-//    [fetchComments, dispatchComments]
-// );
-
-// const deleteComment = useCallback(
-//    async function (videoId, commentId) {
-//       await fetchComments(videoRequest.delete(`/${videoId}/comments/${commentId}`));
-//       dispatchComments({ type: DELETE_COMMENT, payload: { commentId } });
-//    },
-//    [fetchComments, dispatchComments]
-// );
+export { useCommentSearch, useCreateComment, useUpdateComment, useDeleteComment };

@@ -21,7 +21,8 @@ function useVideoSearch(q, sort) {
 		getNextPageParam: (lastPage, pages) => {
 			if (lastPage.data.length > 0) return lastPage.nextPage;
 			return false;
-		}
+		},
+		onSuccess: setSearchResultsForVideoInfo
 	});
 	const { data } = result;
 	return { ...result, videos: data?.pages || [] };
@@ -64,20 +65,22 @@ function useHomeVideoSearch(filter) {
 			if (lastPage.data.length > 0) return lastPage.nextPage;
 			return false;
 		},
-		onSuccess: (videos) => {
-			const { pages, pageParams } = videos;
-			pages[pageParams.length - 1].data.forEach((video) => {
-				setQueryDataForVideoInfo(video);
-			});
-		}
+		onSuccess: setSearchResultsForVideoInfo
 	});
 	const { data } = result;
 	return { ...result, videos: data?.pages || [] };
 }
 
-function setQueryDataForVideoInfo(video) {
+function setSearchResultsForVideoInfo(videos) {
+	const { pages, pageParams } = videos;
 	//Once getting the search results, insert all results into the video info query
 	//so that we don't have to fetch data we've already had again
+	pages[pageParams.length - 1].data.forEach((video) => {
+		setQueryDataForVideoInfo(video);
+	});
+}
+
+function setQueryDataForVideoInfo(video) {
 	queryClient.setQueryData(['videoInfo', { videoId: video.videoId }], video);
 }
 
@@ -96,12 +99,12 @@ function setQueryDataForVideoSubscribe(videoId, type) {
 	return prevVideoInfo;
 }
 
-function refetchVideoSearchQuery() {
-	// remove old video search query
-	queryClient.remoQueries('videoSearch');
-	// refetch a new query with empty string
-	queryClient.prefetchQuery();
-}
+// function refetchVideoSearchQuery() {
+// 	// remove old video search query
+// 	queryClient.remoQueries('videoSearch');
+// 	// refetch a new query with empty string
+// 	queryClient.prefetchQuery();
+// }
 
 export {
 	useVideoSearch,

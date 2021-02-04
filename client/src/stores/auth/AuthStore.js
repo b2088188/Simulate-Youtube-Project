@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
 import { AuthStateProvider } from './authStateContext';
 import { AuthActionProvider } from './authActionContext';
-import authReducer from './authReducer';
 import { useAsync } from '../../utils/hooks';
 import { useQueryClient } from 'react-query';
 import { Row } from '../../design/components';
@@ -11,6 +10,7 @@ import { GET_AUTHINFO, LOGOUT_AUTH, AUTH_ERRORRESET, UPDATE_USERDATA } from '../
 import axios from 'axios';
 
 const AuthStore = ({ children }) => {
+   const queryClient = useQueryClient();
    const {
       data: user,
       error,
@@ -68,6 +68,7 @@ const AuthStore = ({ children }) => {
 
    const logout = useCallback(
       async function (values) {
+         queryClient.clear();
          try {
             await authRequest.get('/logout');
             setData(null);
@@ -75,7 +76,7 @@ const AuthStore = ({ children }) => {
             setData(null);
          }
       },
-      [setData]
+      [setData, queryClient]
    );
 
    // const resetAuthError = useCallback(
@@ -85,17 +86,24 @@ const AuthStore = ({ children }) => {
    //    [dispatchAuth]
    // );
 
-   // const updateUserData = useCallback(
-   //    async function (values) {
-   //       const formData = new FormData();
-   //       formData.append('name', values.name);
-   //       formData.append('email', values.email);
-   //       formData.append('photo', values.photo[0]);
-   //       const { status } = await fetchAuth(userRequest.patch('/updateMe', formData));
-   //       if (status === 'success') dispatchAuth({ type: UPDATE_USERDATA });
-   //    },
-   //    [fetchAuth, dispatchAuth]
-   // );
+   const updateUserData = useCallback(
+      async function (values) {
+         const prevUserData = { ...user };
+         try {
+            const formData = new FormData();
+            formData.append('name', values.name);
+            formData.append('email', values.email);
+            formData.append('photo', values.photo[0]);
+            const {
+               data: { data }
+            } = await userRequest.patch('/updateMe', formData);
+            setData(data.user);
+         } catch (err) {
+            setData(prevUserData);
+         }
+      },
+      [setData]
+   );
 
    const value = useMemo(
       () => ({
@@ -111,11 +119,11 @@ const AuthStore = ({ children }) => {
       () => ({
          login,
          signup,
-         // updateUserData,
+         updateUserData,
          logout
          //resetAuthError
       }),
-      [login, signup, logout]
+      [login, signup, logout, updateUserData]
    );
 
    if (isIdle || isLoading)

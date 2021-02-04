@@ -1,25 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button, Paragraph, ImageContainer, Image, ListGroup, Icon } from '../../design/components';
 import { Menu, MenuOpenButton, MenuCloseButton, MenuContent } from '../../design/elements';
 import { useAuthState } from '../../stores/auth/authStateContext';
-import useComment from '../../stores/comment/commentContext';
+import { useDeleteComment } from '../../utils/comment';
 import { MenuItem } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
 
 const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
-   const [open, setOpen] = useState(false);
-   const { user } = useAuthState();
-   const [, { deleteComment }] = useComment();
    const { videoId } = useParams();
-   const anchorRef = useRef(null);
-
-   function onDeleteClick(id) {
-      return function () {
-         deleteComment(videoId, id);
-      };
-   }
+   const { user } = useAuthState();
+   const { remove } = useDeleteComment(videoId);
 
    function renderActionBtn(comment) {
       return (
@@ -35,7 +27,7 @@ const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
                      <MenuItem onClick={() => setCurrentTypedComment(comment)}>Edit</MenuItem>
                   </MenuCloseButton>
                   <MenuCloseButton>
-                     <MenuItem onClick={onDeleteClick(comment._id)}>Delete</MenuItem>
+                     <MenuItem onClick={() => remove({ commentId: comment._id })}>Delete</MenuItem>
                   </MenuCloseButton>
                </MenuContent>
             </Menu>

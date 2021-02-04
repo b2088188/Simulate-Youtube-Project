@@ -81,6 +81,7 @@ function useRemoveLikeItem(videoId) {
 			onMutate: () => {
 				const prevVideoInfo = queryClient.getQueryData(['videoInfo', { videoId }]);
 				queryClient.setQueryData(['videoInfo', { videoId }], (oldData) => {
+					if (!oldData) return;
 					return { ...oldData, likes: oldData.likes - 1 };
 				});
 				return () => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
