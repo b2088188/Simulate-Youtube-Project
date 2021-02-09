@@ -30,9 +30,9 @@ const ChannelView = ({ className }) => {
       channel,
       isIdle: isChannelIdle,
       isLoading: isChannelLoading,
-      isSuccess: isChannelSuccess,
-      isError: isChannelError,
-      error: errorChannel
+      isSuccess: isChannelSuccess
+      // isError: isChannelError,
+      //error: errorChannel
    } = useChannelInfo(channelId);
    const {
       channelVideos,
@@ -69,12 +69,12 @@ const ChannelView = ({ className }) => {
    if (toLogin) return <Redirect to='/login' />;
 
    if (isChannelIdle || isChannelLoading) return <Spinner modifiers='dark' />;
-   if (isChannelError && errorChannel)
-      return (
-         <Col width='10'>
-            <Message text={errorChannel.message} severity='error' />;
-         </Col>
-      );
+   // if (isChannelError && errorChannel)
+   //    return (
+   //       <Col width='10'>
+   //          <Message text={errorChannel.message} severity='error' />;
+   //       </Col>
+   //    );
 
    if (isChannelSuccess)
       return (

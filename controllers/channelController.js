@@ -8,6 +8,7 @@ export const createChannel = createOne(Channel);
 
 export const getChannel = catchAsync(async (req, res, next) => {
 	const channel = await Channel.findById(req.params.channelId);
+	
 	if(!channel)
 		return next(new AppError('No channel found with that Id.', 404));
 

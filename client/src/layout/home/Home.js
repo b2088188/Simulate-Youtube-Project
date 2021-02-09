@@ -14,9 +14,7 @@ const Home = ({ className }) => {
       hasNextPage,
       fetchNextPage,
       isFetching,
-      isFetchingNextPage,
-      isError,
-      error
+      isFetchingNextPage
    } = useHomeVideoSearch(filter);
    const lastHomeElementRef = useCallback(
       (node) => {
@@ -49,12 +47,7 @@ const Home = ({ className }) => {
          });
       });
    }
-   if (isError && error)
-      return (
-         <Col width='10'>
-            <Message severity='error' text={error.message} />
-         </Col>
-      );
+
    return (
       <Col width='10' className={className}>
          <ScrollerTab>

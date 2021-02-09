@@ -14,6 +14,7 @@ export const createOne = Model => catchAsync(async function (req, res, next) {
 
 export const getAll = (Model, popOptions) => catchAsync(async function (req, res, next) {
    let filter = {};
+   
    if(req.params.channelId)
       filter = {channel: req.params.channelId};
    const features = new APIFeatures(Model.find(filter), req.query).filter().sort().paginate();

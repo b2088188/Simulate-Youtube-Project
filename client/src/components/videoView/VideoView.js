@@ -6,7 +6,7 @@ import {
    useCreateSubscribeItem,
    useRemoveSubscribeItem
 } from '../../utils/subscription';
-import { useLikeItem, useCreateLikeItem, useRemoveLikeItem } from '../../utils/like';
+import { useLikeItem, useCreateLikeItemInVideo, useRemoveLikeItemInVideo } from '../../utils/like';
 import { useAsync } from '../../utils/hooks';
 import styled from 'styled-components';
 import {
@@ -31,7 +31,14 @@ import { Message, Spinner } from '../../design/elements';
 const VideoView = ({ history, className }) => {
    const { user } = useAuthState();
    const { videoId } = useParams();
-   const { video, isIdle, isLoading, isSuccess, isError, error } = useVideoInfo(videoId);
+   const {
+      video,
+      isIdle,
+      isLoading,
+      isSuccess
+      // isError,
+      //error
+   } = useVideoInfo(videoId);
    const likeItem = useLikeItem(videoId);
    const {
       isLoading: isMutateLoading,
@@ -43,8 +50,8 @@ const VideoView = ({ history, className }) => {
 
    const { createSubscribe } = useCreateSubscribeItem({ videoId });
    const { removeSubscribe } = useRemoveSubscribeItem({ videoId });
-   const { createLike } = useCreateLikeItem(videoId);
-   const { removeLike } = useRemoveLikeItem(videoId);
+   const { createLike } = useCreateLikeItemInVideo(videoId);
+   const { removeLike } = useRemoveLikeItemInVideo(videoId);
    const subscribeItem = useSubscribeItem(video?.channel?._id || null);
    const [descriptionShow, setDescriptionShow] = useState(false);
    const videoSrc = `https://www.youtube.com/embed/${videoId}`;
@@ -56,12 +63,12 @@ const VideoView = ({ history, className }) => {
    }
 
    if (isIdle || isLoading) return <Spinner modifiers='dark' />;
-   if (isError && error)
-      return (
-         <Col width='10'>
-            <Message severity='error' text={error.message} />
-         </Col>
-      );
+   // if (isError && error)
+   //    return (
+   //       <Col width='10'>
+   //          <Message severity='error' text={error.message} />
+   //       </Col>
+   //    );
 
    if (isSuccess)
       return (

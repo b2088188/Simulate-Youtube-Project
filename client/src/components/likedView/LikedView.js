@@ -5,7 +5,7 @@ import LikedItem from './LikedItem';
 import { Spinner, Message } from '../../design/elements';
 
 const LikedView = ({ className }) => {
-   const { likeItems, isIdle, isLoading, isError, isSuccess, error } = useLikeItems();
+   const { likeItems, isIdle, isLoading, isSuccess } = useLikeItems();
 
    function renderLikeList(list) {
       return list?.map(function generateItem(like) {
@@ -14,12 +14,6 @@ const LikedView = ({ className }) => {
    }
 
    if (isIdle || isLoading) return <Spinner modifiers='dark' />;
-   if (isError && error)
-      return (
-         <Col width='10'>
-            <Message severity='error' text={error.message} />
-         </Col>
-      );
    if (isSuccess)
       return (
          <Col width='10' className={className}>

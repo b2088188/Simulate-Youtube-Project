@@ -19,7 +19,7 @@ import { Modal, ModalOpenButton, ModalCloseButton, ModalContent } from '../../de
 import { useRemoveLikeItem } from '../../utils/like';
 
 const LikedItem = ({ like, className }) => {
-   const { removeLike } = useRemoveLikeItem(like.videoId);
+   const { removeLike } = useRemoveLikeItem();
 
    return (
       <List.Item className={className}>
