@@ -64,7 +64,6 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => {
    return (
       <Col width='10'>
          <Message severity='error' text={error.message} />
-         <button onClick={resetErrorBoundary}>Try Again</button>
       </Col>
    );
 };

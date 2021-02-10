@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useVideoInfo } from '../../utils/video';
 import {
    useSubscribeItem,
-   useCreateSubscribeItem,
-   useRemoveSubscribeItem
+   useCreateSubscribeItemInVideo,
+   useRemoveSubscribeItemInVideo
 } from '../../utils/subscription';
 import { useLikeItem, useCreateLikeItemInVideo, useRemoveLikeItemInVideo } from '../../utils/like';
 import { useAsync } from '../../utils/hooks';
@@ -48,8 +48,8 @@ const VideoView = ({ history, className }) => {
       //  reset
    } = useAsync();
 
-   const { createSubscribe } = useCreateSubscribeItem({ videoId });
-   const { removeSubscribe } = useRemoveSubscribeItem({ videoId });
+   const { createSubscribe } = useCreateSubscribeItemInVideo(videoId);
+   const { removeSubscribe } = useRemoveSubscribeItemInVideo(videoId);
    const { createLike } = useCreateLikeItemInVideo(videoId);
    const { removeLike } = useRemoveLikeItemInVideo(videoId);
    const subscribeItem = useSubscribeItem(video?.channel?._id || null);

@@ -3,8 +3,8 @@ import { useParams, Redirect } from 'react-router-dom';
 import { useChannelInfo, useChannelVideos } from '../../utils/channel';
 import {
    useSubscribeItem,
-   useCreateSubscribeItem,
-   useRemoveSubscribeItem
+   useCreateSubscribeItemInChannel,
+   useRemoveSubscribeItemInChannel
 } from '../../utils/subscription';
 import { useAsync } from '../../utils/hooks';
 import styled from 'styled-components';
@@ -49,9 +49,10 @@ const ChannelView = ({ className }) => {
       run
       // reset
    } = useAsync();
+
    const subscribeItem = useSubscribeItem(channelId);
-   const { createSubscribe } = useCreateSubscribeItem({ channelId });
-   const { removeSubscribe } = useRemoveSubscribeItem({ channelId });
+   const { createSubscribe } = useCreateSubscribeItemInChannel(channelId);
+   const { removeSubscribe } = useRemoveSubscribeItemInChannel(channelId);
    const [toLogin, setToLogin] = useState(false);
 
    function renderChannelVideos(list) {

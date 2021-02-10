@@ -46,7 +46,7 @@ function useCreateLikeItemInVideo(videoId) {
 			},
 			onError: (err, variables, recover) => {
 				if (typeof recover === 'function') {
-					() => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
+					//() => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
 					recover();
 				}
 			},
