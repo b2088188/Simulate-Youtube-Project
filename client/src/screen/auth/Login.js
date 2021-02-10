@@ -1,10 +1,10 @@
 import React from 'react';
 import { Redirect, useLocation } from 'react-router-dom';
-import { Col, FormContainer, Title, Span, Form, Label, Button } from '../../design/components';
+import { Col, FormContainer, Title, Span, Form, Label, Button } from 'design/components';
 import { useForm } from 'react-hook-form';
-import { useAuthState } from '../../stores/auth/authStateContext';
-import { useAuthActions } from '../../stores/auth/authActionContext';
-import { Message } from '../../design/elements';
+import { useAuthState } from 'stores/auth/authStateContext';
+import { useAuthActions } from 'stores/auth/authActionContext';
+import { Message } from 'design/elements';
 
 const Login = () => {
    const { user, isError, error } = useAuthState();

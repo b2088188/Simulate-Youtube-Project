@@ -9,9 +9,9 @@ import {
    Image,
    ImageContainer,
    ListGroup
-} from '../../design/components';
-import { media } from '../../design/utils';
-import { formatDate, formatShortTitle } from '../../utils/format';
+} from 'design/components';
+import { media } from 'design/utils';
+import { formatDate, formatShortTitle } from 'utils/format';
 
 const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
    return (

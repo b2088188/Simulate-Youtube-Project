@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import useContextFactory from '../../customhooks/useContextFactory';
+import { useContextFactory } from 'utils/hooks';
 
 const AuthStateContext = createContext();
 AuthStateContext.displayName = 'AuthStateContext';

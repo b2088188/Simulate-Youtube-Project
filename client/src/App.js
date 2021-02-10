@@ -1,20 +1,21 @@
 import React, { lazy, Suspense } from 'react';
-import { Route } from 'react-router-dom';
-import { Container, Row, Col } from './design/components';
+import { Route, useLocation, Switch } from 'react-router-dom';
 import PrivateRoute from './routes/PrivateRoutes';
 import Home from './layout/home/Home';
 import Header from './layout/header/Header';
 import Sidebar from './layout/sidebar/Sidebar';
+import { Container, Row, Col } from './design/components';
 import { Spinner, Message } from './design/elements';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useQueryErrorResetBoundary } from 'react-query';
-const Signup = lazy(() => import('./components/auth/Signup'));
-const Login = lazy(() => import('./components/auth/Login'));
-const SearchView = lazy(() => import('./components/searchView/SearchView'));
-const VideoView = lazy(() => import('./components/videoView/VideoView'));
-const LikedView = lazy(() => import('./components/likedView/LikedView'));
-const ChannelView = lazy(() => import('./components/channelView/ChannelView'));
-const AccountView = lazy(() => import('./components/accountView/AccountView'));
+
+const Signup = lazy(() => import('./screen/auth/Signup'));
+const Login = lazy(() => import('./screen/auth/Login'));
+const SearchView = lazy(() => import('./screen/searchView/SearchView'));
+const VideoView = lazy(() => import('./screen/videoView/VideoView'));
+const LikedView = lazy(() => import('./screen/likedView/LikedView'));
+const ChannelView = lazy(() => import('./screen/channelView/ChannelView'));
+const AccountView = lazy(() => import('./screen/accountView/AccountView'));
 
 function App() {
    const { reset } = useQueryErrorResetBoundary();
@@ -46,17 +47,18 @@ function App() {
 }
 
 const AppRoutes = () => {
+   const location = useLocation();
    return (
-      <>
-         <Route exact path='/signup' component={Signup} />
-         <Route exact path='/login' component={Login} />
+      <Switch>
          <Route exact path='/' component={Home} />
-         <PrivateRoute exact path='/accounts' component={AccountView} />
-         <Route exact path='/results' component={SearchView} />
-         <PrivateRoute exact path='/likelist' component={LikedView} />
-         <Route exact path='/watch/:videoId' component={VideoView} />
-         <Route exact path='/channel/:channelId' component={ChannelView} />
-      </>
+         <Route path='/signup' component={Signup} />
+         <Route path='/login' component={Login} />
+         <PrivateRoute path='/accounts' component={AccountView} />
+         <Route path='/results' component={SearchView} />
+         <PrivateRoute path='/likelist' component={LikedView} />
+         <Route path='/watch/:videoId' component={VideoView} />
+         <Route path='/channel/:channelId' component={ChannelView} />
+      </Switch>
    );
 };
 

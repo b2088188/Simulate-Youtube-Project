@@ -12,11 +12,11 @@ import {
    Icon,
    Button,
    Span
-} from '../../design/components';
-import { colorGrey } from '../../design/utils';
+} from 'design/components';
+import { colorGrey } from 'design/utils';
 import { Close, Delete } from '@material-ui/icons';
-import { Modal, ModalOpenButton, ModalCloseButton, ModalContent } from '../../design/elements';
-import { useRemoveLikeItem } from '../../utils/like';
+import { Modal, ModalOpenButton, ModalCloseButton, ModalContent } from 'design/elements';
+import { useRemoveLikeItem } from 'utils/like';
 
 const LikedItem = ({ like, className }) => {
    const { removeLike } = useRemoveLikeItem();

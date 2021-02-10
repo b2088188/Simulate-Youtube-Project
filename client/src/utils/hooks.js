@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 
 function useSafeDispatch(dispatch) {
    const mounted = React.useRef(false);
@@ -76,4 +77,14 @@ function useAsync(initialState) {
    };
 }
 
-export { useAsync };
+/* eslint-disable */
+function useContextFactory(name, context) {
+   return function () {
+      const ctx = useContext(context);
+      // if(!ctx)
+      //    return throw new Error(`use${name}Context must be used withing a ${name} ContextProvider`);
+      return ctx;
+   };
+}
+
+export { useAsync, useContextFactory };

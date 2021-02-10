@@ -10,9 +10,9 @@ import {
    Paragraph,
    ImageContainer,
    Image
-} from '../../design/components';
-import { useAuthState } from '../../stores/auth/authStateContext';
-import { useAuthActions } from '../../stores/auth/authActionContext';
+} from 'design/components';
+import { useAuthState } from 'stores/auth/authStateContext';
+import { useAuthActions } from 'stores/auth/authActionContext';
 import { useForm } from 'react-hook-form';
 
 const AccountView = ({ className }) => {

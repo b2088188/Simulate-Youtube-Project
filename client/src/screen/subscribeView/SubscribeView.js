@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSubscribeItems } from '../../utils/subscription';
-import { Title, List } from '../../design/components';
-import { colorGrey, media } from '../../design/utils';
-import { useAuthState } from '../../stores/auth/authStateContext';
+import { useSubscribeItems } from 'utils/subscription';
+import { Title, List } from 'design/components';
+import { colorGrey, media } from 'design/utils';
+import { useAuthState } from 'stores/auth/authStateContext';
 import SubscribeItem from './SubscribeItem';
-import Spinner from '../../design/elements/Spinner';
+import Spinner from 'design/elements/Spinner';
 
 const SubscribeView = ({ className }) => {
    const { user } = useAuthState();

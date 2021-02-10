@@ -67,6 +67,15 @@ $bp-medium: 56.25em;
 $bp-small: 37.5em;
 //500px
 $bp-tiny: 31.5em;
+
+.fade-enter{
+   opacity: 0; 
+   z-index: 1;
+}
+.fade-enter.fade-enter-active{
+   opacity: 1;
+   transition: opacity 250ms ease-in
+}
 `;
 
 export default GlobalStyle;

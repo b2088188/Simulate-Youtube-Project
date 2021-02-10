@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useCommentSearch, useCreateComment, useUpdateComment } from '../../utils/comment';
-import { Form, Button, FlexWrapper } from '../../design/components';
-import { useAuthState } from '../../stores/auth/authStateContext';
-import { useAsync } from '../../utils/hooks';
+import { useCommentSearch, useCreateComment, useUpdateComment } from 'utils/comment';
+import { Form, Button, FlexWrapper } from 'design/components';
+import { useAuthState } from 'stores/auth/authStateContext';
+import { useAsync } from 'utils/hooks';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import CommentItem from './CommentItem';
-import { Spinner, Message } from '../../design/elements';
+import { Spinner, Message } from 'design/elements';
 
 const CommentView = ({ className }) => {
    const { user } = useAuthState();

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useVideoInfo } from '../../utils/video';
+import { useVideoInfo } from 'utils/video';
 import {
    useSubscribeItem,
    useCreateSubscribeItemInVideo,
    useRemoveSubscribeItemInVideo
-} from '../../utils/subscription';
-import { useLikeItem, useCreateLikeItemInVideo, useRemoveLikeItemInVideo } from '../../utils/like';
-import { useAsync } from '../../utils/hooks';
+} from 'utils/subscription';
+import { useLikeItem, useCreateLikeItemInVideo, useRemoveLikeItemInVideo } from 'utils/like';
+import { useAsync } from 'utils/hooks';
 import styled from 'styled-components';
 import {
    Col,
@@ -21,12 +21,12 @@ import {
    Icon,
    Image,
    Span
-} from '../../design/components';
-import { media } from '../../design/utils';
-import { useAuthState } from '../../stores/auth/authStateContext';
-import CommentView from '../commentView/CommentView';
+} from 'design/components';
+import { media } from 'design/utils';
+import { useAuthState } from 'stores/auth/authStateContext';
+import CommentView from 'screen/commentView/CommentView';
 import { ThumbUp } from '@material-ui/icons';
-import { Message, Spinner } from '../../design/elements';
+import { Message, Spinner } from 'design/elements';
 
 const VideoView = ({ history, className }) => {
    const { user } = useAuthState();
@@ -63,12 +63,6 @@ const VideoView = ({ history, className }) => {
    }
 
    if (isIdle || isLoading) return <Spinner modifiers='dark' />;
-   // if (isError && error)
-   //    return (
-   //       <Col width='10'>
-   //          <Message severity='error' text={error.message} />
-   //       </Col>
-   //    );
 
    if (isSuccess)
       return (

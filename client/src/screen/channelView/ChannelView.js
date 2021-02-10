@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
-import { useChannelInfo, useChannelVideos } from '../../utils/channel';
+import { useChannelInfo, useChannelVideos } from 'utils/channel';
 import {
    useSubscribeItem,
    useCreateSubscribeItemInChannel,
    useRemoveSubscribeItemInChannel
-} from '../../utils/subscription';
-import { useAsync } from '../../utils/hooks';
+} from 'utils/subscription';
+import { useAsync } from 'utils/hooks';
 import styled from 'styled-components';
 import {
    Col,
@@ -17,11 +17,11 @@ import {
    Button,
    ListGroup,
    Span
-} from '../../design/components';
-import { setFlex, media } from '../../design/utils';
-import { useAuthState } from '../../stores/auth/authStateContext';
+} from 'design/components';
+import { setFlex, media } from 'design/utils';
+import { useAuthState } from 'stores/auth/authStateContext';
 import ChannelItem from './ChannelItem';
-import { Spinner, Message } from '../../design/elements';
+import { Spinner, Message } from 'design/elements';
 
 const ChannelView = ({ className }) => {
    const { user } = useAuthState();

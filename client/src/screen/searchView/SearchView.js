@@ -1,11 +1,11 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useVideoSearch } from '../../utils/video';
+import { useVideoSearch } from 'utils/video';
 import styled from 'styled-components';
-import { Col, List, Navigation, FlexWrapper } from '../../design/components';
-import { setFlex } from '../../design/utils';
+import { Col, List, Navigation, FlexWrapper } from 'design/components';
+import { setFlex } from 'design/utils';
 import SearchItem from './SearchItem';
-import { Spinner, Message } from '../../design/elements';
+import { Spinner, Message } from 'design/elements';
 import { NativeSelect, FormHelperText } from '@material-ui/core';
 
 const SearchView = ({ className }) => {
