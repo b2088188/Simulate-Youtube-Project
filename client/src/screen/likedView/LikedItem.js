@@ -15,7 +15,7 @@ import {
 } from 'design/components';
 import { colorGrey } from 'design/utils';
 import { Close, Delete } from '@material-ui/icons';
-import { Modal, ModalOpenButton, ModalCloseButton, ModalContent } from 'design/elements';
+import { Modal, ModalOpenButton, ModalCloseButton, ModalContent } from 'components/Modal';
 import { useRemoveLikeItem } from 'utils/like';
 
 const LikedItem = ({ like, className }) => {

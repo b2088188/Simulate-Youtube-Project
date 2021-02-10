@@ -19,12 +19,13 @@ import {
    Span
 } from 'design/components';
 import { setFlex, media } from 'design/utils';
-import { useAuthState } from 'stores/auth/authStateContext';
+import useAuth from 'context/auth/authContext';
 import ChannelItem from './ChannelItem';
-import { Spinner, Message } from 'design/elements';
+import { Spinner } from 'components/Spinner';
+import { Message } from 'components/Message';
 
 const ChannelView = ({ className }) => {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    const { channelId } = useParams();
    const {
       channel,

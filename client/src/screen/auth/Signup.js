@@ -2,13 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { useLocation, Redirect, useRouteMatch } from 'react-router-dom';
 import { Col, FormContainer, Title, Span, Form, Label, Button } from 'design/components';
 import { useForm } from 'react-hook-form';
-import { useAuthState } from 'stores/auth/authStateContext';
-import { useAuthActions } from 'stores/auth/authActionContext';
-import { Message } from 'design/elements';
+import useAuth from 'context/auth/authContext';
+import { Message } from 'components/Message';
 
 const Signup = () => {
-   const { user, isError, error } = useAuthState();
-   const { signup, resetAuthError } = useAuthActions();
+   const [{ user, isError, error }, { signup, resetAuthError }] = useAuth();
    const { register, errors, handleSubmit, watch } = useForm();
    const { url } = useRouteMatch();
    const password = useRef({});

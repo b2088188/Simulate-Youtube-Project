@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, CenterWrapper, List } from 'design/components';
+import { Spinner } from 'components/Spinner';
 import { useLikeItems } from 'utils/like';
 import LikedItem from './LikedItem';
-import { Spinner, Message } from 'design/elements';
 
 const LikedView = ({ className }) => {
    const { likeItems, isIdle, isLoading, isSuccess } = useLikeItems();

@@ -5,9 +5,9 @@ import Home from './layout/home/Home';
 import Header from './layout/header/Header';
 import Sidebar from './layout/sidebar/Sidebar';
 import { Container, Row, Col } from './design/components';
-import { Spinner, Message } from './design/elements';
+import { Spinner } from './components/Spinner';
+import { Message } from './components/Message';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useQueryErrorResetBoundary } from 'react-query';
 
 const Signup = lazy(() => import('./screen/auth/Signup'));
 const Login = lazy(() => import('./screen/auth/Login'));
@@ -18,8 +18,6 @@ const ChannelView = lazy(() => import('./screen/channelView/ChannelView'));
 const AccountView = lazy(() => import('./screen/accountView/AccountView'));
 
 function App() {
-   const { reset } = useQueryErrorResetBoundary();
-
    return (
       <Suspense
          fallback={

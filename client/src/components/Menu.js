@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, createContext, cloneElement } from 'react';
-import { MenuList, Grow, Paper, Popper, ClickAwayListener } from '@material-ui/core';
+import { MenuList, MenuItem, Grow, Paper, Popper, ClickAwayListener } from '@material-ui/core';
 
 const MenuContext = createContext();
 
@@ -62,4 +62,4 @@ function callAll(...fns) {
    };
 }
 
-export { Menu, MenuOpenButton, MenuCloseButton, MenuContent };
+export { Menu, MenuItem, MenuOpenButton, MenuCloseButton, MenuContent };

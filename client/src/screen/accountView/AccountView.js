@@ -11,14 +11,12 @@ import {
    ImageContainer,
    Image
 } from 'design/components';
-import { useAuthState } from 'stores/auth/authStateContext';
-import { useAuthActions } from 'stores/auth/authActionContext';
+import useAuth from 'context/auth/authContext';
 import { useForm } from 'react-hook-form';
 
 const AccountView = ({ className }) => {
    const { register, errors, handleSubmit, setValue, reset } = useForm();
-   const { user } = useAuthState();
-   const { updateUserData } = useAuthActions();
+   const [{ user }, { updateUserData }] = useAuth();
 
    useEffect(() => {
       if (user) {

@@ -23,22 +23,15 @@ import {
    Span
 } from 'design/components';
 import { media } from 'design/utils';
-import { useAuthState } from 'stores/auth/authStateContext';
+import useAuth from 'context/auth/authContext';
 import CommentView from 'screen/commentView/CommentView';
 import { ThumbUp } from '@material-ui/icons';
-import { Message, Spinner } from 'design/elements';
+import { Spinner } from 'components/Spinner';
 
 const VideoView = ({ history, className }) => {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    const { videoId } = useParams();
-   const {
-      video,
-      isIdle,
-      isLoading,
-      isSuccess
-      // isError,
-      //error
-   } = useVideoInfo(videoId);
+   const { video, isIdle, isLoading, isSuccess } = useVideoInfo(videoId);
    const likeItem = useLikeItem(videoId);
    const {
       isLoading: isMutateLoading,

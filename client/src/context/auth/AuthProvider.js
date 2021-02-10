@@ -1,15 +1,12 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
-import { AuthStateProvider } from './authStateContext';
-import { AuthActionProvider } from './authActionContext';
-import { useAsync } from '../../utils/hooks';
+import { AuthStateProvider, AuthActionProvider } from './authContext';
+import { useAsync } from 'utils/hooks';
 import { useQueryClient } from 'react-query';
-import { Row } from '../../design/components';
-import { Spinner } from '../../design/elements';
-import { authRequest, userRequest } from '../../apis/backend';
-import { GET_AUTHINFO, LOGOUT_AUTH, AUTH_ERRORRESET, UPDATE_USERDATA } from '../types';
-import axios from 'axios';
+import { Row } from 'design/components';
+import { Spinner } from 'components/Spinner';
+import { authRequest, userRequest } from 'apis/backend';
 
-const AuthStore = ({ children }) => {
+const AuthProvider = ({ children }) => {
    const queryClient = useQueryClient();
    const {
       data: user,
@@ -17,7 +14,7 @@ const AuthStore = ({ children }) => {
       isLoading,
       isIdle,
       isError,
-      isSuccess,
+      //isSuccess,
       run,
       setData,
       setError
@@ -102,7 +99,7 @@ const AuthStore = ({ children }) => {
             setData(prevUserData);
          }
       },
-      [setData]
+      [setData, user]
    );
 
    const value = useMemo(
@@ -140,4 +137,4 @@ const AuthStore = ({ children }) => {
    );
 };
 
-export default AuthStore;
+export default AuthProvider;

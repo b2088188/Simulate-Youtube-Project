@@ -1,16 +1,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, Paragraph, ImageContainer, Image, ListGroup, Icon } from '../../design/components';
-import { Menu, MenuOpenButton, MenuCloseButton, MenuContent } from '../../design/elements';
-import { useAuthState } from '../../stores/auth/authStateContext';
-import { useDeleteComment } from '../../utils/comment';
-import { MenuItem } from '@material-ui/core';
+import { Button, Paragraph, ImageContainer, Image, ListGroup, Icon } from 'design/components';
+import { Menu, MenuOpenButton, MenuCloseButton, MenuContent, MenuItem } from 'components/Menu';
+import useAuth from 'context/auth/authContext';
+import { useDeleteComment } from 'utils/comment';
 import { MoreVert } from '@material-ui/icons';
 
 const CommentItem = ({ comment, setCurrentTypedComment, className }) => {
    const { videoId } = useParams();
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    const { remove } = useDeleteComment(videoId);
 
    function renderActionBtn(comment) {

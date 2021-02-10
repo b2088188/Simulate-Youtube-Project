@@ -1,5 +1,4 @@
 import React, { useState, useContext, createContext, cloneElement } from 'react';
-import styled from 'styled-components';
 import { Modal as MaterialModel, Backdrop, Fade, makeStyles } from '@material-ui/core';
 
 const ModalContext = createContext();
@@ -17,14 +16,6 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2, 4, 3)
    }
 }));
-
-const TransitionsModal = ({ toggleButton, open, setOpen, children, className }) => {
-   const handleClose = () => {
-      setOpen(false);
-   };
-
-   return <div className={className}>{toggleButton}</div>;
-};
 
 const Modal = ({ children }) => {
    const [isOpen, setIsOpen] = useState(false);

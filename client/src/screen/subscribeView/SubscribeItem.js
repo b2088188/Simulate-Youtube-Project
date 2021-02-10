@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { colorGrey, colorPrimary, media } from 'design/utils';
 import { List, Link as SLink, ImageContainer, Image, Title } from 'design/components';
-import { Link } from 'react-router-dom';
 
 const SubscribeItem = ({ subscribe, className }) => {
    return (

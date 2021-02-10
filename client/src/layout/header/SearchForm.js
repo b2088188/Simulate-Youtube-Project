@@ -2,9 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { Form, Icon, Button } from '../../design/components';
-import { media } from '../../design/utils';
+import { Form, Icon, Button } from 'design/components';
+import { media } from 'design/utils';
 import SearchIcon from '@material-ui/icons/Search';
+
 const SearchForm = ({ className }) => {
    const { register, handleSubmit } = useForm();
    const history = useHistory();

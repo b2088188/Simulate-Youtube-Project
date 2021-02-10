@@ -1,10 +1,10 @@
 import React, { useState, useRef, useCallback } from 'react';
 import styled from 'styled-components';
-import { Col, ListGroup } from '../../design/components';
-import { useHomeVideoSearch } from '../../utils/video';
+import { Col, ListGroup } from 'design/components';
+import { useHomeVideoSearch } from 'utils/video';
 import HomeItem from './HomeItem';
-import { Spinner, ScrollerTab, Message } from '../../design/elements';
-import { Tab } from '@material-ui/core';
+import { Spinner } from 'components/Spinner';
+import { Tabs, Tab } from 'components/Tabs';
 
 const Home = ({ className }) => {
    const [filter, setFilter] = useState('');
@@ -50,21 +50,22 @@ const Home = ({ className }) => {
 
    return (
       <Col width='10' className={className}>
-         <ScrollerTab>
+         <Tabs>
             {['All', 'ASMR', 'React', 'JavaScript', 'Node', 'CSS', 'Bootstrap'].map(
                function renderTabs(filterString) {
                   return (
                      <Tab
-                        label={filterString}
                         key={filterString}
                         onClick={() =>
                            filterString === 'All' ? setFilter('') : setFilter(filterString)
                         }
+                        label={filterString}
+                        style={{}}
                      />
                   );
                }
             )}
-         </ScrollerTab>
+         </Tabs>
          <ListGroup flexy='center' wrap='true'>
             {renderHomeList(videos)}
          </ListGroup>

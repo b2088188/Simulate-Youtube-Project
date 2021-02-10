@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ListGroup, ImageContainer, Image, Link as SLink, Title } from '../../design/components';
-import { colorGrey, setFlex, media } from '../../design/utils';
-import { formatShortTitle } from '../../utils/format';
+import { ListGroup, ImageContainer, Image, Link as SLink, Title } from 'design/components';
+import { colorGrey, setFlex, media } from 'design/utils';
+import { formatShortTitle } from 'utils/format';
 
 const HomeItem = ({ video, className, isLast, lastHomeElementRef }) => {
    return (
@@ -35,13 +35,19 @@ const HomeItem = ({ video, className, isLast, lastHomeElementRef }) => {
 
 export default styled(HomeItem)`
    margin-bottom: 1%;
-
+   transition: box-shadow 0.25s;
+   &:hover {
+      box-shadow: 0 1rem 2rem rgba(50, 50, 50, 0.3);
+      ${media.phone(`
+               box-shadow: none;
+         `)}
+   }
    ${media.phone(`
     margin-bottom: 2.5%;
-    `)}
-   .infobox {
+    `)} .infobox {
       ${setFlex({ y: 'center' })}
       margin-top: 1rem;
+      padding: 0.5rem;
    }
 
    .titlebox {

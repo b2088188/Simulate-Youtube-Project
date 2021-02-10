@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Span } from '../components';
-import { setFlex, media } from '../utils';
+import { Span } from 'design/components';
+import { setFlex, media } from 'design/utils';
 import { Alert } from '@material-ui/lab';
 
 const Message = ({ variant, text, severity = 'warning', full, className }) => {
@@ -21,3 +21,5 @@ export default styled(Message)`
       width: 90%;
       `)}
 `;
+
+export { Message };

@@ -1,18 +1,18 @@
 import React from 'react';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Link, Icon } from '../../design/components';
-import { setFlex, colorNormal } from '../../design/utils';
-import YouTubeIcon from '@material-ui/icons/YouTube';
+import { Link as SLink, Icon } from 'design/components';
+import { setFlex, colorNormal } from 'design/utils';
+import { YouTube } from '@material-ui/icons';
 import SearchForm from './SearchForm';
 import UserNavigation from './UserNavigation';
 
 const Header = ({ className }) => {
    return (
       <header className={className}>
-         <Link as={ReactLink} to='/'>
-            <Icon as={YouTubeIcon} modifiers={['big', 'primary']} />
-         </Link>
+         <SLink as={Link} to='/'>
+            <Icon as={YouTube} modifiers={['big', 'primary']} />
+         </SLink>
          <SearchForm />
          <UserNavigation />
       </header>

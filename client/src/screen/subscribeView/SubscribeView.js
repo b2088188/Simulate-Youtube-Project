@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { useSubscribeItems } from 'utils/subscription';
 import { Title, List } from 'design/components';
 import { colorGrey, media } from 'design/utils';
-import { useAuthState } from 'stores/auth/authStateContext';
+import useAuth from 'context/auth/authContext';
 import SubscribeItem from './SubscribeItem';
-import Spinner from 'design/elements/Spinner';
+import { Spinner } from 'components/Spinner';
 
 const SubscribeView = ({ className }) => {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    const { subscribeItems, isIdle, isLoading, isSuccess } = useSubscribeItems(user._id);
 
    function renderSubscriptions(list) {

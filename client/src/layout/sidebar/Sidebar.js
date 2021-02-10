@@ -5,11 +5,11 @@ import { Col, List, Link as SLink, Span, Button, Icon } from 'design/components'
 import { setFlex, colorGrey, colorPrimary } from 'design/utils';
 import { ThumbUp, Home } from '@material-ui/icons';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useAuthState } from 'stores/auth/authStateContext';
+import useAuth from 'context/auth/authContext';
 import SubscribeView from 'screen/subscribeView/SubscribeView';
 
 const Sidebar = ({ className }) => {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    let location = useLocation();
    let history = useHistory();
    if (

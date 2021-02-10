@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorNormal, colorGrey } from '../utils';
+import { colorGrey } from 'design/utils';
 
 const SPINNER_MODIFIERS = {
    light: () => `
@@ -25,3 +25,5 @@ export default styled(Spinner)`
    }
    ${applyStyleModifiers(SPINNER_MODIFIERS)}
 `;
+
+export { Spinner };

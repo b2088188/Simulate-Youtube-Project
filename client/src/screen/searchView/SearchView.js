@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import { Col, List, Navigation, FlexWrapper } from 'design/components';
 import { setFlex } from 'design/utils';
 import SearchItem from './SearchItem';
-import { Spinner, Message } from 'design/elements';
-import { NativeSelect, FormHelperText } from '@material-ui/core';
+import { Message } from 'components/Message';
+import { Spinner } from 'components/Spinner';
+import { Select } from 'components/Select';
 
 const SearchView = ({ className }) => {
    const { search } = useLocation();
@@ -71,18 +72,11 @@ const SearchView = ({ className }) => {
    return (
       <Col width='10' className={className}>
          <Navigation flexwidth={{ desktop: '60', tabland: '70', tabport: '90' }}>
-            <NativeSelect
-               value={sortBy}
-               onChange={(e) => setSortBy(e.target.value)}
-               name='category'
-               inputProps={{ 'aria-label': 'age' }}
-            >
+            <Select value={sortBy} setValue={setSortBy} label='Sort By'>
                <option value=''>Relevance</option>
                <option value='-createdAt'>Upload Date</option>
                <option value='-views'>View Count</option>
-            </NativeSelect>
-            <FormHelperText>Sort By</FormHelperText>
-
+            </Select>
             <List>{renderSearchList(videos)}</List>
             <FlexWrapper>
                {isFetching || isFetchingNextPage ? <Spinner modifiers='dark' /> : null}

@@ -1,15 +1,13 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ImageContainer, Link as SLink, Button, Image, Span } from '../../design/components';
-import { setFlex, colorGrey, media } from '../../design/utils';
-import { useAuthState } from '../../stores/auth/authStateContext';
-import { useAuthActions } from '../../stores/auth/authActionContext';
-import { Spinner } from '../../design/elements';
+import { ImageContainer, Link as SLink, Button, Image, Span } from 'design/components';
+import { setFlex, colorGrey, media } from 'design/utils';
+import useAuth from 'context/auth/authContext';
+import { Spinner } from 'components/Spinner';
 
 const UserNavigation = ({ className }) => {
-   const { user, statusAuth } = useAuthState();
-   const { logout } = useAuthActions();
+   const [{ user, statusAuth }, { logout }] = useAuth();
    function renderSignIn() {
       return (
          <Fragment>

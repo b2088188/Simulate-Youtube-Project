@@ -1,10 +1,10 @@
 import * as R from 'ramda';
 import { userRequest } from '../apis/backend';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { useAuthState } from '../stores/auth/authStateContext';
+import useAuth from 'context/auth/authContext';
 
 function useLikeItems() {
-	const { user } = useAuthState();
+	const [{ user }] = useAuth();
 	const result = useQuery({
 		queryKey: ['like-items', user?._id],
 		queryFn: () =>
@@ -20,14 +20,14 @@ function useLikeItems() {
 
 /* eslint-disable */
 function useLikeItem(videoId) {
-	const { user } = useAuthState();
+	const [{ user }] = useAuth();
 	if (!user) return null;
 	const { likeItems } = useLikeItems();
 	return likeItems.find((el) => el.videoId === videoId) ?? null;
 }
 
 function useCreateLikeItemInVideo(videoId) {
-	const { user } = useAuthState();
+	const [{ user }] = useAuth();
 	const queryClient = useQueryClient();
 	//const defaultOptions = useDefaultMutationOptions(user?._id, videoId);
 	const mutation = useMutation(
@@ -63,8 +63,7 @@ function useCreateLikeItemInVideo(videoId) {
 }
 
 function useRemoveLikeItem() {
-	const { user } = useAuthState();
-
+	const [{ user }] = useAuth();
 	const queryClient = useQueryClient();
 	//const defaultOptions = useDefaultMutationOptions(user?._id, videoId);
 	const mutation = useMutation(
@@ -89,7 +88,7 @@ function useRemoveLikeItem() {
 }
 
 function useRemoveLikeItemInVideo(videoId) {
-	const { user } = useAuthState();
+	const [{ user }] = useAuth();
 
 	const queryClient = useQueryClient();
 	//const defaultOptions = useDefaultMutationOptions(user?._id, videoId);

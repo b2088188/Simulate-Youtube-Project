@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import AuthStore from '../stores/auth/AuthStore';
+import AuthProvider from './auth/AuthProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import GlobalStyle from '../design/GlobalStyle';
+import GlobalStyle from 'design/GlobalStyle';
 import { StylesProvider } from '@material-ui/styles';
 
 export const queryClient = new QueryClient({
@@ -27,7 +27,7 @@ const AppProviders = ({ children }) => {
          <StylesProvider injectFirst>
             <GlobalStyle />
             <Router>
-               <AuthStore>{children}</AuthStore>
+               <AuthProvider>{children}</AuthProvider>
             </Router>
          </StylesProvider>
       </QueryClientProvider>

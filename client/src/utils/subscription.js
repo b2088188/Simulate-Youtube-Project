@@ -1,13 +1,9 @@
-import * as R from 'ramda';
-import { userRequest } from '../apis/backend';
-import { setQueryDataForVideoSubscribe } from './video';
-import { setQueryDataForChannelSubscribe } from './channel';
+import { userRequest } from 'apis/backend';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { queryClient } from '../context';
-import { useAuthState } from '../stores/auth/authStateContext';
+import useAuth from 'context/auth/authContext';
 
 function useSubscribeItems() {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
 
    const result = useQuery({
       queryKey: ['subscribe-items', user?._id],
@@ -24,14 +20,14 @@ function useSubscribeItems() {
 
 /* eslint-disable */
 function useSubscribeItem(channelId) {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    if (!user) return null;
    const { subscribeItems } = useSubscribeItems();
    return subscribeItems.find((el) => el.channel._id === channelId) ?? null;
 }
 
 function useCreateSubscribeItemInVideo(videoId) {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    const queryClient = useQueryClient();
 
    const mutation = useMutation(
@@ -58,7 +54,7 @@ function useCreateSubscribeItemInVideo(videoId) {
 }
 
 function useCreateSubscribeItemInChannel(channelId) {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    const queryClient = useQueryClient();
 
    const mutation = useMutation(
@@ -84,7 +80,7 @@ function useCreateSubscribeItemInChannel(channelId) {
 }
 
 function useRemoveSubscribeItemInVideo(videoId) {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    const queryClient = useQueryClient();
 
    const mutation = useMutation(
@@ -111,7 +107,7 @@ function useRemoveSubscribeItemInVideo(videoId) {
 }
 
 function useRemoveSubscribeItemInChannel(channelId) {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    const queryClient = useQueryClient();
 
    const mutation = useMutation(

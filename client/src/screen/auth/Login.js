@@ -2,13 +2,11 @@ import React from 'react';
 import { Redirect, useLocation } from 'react-router-dom';
 import { Col, FormContainer, Title, Span, Form, Label, Button } from 'design/components';
 import { useForm } from 'react-hook-form';
-import { useAuthState } from 'stores/auth/authStateContext';
-import { useAuthActions } from 'stores/auth/authActionContext';
-import { Message } from 'design/elements';
+import useAuth from 'context/auth/authContext';
+import { Message } from 'components/Message';
 
 const Login = () => {
-   const { user, isError, error } = useAuthState();
-   const { login } = useAuthActions();
+   const [{ user, isError, error }, { login }] = useAuth();
    const { register, errors, handleSubmit } = useForm();
    const location = useLocation();
 
