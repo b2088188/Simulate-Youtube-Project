@@ -60,7 +60,6 @@ const Home = ({ className }) => {
                            filterString === 'All' ? setFilter('') : setFilter(filterString)
                         }
                         label={filterString}
-                        style={{}}
                      />
                   );
                }

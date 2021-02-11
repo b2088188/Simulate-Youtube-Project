@@ -17,7 +17,7 @@ const SubscribeView = ({ className }) => {
       });
    }
 
-   if (isIdle || isLoading) return <Spinner modifiers='white' />;
+   if (isIdle || isLoading) return <Spinner modifiers='light' />;
    if (isSuccess)
       return (
          <div className={className}>

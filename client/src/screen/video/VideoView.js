@@ -24,7 +24,7 @@ import {
 } from 'design/components';
 import { media } from 'design/utils';
 import useAuth from 'context/auth/authContext';
-import CommentView from 'screen/commentView/CommentView';
+import CommentView from 'screen/comment/CommentView';
 import { ThumbUp } from '@material-ui/icons';
 import { Spinner } from 'components/Spinner';
 

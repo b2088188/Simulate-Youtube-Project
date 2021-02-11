@@ -6,7 +6,7 @@ import { setFlex, colorGrey, colorPrimary } from 'design/utils';
 import { ThumbUp, Home } from '@material-ui/icons';
 import { useLocation, useHistory } from 'react-router-dom';
 import useAuth from 'context/auth/authContext';
-import SubscribeView from 'screen/subscribeView/SubscribeView';
+import SubscribeView from 'screen/subscribe/SubscribeView';
 
 const Sidebar = ({ className }) => {
    const [{ user }] = useAuth();

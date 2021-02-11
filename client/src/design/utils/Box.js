@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { colorGrey } from '../utils';
+import { colorGrey } from '../utils/colors';
 
 export const setShadow = {
    light: '0 2rem 5rem rgba(0, 0, 0, .06)',

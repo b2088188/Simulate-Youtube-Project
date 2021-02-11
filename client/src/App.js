@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, useLocation, Switch } from 'react-router-dom';
 import PrivateRoute from './routes/PrivateRoutes';
-import Home from './layout/home/Home';
+import Home from './screen/home/HomeView';
 import Header from './layout/header/Header';
 import Sidebar from './layout/sidebar/Sidebar';
 import { Container, Row, Col } from './design/components';
@@ -11,21 +11,15 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 const Signup = lazy(() => import('./screen/auth/Signup'));
 const Login = lazy(() => import('./screen/auth/Login'));
-const SearchView = lazy(() => import('./screen/searchView/SearchView'));
-const VideoView = lazy(() => import('./screen/videoView/VideoView'));
-const LikedView = lazy(() => import('./screen/likedView/LikedView'));
-const ChannelView = lazy(() => import('./screen/channelView/ChannelView'));
-const AccountView = lazy(() => import('./screen/accountView/AccountView'));
+const SearchView = lazy(() => import('./screen/search/SearchView'));
+const VideoView = lazy(() => import('./screen/video/VideoView'));
+const LikedView = lazy(() => import('./screen/like/LikedView'));
+const ChannelView = lazy(() => import('./screen/channel/ChannelView'));
+const AccountView = lazy(() => import('./screen/account/AccountView'));
 
 function App() {
    return (
-      <Suspense
-         fallback={
-            <Row>
-               <Spinner modifiers='dark' />
-            </Row>
-         }
-      >
+      <Suspense fallback={<Spinner modifiers='dark' />}>
          <Header />
          <Container>
             <Row
