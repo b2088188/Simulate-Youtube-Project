@@ -1,5 +1,4 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 import { colorGrey } from 'design/utils';

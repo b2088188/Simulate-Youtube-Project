@@ -8,6 +8,7 @@ import { Container, Row, Col } from './design/components';
 import { Spinner } from './components/Spinner';
 import { Message } from './components/Message';
 import { ErrorBoundary } from 'react-error-boundary';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const Signup = lazy(() => import('./screen/auth/Signup'));
 const Login = lazy(() => import('./screen/auth/Login'));
@@ -41,16 +42,28 @@ function App() {
 const AppRoutes = () => {
    const location = useLocation();
    return (
-      <Switch>
-         <Route exact path='/' component={Home} />
-         <Route path='/signup' component={Signup} />
-         <Route path='/login' component={Login} />
-         <PrivateRoute path='/accounts' component={AccountView} />
-         <Route path='/results' component={SearchView} />
-         <PrivateRoute path='/likelist' component={LikedView} />
-         <Route path='/watch/:videoId' component={VideoView} />
-         <Route path='/channel/:channelId' component={ChannelView} />
-      </Switch>
+      <TransitionGroup component={null}>
+         <CSSTransition
+            timeout={{
+               appear: 250,
+               enter: 250,
+               exit: 100
+            }}
+            classNames='item'
+            key={location.key}
+         >
+            <Switch location={location}>
+               <Route exact path='/' component={Home} />
+               <Route path='/signup' component={Signup} />
+               <Route path='/login' component={Login} />
+               <PrivateRoute path='/accounts' component={AccountView} />
+               <Route path='/results' component={SearchView} />
+               <PrivateRoute path='/likelist' component={LikedView} />
+               <Route path='/watch/:videoId' component={VideoView} />
+               <Route path='/channel/:channelId' component={ChannelView} />
+            </Switch>
+         </CSSTransition>
+      </TransitionGroup>
    );
 };
 
