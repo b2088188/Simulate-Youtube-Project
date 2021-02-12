@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
    Col,
@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form';
 const AccountView = ({ className }) => {
    const { register, errors, handleSubmit, setValue, reset } = useForm();
    const [{ user }, { updateUserData }] = useAuth();
+   const [showAlert, setShowAlert] = useState(false);
 
    useEffect(() => {
       if (user) {

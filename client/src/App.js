@@ -20,7 +20,13 @@ const AccountView = lazy(() => import('./screen/account/AccountView'));
 
 function App() {
    return (
-      <Suspense fallback={<Spinner modifiers='dark' />}>
+      <Suspense
+         fallback={
+            <Row>
+               <Spinner modifiers='dark' />
+            </Row>
+         }
+      >
          <Header />
          <Container>
             <Row
@@ -47,7 +53,7 @@ const AppRoutes = () => {
             timeout={{
                appear: 250,
                enter: 250,
-               exit: 100
+               exit: 250
             }}
             classNames='item'
             key={location.key}

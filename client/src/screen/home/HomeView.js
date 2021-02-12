@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
-import styled from 'styled-components';
+import { css } from 'styled-components/macro';
 import { Col, ListGroup } from 'design/components';
+import { setFlex } from 'design/utils';
 import { useHomeVideoSearch } from 'utils/video';
 import HomeItem from './HomeItem';
 import { Spinner } from 'components/Spinner';
@@ -49,7 +50,12 @@ const Home = ({ className }) => {
    }
 
    return (
-      <Col width='10' className={className}>
+      <Col
+         width='10'
+         css={`
+            padding: 0;
+         `}
+      >
          <Tabs>
             {['All', 'ASMR', 'React', 'JavaScript', 'Node', 'CSS', 'Bootstrap'].map(
                function renderTabs(filterString) {
@@ -65,16 +71,22 @@ const Home = ({ className }) => {
                }
             )}
          </Tabs>
-         <ListGroup flexy='center' wrap='true'>
+         <ListGroup
+            css={`
+               ${setFlex({ wrap: 'wrap' })}
+            `}
+         >
             {renderHomeList(videos)}
          </ListGroup>
-         <ListGroup flexy='center'>
+         <ListGroup
+            css={`
+               ${setFlex({ y: 'center' })}
+            `}
+         >
             {isFetching || isFetchingNextPage ? <Spinner modifiers='dark' /> : null}
          </ListGroup>
       </Col>
    );
 };
 
-export default styled(Home)`
-   padding: 0;
-`;
+export default Home;

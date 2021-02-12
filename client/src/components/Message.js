@@ -1,25 +1,50 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Span } from 'design/components';
 import { setFlex, media } from 'design/utils';
 import { Alert } from '@material-ui/lab';
+import { Fade } from '@material-ui/core';
 
 const Message = ({ variant, text, severity = 'warning', full, className }) => {
    return (
-      <Alert variant={variant} severity={severity} className={className}>
+      <Alert
+         variant={variant}
+         severity={severity}
+         css={`
+            width: 50%;
+            margin: 2.5rem auto;
+            ${setFlex({ x: 'center', y: 'center' })}
+            align-self: flex-start;
+            ${media.phone(`
+            width: 90%;
+            `)}
+         `}
+      >
          <Span modifiers={['large', 'light']}>{text}</Span>
       </Alert>
    );
 };
 
-export default styled(Message)`
-   width: 50%;
-   margin: 2.5rem auto;
-   ${setFlex({ x: 'center', y: 'center' })}
-   align-self: flex-start;
-   ${media.phone(`
-      width: 90%;
-      `)}
-`;
+const CoverMessage = ({ variant, text, severity = 'warning', fade }) => {
+   return (
+      <Fade in={fade}>
+         <Alert
+            variant={variant}
+            severity={severity}
+            css={`
+               position: absolute;
+               top: 0;
+               margin: 0 auto;
+               border-radius: 0 0 2.5rem 2.5rem;
+               width: 50%;
+               ${setFlex({ x: 'center', y: 'center' })}
+               align-self: flex-start;
+            `}
+         >
+            <Span modifiers={['large', 'light']}>{text}</Span>
+         </Alert>
+      </Fade>
+   );
+};
 
-export { Message };
+export { Message, CoverMessage };

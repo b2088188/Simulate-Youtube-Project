@@ -3,6 +3,8 @@ import morgan from 'morgan'
 import cors from 'cors';
 import compression from 'compression';
 import cookieParser from 'cookie-parser'
+//import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -27,12 +29,27 @@ const app = express();
 //     res.header('Access-Control-Allow-Credentials', true);
 //     next();
 // });
+
+// Set Secure HTTP headers
+app.use(helmet());
+
+// Development logging
 if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
+
+// Allow 100 requests from same IP in one hour
+// const limiter = rateLimit({
+//     max: 5,
+//     windowMs: 60 * 60 * 1000,
+//     message: 'Too many requests from this IP, please try again in an hour.'
+// })
+// app.use('/api', limiter);
+
 //Body parser, reading data from body into req.body
-app.use(express.json());
+app.use(express.json({limit: '10kb'}));
 app.use(cookieParser());
 app.use(compression());
+//Serving Static files
 app.use(express.static(join(__dirname, 'public')));
 
 import videoRouter from './routes/videoRoutes.js';

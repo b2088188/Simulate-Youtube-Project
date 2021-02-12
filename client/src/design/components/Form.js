@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorGrey, setFlex, media } from '../utils';
+import { colorGrey, colorPrimary, setFlex, media } from '../utils';
 import { Title } from '../components/Title';
 import { Button } from '../components/Button';
 import { Link } from '../components/Link';
@@ -57,15 +57,18 @@ const INPUT_MODIFIERS = {
 export const Input = styled.input`
    padding: 1rem;
    font-family: inherit;
-   font-size: inherit;
+   font-size: 1.7rem;
    color: inherit;
    background-color: ${colorGrey.light2};
    border: none;
+   border-radius: 0.5rem;
    transition: all 0.25s;
+   position: relative;
    &:focus {
       outline: none;
       background-color: ${colorGrey.light3};
    }
+   // border-bottom: solid 0.2rem ${colorPrimary.light};
    ${applyStyleModifiers(INPUT_MODIFIERS)}
 `;
 

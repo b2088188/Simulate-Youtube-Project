@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { AppBar, Tabs as MTabs, Tab } from '@material-ui/core';
 
-function Tabs({ children, className }) {
+function Tabs({ children }) {
    const [value, setValue] = useState(0);
    const handleChange = (event, newValue) => {
       setValue(newValue);
    };
 
    return (
-      <AppBar position='static' color='default' className={className}>
+      <AppBar
+         position='static'
+         color='default'
+         css={`
+            box-shadow: none;
+            .MuiTab-root {
+               text-transform: capitalize;
+            }
+         `}
+      >
          <MTabs
             value={value}
             onChange={handleChange}
@@ -24,12 +33,5 @@ function Tabs({ children, className }) {
       </AppBar>
    );
 }
-
-styled(Tabs)`
-   box-shadow: none;
-   .MuiTab-root {
-      text-transform: capitalize;
-   }
-`;
 
 export { Tabs, Tab };

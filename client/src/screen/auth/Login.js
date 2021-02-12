@@ -1,6 +1,7 @@
 import React from 'react';
+
 import { Redirect, useLocation } from 'react-router-dom';
-import { Col, FormContainer, Title, Span, Form, Label, Button } from 'design/components';
+import { Col, FormContainer, Title, Span, Form, Label, Button, Input } from 'design/components';
 import { useForm } from 'react-hook-form';
 import useAuth from 'context/auth/authContext';
 import { Message } from 'components/Message';
@@ -23,8 +24,7 @@ const Login = () => {
             <Form onSubmit={handleSubmit(login)}>
                <Form.Group mb='1'>
                   <Label modifiers='large'>Email</Label>
-                  <Form.Input
-                     modifiers='outline'
+                  <Input
                      type='text'
                      name='email'
                      ref={register({
@@ -39,8 +39,7 @@ const Login = () => {
                </Form.Group>
                <Form.Group mb='1'>
                   <Label modifiers='large'>Password</Label>
-                  <Form.Input
-                     modifiers='outline'
+                  <Input
                      type='password'
                      name='password'
                      ref={register({
