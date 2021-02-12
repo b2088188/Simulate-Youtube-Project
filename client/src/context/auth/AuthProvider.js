@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
       isLoading,
       isIdle,
       isError,
-      //isSuccess,
+      isSuccess,
       run,
       setData,
       setError
@@ -76,51 +76,26 @@ const AuthProvider = ({ children }) => {
       [setData, queryClient]
    );
 
-   // const resetAuthError = useCallback(
-   //    function () {
-   //       dispatchAuth({ type: AUTH_ERRORRESET });
-   //    },
-   //    [dispatchAuth]
-   // );
-
-   const updateUserData = useCallback(
-      async function (values) {
-         const prevUserData = { ...user };
-         try {
-            const formData = new FormData();
-            formData.append('name', values.name);
-            formData.append('email', values.email);
-            formData.append('photo', values.photo[0]);
-            const {
-               data: { data }
-            } = await userRequest.patch('/updateMe', formData);
-            setData(data.user);
-         } catch (err) {
-            setData(prevUserData);
-         }
-      },
-      [setData, user]
-   );
-
    const value = useMemo(
       () => ({
          user,
          isLoading,
+         isSuccess,
          isError,
          error
       }),
-      [user, isLoading, isError, error]
+      [user, isLoading, isSuccess, isError, error]
    );
 
    const actions = useMemo(
       () => ({
          login,
          signup,
-         updateUserData,
-         logout
+         logout,
+         setData
          //resetAuthError
       }),
-      [login, signup, logout, updateUserData]
+      [login, signup, logout, setData]
    );
 
    if (isIdle || isLoading)

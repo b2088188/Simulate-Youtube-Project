@@ -9,6 +9,7 @@ import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 
+
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -58,6 +59,7 @@ app.use(compression());
 app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
+
 
 //Serving Static files
 app.use(express.static(join(__dirname, 'public')));

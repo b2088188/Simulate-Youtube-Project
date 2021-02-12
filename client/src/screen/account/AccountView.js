@@ -9,14 +9,18 @@ import {
    Button,
    Paragraph,
    ImageContainer,
-   Image
+   Image,
+   Input
 } from 'design/components';
 import useAuth from 'context/auth/authContext';
+import { useUpdateUserData } from 'utils/user';
 import { useForm } from 'react-hook-form';
+import { CoverMessage } from 'components/Message';
 
 const AccountView = ({ className }) => {
-   const { register, errors, handleSubmit, setValue, reset } = useForm();
-   const [{ user }, { updateUserData }] = useAuth();
+   const { register, errors, handleSubmit, setValue } = useForm();
+   const [{ user }] = useAuth();
+   const { update, isSuccess: isUpdateSuccess } = useUpdateUserData();
    const [showAlert, setShowAlert] = useState(false);
 
    useEffect(() => {
@@ -26,20 +30,27 @@ const AccountView = ({ className }) => {
       }
    }, [user, setValue]);
 
-   function onUpdateUserData(values) {
-      updateUserData(values);
-      reset();
-   }
+   useEffect(() => {
+      if (user && isUpdateSuccess) {
+         setShowAlert(true);
+         const timer = setTimeout(() => {
+            setShowAlert(false);
+         }, 500);
+         return () => clearTimeout(timer);
+      }
+   }, [user, isUpdateSuccess]);
 
    return (
       <Col width='12' className={className}>
+         {isUpdateSuccess && showAlert ? (
+            <CoverMessage text='Update Successfully' severity='success' fade={showAlert} />
+         ) : null}
          <FormContainer width={{ desktop: '50%', tabland: '70%', tabport: '90%' }} my='2'>
             <Title modifiers='big'>Your Account Settings</Title>
-            <Form onSubmit={handleSubmit(onUpdateUserData)}>
+            <Form onSubmit={handleSubmit(update)}>
                <Form.Group mb='1'>
                   <Label modifiers='large'>Name</Label>
-                  <Form.Input
-                     modifiers='outline'
+                  <Input
                      type='text'
                      name='name'
                      ref={register({
@@ -50,8 +61,7 @@ const AccountView = ({ className }) => {
                </Form.Group>
                <Form.Group mb='1'>
                   <Label modifiers='large'>Email</Label>
-                  <Form.Input
-                     modifiers='outline'
+                  <Input
                      type='text'
                      name='email'
                      ref={register({
@@ -71,7 +81,7 @@ const AccountView = ({ className }) => {
                         src={`${process.env.REACT_APP_BACKEND_URL}/assets/users/default.jpg`}
                      />
                   </ImageContainer>
-                  <Form.Input
+                  <Input
                      type='file'
                      ref={register}
                      id='photo'

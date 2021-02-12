@@ -1,39 +1,39 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 import { colorPrimary, setTransition } from '../utils';
 
 const LABEL_MODIFIERS = {
-   huge: () => `
+	huge: () => `
 		font-size: 3rem;
 	`,
-   big: () => `
+	big: () => `
 		font-size: 2.5rem;
 	`,
-   large: () => `
+	large: () => `
 		font-size: 2rem;
 	`,
-   medium: () => `
+	medium: () => `
 		font-size: 1.5rem;
 	`,
-   small: () => `
+	small: () => `
 		font-size: 1rem;
 	`,
-   bold: () => `
+	bold: () => `
 		font-weight: 700
 	`,
-   regular: () => `
+	regular: () => `
 	   font-weight: 500	
 	`,
-   light: () => `
+	light: () => `
 	  font-weight: 400
 	`,
-   exlight: () => `
+	exlight: () => `
 	 font-weight: 300
 	`,
-   primary: () => `
+	primary: () => `
 	color: ${colorPrimary.default};
 	`,
-   bottomfill: () => `
+	bottomfill: () => `
     color: ${colorPrimary.default};
     background:none;
     border: none;
@@ -51,6 +51,6 @@ const LABEL_MODIFIERS = {
 };
 
 export const Label = styled.label`
-   text-transform: capitalize;
-   ${applyStyleModifiers(LABEL_MODIFIERS)}
+	text-transform: capitalize;
+	${applyStyleModifiers(LABEL_MODIFIERS)}
 `;

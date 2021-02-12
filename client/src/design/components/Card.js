@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Link } from '../components/Link';
 import { Span } from '../components';
 import { Title } from '../components/Title';

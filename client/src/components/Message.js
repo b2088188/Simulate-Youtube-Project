@@ -38,7 +38,6 @@ const CoverMessage = ({ variant, text, severity = 'warning', fade }) => {
                border-radius: 0 0 2.5rem 2.5rem;
                width: 50%;
                ${setFlex({ x: 'center', y: 'center' })}
-               align-self: flex-start;
             `}
          >
             <Span modifiers={['large', 'light']}>{text}</Span>

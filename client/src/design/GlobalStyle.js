@@ -32,6 +32,7 @@ body {
     min-height: 100vh;
       color: ${colorGrey.dark2};
     background-color: ${colorGrey.light1};  
+    
 }
 
 

@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from 'react';
-import { Route, useLocation, Switch } from 'react-router-dom';
+import React, { useEffect, lazy, Suspense } from 'react';
+import { Route, useLocation, Switch, useHistory } from 'react-router-dom';
 import PrivateRoute from './routes/PrivateRoutes';
 import Home from './screen/home/HomeView';
 import Header from './layout/header/Header';
@@ -7,6 +7,7 @@ import Sidebar from './layout/sidebar/Sidebar';
 import { Container, Row, Col } from './design/components';
 import { Spinner } from './components/Spinner';
 import { Message } from './components/Message';
+import { QueryErrorResetBoundary } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -36,9 +37,13 @@ function App() {
                }}
             >
                <Sidebar />
-               <ErrorBoundary FallbackComponent={ErrorFallback}>
-                  <AppRoutes />
-               </ErrorBoundary>
+               <QueryErrorResetBoundary>
+                  {({ reset }) => (
+                     <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+                        <AppRoutes />
+                     </ErrorBoundary>
+                  )}
+               </QueryErrorResetBoundary>
             </Row>
          </Container>
       </Suspense>
@@ -74,6 +79,12 @@ const AppRoutes = () => {
 };
 
 const ErrorFallback = ({ error, resetErrorBoundary }) => {
+   const history = useHistory();
+
+   history.listen((location, action) => {
+      if (error) resetErrorBoundary();
+   });
+
    return (
       <Col width='10'>
          <Message severity='error' text={error.message} />

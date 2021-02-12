@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { setFlex, setBorder, setFlexWidth, setMargin, setPadding, media } from '../utils';
 
 export const ListGroup = styled.div`

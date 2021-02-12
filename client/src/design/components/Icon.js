@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { colorPrimary, colorSecondary } from '../utils';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 

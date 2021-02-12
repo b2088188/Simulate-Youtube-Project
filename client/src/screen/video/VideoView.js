@@ -56,7 +56,7 @@ const VideoView = ({ history, className }) => {
    }
 
    if (isIdle || isLoading) return <Spinner modifiers='dark' />;
-
+   console.log(isSuccess);
    if (isSuccess)
       return (
          <Col width='10' className={className}>
