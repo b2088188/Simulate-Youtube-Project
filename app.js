@@ -3,8 +3,12 @@ import morgan from 'morgan'
 import cors from 'cors';
 import compression from 'compression';
 import cookieParser from 'cookie-parser'
+// Secure
 //import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
+
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -49,6 +53,12 @@ if (process.env.NODE_ENV === 'development')
 app.use(express.json({limit: '10kb'}));
 app.use(cookieParser());
 app.use(compression());
+
+// Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+// Data sanitization against XSS
+app.use(xss());
+
 //Serving Static files
 app.use(express.static(join(__dirname, 'public')));
 
