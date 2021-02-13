@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCommentSearch, useCreateComment, useUpdateComment } from 'utils/comment';
-import { Form, Button, FlexWrapper, Input } from 'design/components';
+import { Form, Button, Input } from 'design/components';
 import useAuth from 'context/auth/authContext';
 import { useAsync } from 'utils/hooks';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import CommentItem from './CommentItem';
-import { Spinner } from 'components/Spinner';
-import { Message } from 'components/Message';
+import { AreaSpinner } from 'components/Spinner';
 
 const CommentView = ({ className }) => {
    const [{ user }] = useAuth();
    let { videoId } = useParams();
    const { register, handleSubmit, setValue, reset } = useForm();
    const [currentTypedComment, setCurrentTypedComment] = useState(null);
-   const { comments, isIdle, isLoading, isSuccess, isError, error } = useCommentSearch(videoId);
+   const { comments, isIdle, isLoading, isSuccess } = useCommentSearch(videoId);
    const {
       isLoading: isMutateLoading,
       // isError: isMutateError,
@@ -54,13 +53,7 @@ const CommentView = ({ className }) => {
       });
    }
 
-   if (isIdle || isLoading || isMutateLoading)
-      return (
-         <FlexWrapper>
-            <Spinner modifiers='dark' />
-         </FlexWrapper>
-      );
-   if (isError && error) return <Message severity='error' text={error} />;
+   if (isIdle || isLoading || isMutateLoading) return <AreaSpinner />;
    if (isSuccess)
       return (
          <div className={className}>

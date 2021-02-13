@@ -4,7 +4,7 @@ import { Col, ListGroup } from 'design/components';
 import { setFlex } from 'design/utils';
 import { useHomeVideoSearch } from 'utils/video';
 import HomeItem from './HomeItem';
-import { Spinner } from 'components/Spinner';
+import { AreaSpinner } from 'components/Spinner';
 import { Tabs, Tab } from 'components/Tabs';
 
 const Home = ({ className }) => {
@@ -78,13 +78,7 @@ const Home = ({ className }) => {
          >
             {renderHomeList(videos)}
          </ListGroup>
-         <ListGroup
-            css={`
-               ${setFlex({ y: 'center' })}
-            `}
-         >
-            {isFetching || isFetchingNextPage ? <Spinner modifiers='dark' /> : null}
-         </ListGroup>
+         {isFetching || isFetchingNextPage ? <AreaSpinner modifiers='dark' /> : null}
       </Col>
    );
 };

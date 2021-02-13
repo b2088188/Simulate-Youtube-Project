@@ -1,23 +1,50 @@
 import styled from 'styled-components/macro';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorGrey } from 'design/utils';
+import { colorGrey, setFlex } from 'design/utils';
 
-const SPINNER_MODIFIERS = {
-   light: () => `
-    color: ${colorGrey.light1};
-  `,
-   dark: () => `
-  color: ${colorGrey.dark2};
-  `,
-   noSpace: () => `
-  margin: 0;
-  `
+const Spinner = () => {
+   return (
+      <CircularProgress
+         css={`
+            color: ${colorGrey.dark2};
+         `}
+      />
+   );
 };
 
-const Spinner = styled(CircularProgress)`
-   margin: 5rem auto;
-   ${applyStyleModifiers(SPINNER_MODIFIERS)}
-`;
+const FullPageSpinner = () => {
+   return (
+      <div
+         css={`
+            height: 100vh;
+            ${setFlex({ direction: 'column', x: 'center', y: 'center' })}
+         `}
+      >
+         <CircularProgress
+            css={`
+               color: ${colorGrey.dark2};
+            `}
+         />
+      </div>
+   );
+};
 
-export { Spinner };
+const AreaSpinner = () => {
+   return (
+      <div
+         css={`
+            height: inherit;
+            min-width: 100%;
+            ${setFlex({ direction: 'column', x: 'center', y: 'center' })}
+         `}
+      >
+         <CircularProgress
+            css={`
+               color: ${colorGrey.dark2};
+            `}
+         />
+      </div>
+   );
+};
+
+export { Spinner, FullPageSpinner, AreaSpinner };

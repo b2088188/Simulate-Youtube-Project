@@ -21,7 +21,7 @@ import {
 import { setFlex, media } from 'design/utils';
 import useAuth from 'context/auth/authContext';
 import ChannelItem from './ChannelItem';
-import { Spinner } from 'components/Spinner';
+import { AreaSpinner, Spinner } from 'components/Spinner';
 import { Message } from 'components/Message';
 
 const ChannelView = ({ className }) => {
@@ -70,13 +70,12 @@ const ChannelView = ({ className }) => {
 
    if (toLogin) return <Redirect to='/login' />;
 
-   if (isChannelIdle || isChannelLoading) return <Spinner modifiers='dark' />;
-   // if (isChannelError && errorChannel)
-   //    return (
-   //       <Col width='10'>
-   //          <Message text={errorChannel.message} severity='error' />;
-   //       </Col>
-   //    );
+   if (isChannelIdle || isChannelLoading)
+      return (
+         <Col width='10'>
+            <AreaSpinner />
+         </Col>
+      );
 
    if (isChannelSuccess)
       return (
@@ -105,12 +104,12 @@ const ChannelView = ({ className }) => {
                      Subscribed
                   </Button>
                ) : (
-                  <Spinner modifiers={['light', 'noSpace']} />
+                  <Spinner />
                )}
             </div>
             <ListGroup flexy='center' wrap='true'>
                {isChannelVideosIdle || isChannelVideosLoading ? (
-                  <Spinner modifiers='dark' />
+                  <AreaSpinner />
                ) : isChannelVideosError && errorChannelVideos ? (
                   <Message severity='error' text={errorChannelVideos.message} />
                ) : isChannelVideosSuccess ? (

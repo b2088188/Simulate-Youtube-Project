@@ -26,7 +26,7 @@ import { media } from 'design/utils';
 import useAuth from 'context/auth/authContext';
 import CommentView from 'screen/comment/CommentView';
 import { ThumbUp } from '@material-ui/icons';
-import { Spinner } from 'components/Spinner';
+import { AreaSpinner, Spinner } from 'components/Spinner';
 
 const VideoView = ({ history, className }) => {
    const [{ user }] = useAuth();
@@ -55,8 +55,12 @@ const VideoView = ({ history, className }) => {
       };
    }
 
-   if (isIdle || isLoading) return <Spinner modifiers='dark' />;
-   console.log(isSuccess);
+   if (isIdle || isLoading)
+      return (
+         <Col width='10'>
+            <AreaSpinner />
+         </Col>
+      );
    if (isSuccess)
       return (
          <Col width='10' className={className}>
@@ -92,7 +96,7 @@ const VideoView = ({ history, className }) => {
                      </Button>
                      <Span modifiers={['medium', 'regular']}>{video.likes}</Span>
                      {isMutateLoading ? (
-                        <Spinner modifiers={['dark', 'noSpace']} />
+                        <Spinner />
                      ) : (
                         <Button
                            modifiers={[`${subscribeItem ? 'disable' : 'primary'}`]}

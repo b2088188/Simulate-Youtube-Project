@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, CenterWrapper, List } from 'design/components';
-import { Spinner } from 'components/Spinner';
+import { AreaSpinner } from 'components/Spinner';
 import { useLikeItems } from 'utils/like';
 import LikedItem from './LikedItem';
 
@@ -13,7 +13,12 @@ const LikedView = ({ className }) => {
       });
    }
 
-   if (isIdle || isLoading) return <Spinner modifiers='dark' />;
+   if (isIdle || isLoading)
+      return (
+         <Col width='10'>
+            <AreaSpinner />
+         </Col>
+      );
    if (isSuccess)
       return (
          <Col width='10' className={className}>

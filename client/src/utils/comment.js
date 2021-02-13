@@ -52,14 +52,14 @@ function useDeleteComment(videoId, customOptions) {
 		{
 			...defaultOptions,
 			...customOptions,
-			onMutate: () => {
+			onMutate: ({ commentId }) => {
 				queryClient.setQueryData(['commentSearch', { videoId }], (oldData) => {
-					return R.reject((el) => el.videoId === videoId, oldData);
+					return R.reject((el) => el._id === commentId, oldData);
 				});
 			}
 		}
 	);
-	return { ...mutation, remove: mutation.mutateAsync };
+	return { ...mutation, remove: mutation.mutate };
 }
 
 export { useCommentSearch, useCreateComment, useUpdateComment, useDeleteComment };

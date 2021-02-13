@@ -5,7 +5,7 @@ import { Title, List } from 'design/components';
 import { colorGrey, media } from 'design/utils';
 import useAuth from 'context/auth/authContext';
 import SubscribeItem from './SubscribeItem';
-import { Spinner } from 'components/Spinner';
+import { AreaSpinner } from 'components/Spinner';
 
 const SubscribeView = ({ className }) => {
    const [{ user }] = useAuth();
@@ -17,7 +17,7 @@ const SubscribeView = ({ className }) => {
       });
    }
 
-   if (isIdle || isLoading) return <Spinner modifiers='light' />;
+   if (isIdle || isLoading) return <AreaSpinner />;
    if (isSuccess)
       return (
          <div className={className}>
@@ -36,7 +36,7 @@ export default styled(SubscribeView)`
    padding: 2rem 1rem;
    margin-bottom: auto;
    ${media.tabport(`
-padding: 1rem;
+   padding: 1rem;
       `)}
    .subscribe {
       &__list {

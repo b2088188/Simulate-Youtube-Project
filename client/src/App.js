@@ -5,7 +5,7 @@ import Home from './screen/home/HomeView';
 import Header from './layout/header/Header';
 import Sidebar from './layout/sidebar/Sidebar';
 import { Container, Row } from './design/components';
-import { Spinner } from './components/Spinner';
+import { FullPageSpinner } from './components/Spinner';
 import { QueryErrorResetBoundary } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -21,13 +21,7 @@ const AccountView = lazy(() => import('./screen/account/AccountView'));
 
 function App() {
    return (
-      <Suspense
-         fallback={
-            <Row>
-               <Spinner modifiers='dark' />
-            </Row>
-         }
-      >
+      <Suspense fallback={<FullPageSpinner />}>
          <Header />
          <Container>
             <Row

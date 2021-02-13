@@ -34,6 +34,7 @@ const CoverMessage = ({ variant, text, severity = 'warning', fade }) => {
             css={`
                position: fixed;
                top: 0;
+               left: 0;
                margin: 0 25%;
                border-radius: 0 0 2.5rem 2.5rem;
                width: 50%;

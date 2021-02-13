@@ -2,11 +2,11 @@ import React, { useState, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useVideoSearch } from 'utils/video';
 import styled from 'styled-components';
-import { Col, List, Navigation, FlexWrapper } from 'design/components';
+import { Col, List, Navigation } from 'design/components';
 import { setFlex } from 'design/utils';
 import SearchItem from './SearchItem';
 import { Message } from 'components/Message';
-import { Spinner } from 'components/Spinner';
+import { AreaSpinner } from 'components/Spinner';
 import { Select } from 'components/Select';
 
 const SearchView = ({ className }) => {
@@ -78,9 +78,7 @@ const SearchView = ({ className }) => {
                <option value='-views'>View Count</option>
             </Select>
             <List>{renderSearchList(videos)}</List>
-            <FlexWrapper>
-               {isFetching || isFetchingNextPage ? <Spinner modifiers='dark' /> : null}
-            </FlexWrapper>
+            {isFetching || isFetchingNextPage ? <AreaSpinner /> : null}
          </Navigation>
       </Col>
    );
