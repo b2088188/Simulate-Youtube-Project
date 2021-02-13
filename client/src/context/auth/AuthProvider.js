@@ -92,10 +92,11 @@ const AuthProvider = ({ children }) => {
          login,
          signup,
          logout,
-         setData
+         setData,
+         setError
          //resetAuthError
       }),
-      [login, signup, logout, setData]
+      [login, signup, logout, setData, setError]
    );
 
    if (isIdle || isLoading)

@@ -1,21 +1,21 @@
 import React, { useEffect, useRef } from 'react';
-import { useLocation, Redirect, useRouteMatch } from 'react-router-dom';
-import { Col, FormContainer, Title, Span, Form, Label, Button } from 'design/components';
+import styled from 'styled-components/macro';
+import { useLocation, Redirect } from 'react-router-dom';
+import { Col, FormContainer, Title, Span, Form, Label, Button, Input } from 'design/components';
 import { useForm } from 'react-hook-form';
 import useAuth from 'context/auth/authContext';
 import { Message } from 'components/Message';
 
 const Signup = () => {
-   const [{ user, isError, error }, { signup, resetAuthError }] = useAuth();
+   const [{ user, isError, error }, { signup, setError }] = useAuth();
    const { register, errors, handleSubmit, watch } = useForm();
-   const { url } = useRouteMatch();
    const password = useRef({});
    password.current = watch('password', '');
    const location = useLocation();
 
    useEffect(() => {
-      resetAuthError();
-   }, [resetAuthError, url]);
+      return () => setError(null);
+   }, [setError]);
 
    // if (statusAuth === 'pending') return <Spinner />;
    if (user) return <Redirect to={location.state?.from || '/'} />;
@@ -23,15 +23,19 @@ const Signup = () => {
    return (
       <Col width='12'>
          {isError && error ? <Message severity='error' text={error} /> : null}
-         <FormContainer width={{ desktop: '50%', tabland: '70%', tabport: '90%' }}>
+         <FormContainer
+            css={`
+               margin-top: 5rem;
+            `}
+            width={{ desktop: '50%', tabland: '70%', tabport: '90%' }}
+         >
             <Title modifiers='big'>
                Account <Span modifiers='primary'>Signup</Span>
             </Title>
             <Form onSubmit={handleSubmit(signup)}>
                <Form.Group mb='1'>
                   <Label modifiers='large'>Name</Label>
-                  <Form.Input
-                     modifiers='outline'
+                  <Input
                      name='name'
                      type='text'
                      ref={register({
@@ -42,8 +46,7 @@ const Signup = () => {
                </Form.Group>
                <Form.Group mb='1'>
                   <Label modifiers='large'>Email</Label>
-                  <Form.Input
-                     modifiers='outline'
+                  <Input
                      type='text'
                      name='email'
                      ref={register({
@@ -58,8 +61,7 @@ const Signup = () => {
                </Form.Group>
                <Form.Group mb='1'>
                   <Label modifiers='large'>Password</Label>
-                  <Form.Input
-                     modifiers='outline'
+                  <Input
                      type='password'
                      name='password'
                      ref={register({
@@ -74,8 +76,7 @@ const Signup = () => {
                </Form.Group>
                <Form.Group mb='1'>
                   <Label modifiers='large'>Password Confirm</Label>
-                  <Form.Input
-                     modifiers='outline'
+                  <Input
                      type='password'
                      name='passwordConfirm'
                      ref={register({

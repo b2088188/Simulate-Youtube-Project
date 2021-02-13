@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { css } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import { Col, ListGroup } from 'design/components';
 import { setFlex } from 'design/utils';
 import { useHomeVideoSearch } from 'utils/video';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCommentSearch, useCreateComment, useUpdateComment } from 'utils/comment';
-import { Form, Button, FlexWrapper } from 'design/components';
+import { Form, Button, FlexWrapper, Input } from 'design/components';
 import useAuth from 'context/auth/authContext';
 import { useAsync } from 'utils/hooks';
 import { useParams } from 'react-router-dom';
@@ -66,7 +66,7 @@ const CommentView = ({ className }) => {
          <div className={className}>
             {user ? (
                <Form className='comment__form' onSubmit={handleSubmit(handleClick)}>
-                  <Form.Input
+                  <Input
                      modifiers='transparent'
                      type='text'
                      name='comment'

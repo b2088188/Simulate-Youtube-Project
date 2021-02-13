@@ -35,7 +35,7 @@ const AccountView = ({ className }) => {
          setShowAlert(true);
          const timer = setTimeout(() => {
             setShowAlert(false);
-         }, 500);
+         }, 1000);
          return () => clearTimeout(timer);
       }
    }, [user, isUpdateSuccess]);

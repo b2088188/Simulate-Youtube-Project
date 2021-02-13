@@ -1,15 +1,15 @@
-import React, { useEffect, lazy, Suspense } from 'react';
-import { Route, useLocation, Switch, useHistory } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { Route, useLocation, Switch } from 'react-router-dom';
 import PrivateRoute from './routes/PrivateRoutes';
 import Home from './screen/home/HomeView';
 import Header from './layout/header/Header';
 import Sidebar from './layout/sidebar/Sidebar';
-import { Container, Row, Col } from './design/components';
+import { Container, Row } from './design/components';
 import { Spinner } from './components/Spinner';
-import { Message } from './components/Message';
 import { QueryErrorResetBoundary } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { ErrorFallback, ErrorNotFound } from './components/Error';
 
 const Signup = lazy(() => import('./screen/auth/Signup'));
 const Login = lazy(() => import('./screen/auth/Login'));
@@ -72,23 +72,10 @@ const AppRoutes = () => {
                <PrivateRoute path='/likelist' component={LikedView} />
                <Route path='/watch/:videoId' component={VideoView} />
                <Route path='/channel/:channelId' component={ChannelView} />
+               <Route path='*' component={ErrorNotFound} />
             </Switch>
          </CSSTransition>
       </TransitionGroup>
-   );
-};
-
-const ErrorFallback = ({ error, resetErrorBoundary }) => {
-   const history = useHistory();
-
-   history.listen((location, action) => {
-      if (error) resetErrorBoundary();
-   });
-
-   return (
-      <Col width='10'>
-         <Message severity='error' text={error.message} />
-      </Col>
    );
 };
 

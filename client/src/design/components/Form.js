@@ -41,6 +41,7 @@ const INPUT_MODIFIERS = {
    transparent: () => `
         background: none;
         border-bottom: solid .1rem #999;
+        border-radius: 0;
     `,
    grey: () => `
   &::-webkit-input-placeholder {
@@ -48,10 +49,9 @@ const INPUT_MODIFIERS = {
     color: ${colorGrey.light4};
   }
   `,
-   outline: () => `
-    border: solid .1rem ${colorGrey.light4};
-    color: inherit;
-  `
+   round: () => `
+    border-radius: 10rem;
+    `
 };
 
 export const Input = styled.input`
@@ -68,7 +68,6 @@ export const Input = styled.input`
       outline: none;
       background-color: ${colorGrey.light3};
    }
-   // border-bottom: solid 0.2rem ${colorPrimary.light};
    ${applyStyleModifiers(INPUT_MODIFIERS)}
 `;
 
@@ -104,26 +103,6 @@ const FormLabel = styled.label`
    ${applyStyleModifiers(FORMLABEL_MODIFIERS)}
 `;
 Form.Label = FormLabel;
-
-//Form Input
-const FORMINPUT_MODIFIERS = {
-   radio: () => `
-    &:focus {
-            outline: none;
-        }
-    `,
-   round: () => `
-    border-radius: 10rem;
-    `,
-   transparent: () => `
-        background: none;
-        border-bottom: solid .1rem #999;
-    `
-};
-const FormInput = styled(Input)`
-   ${applyStyleModifiers(FORMINPUT_MODIFIERS)}
-`;
-Form.Input = FormInput;
 
 //Form Button
 const FormButton = styled(Button)``;

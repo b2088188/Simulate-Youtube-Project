@@ -32,9 +32,9 @@ const CoverMessage = ({ variant, text, severity = 'warning', fade }) => {
             variant={variant}
             severity={severity}
             css={`
-               position: absolute;
+               position: fixed;
                top: 0;
-               margin: 0 auto;
+               margin: 0 25%;
                border-radius: 0 0 2.5rem 2.5rem;
                width: 50%;
                ${setFlex({ x: 'center', y: 'center' })}

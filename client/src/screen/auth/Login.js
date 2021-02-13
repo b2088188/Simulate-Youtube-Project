@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import styled from 'styled-components/macro';
 import { Redirect, useLocation } from 'react-router-dom';
 import { Col, FormContainer, Title, Span, Form, Label, Button, Input } from 'design/components';
 import { useForm } from 'react-hook-form';
@@ -7,17 +7,25 @@ import useAuth from 'context/auth/authContext';
 import { Message } from 'components/Message';
 
 const Login = () => {
-   const [{ user, isError, error }, { login }] = useAuth();
+   const [{ user, isError, error }, { login, setError }] = useAuth();
    const { register, errors, handleSubmit } = useForm();
    const location = useLocation();
 
-   //if (statusAuth === 'pending') return <Spinner modifiers='dark' />;
+   useEffect(() => {
+      return () => setError(null);
+   }, [setError]);
+
    if (user) return <Redirect to={location.state?.from || '/'} />;
 
    return (
       <Col width='12'>
          {isError && error ? <Message severity='error' text={error} /> : null}
-         <FormContainer width={{ desktop: '50%', tabland: '70%', tabport: '90%' }}>
+         <FormContainer
+            css={`
+               margin-top: 5rem;
+            `}
+            width={{ desktop: '50%', tabland: '70%', tabport: '90%' }}
+         >
             <Title modifiers='big'>
                Account <Span modifiers='primary'>Login</Span>
             </Title>
