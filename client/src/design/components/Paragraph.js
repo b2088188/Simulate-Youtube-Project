@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorGrey } from '../utils';
+import { colorGrey } from 'design/utils';
 
 const PARAGRAPH_MODIFIERS = {
 	huge: () => `

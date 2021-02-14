@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { setFlowToRight, setMargin, setFlex, setFlexWidth, setPadding, media } from '../utils';
+import { setFlowToRight, setMargin, setFlex, setFlexWidth, setPadding, media } from 'design/utils';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
 const LIST_MODIFIERS = {};

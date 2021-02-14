@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { colorPrimary, colorSecondary } from '../utils';
+import { colorPrimary, colorSecondary } from 'design/utils';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
 const ICON_MODIFIERS = {

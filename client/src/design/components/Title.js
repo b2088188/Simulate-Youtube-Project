@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorPrimary } from '../utils';
+import { colorPrimary } from 'design/utils';
 
 const TITLE_MODIFIERS = {
 	huge: () => `

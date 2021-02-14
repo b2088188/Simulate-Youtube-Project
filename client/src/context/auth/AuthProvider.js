@@ -2,9 +2,8 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import { AuthStateProvider, AuthActionProvider } from './authContext';
 import { useAsync } from 'utils/hooks';
 import { useQueryClient } from 'react-query';
-import { Row } from 'design/components';
 import { FullPageSpinner } from 'components/Spinner';
-import { authRequest, userRequest } from 'apis/backend';
+import { authRequest } from 'apis/backend';
 
 const AuthProvider = ({ children }) => {
    const queryClient = useQueryClient();

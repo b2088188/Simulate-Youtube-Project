@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorPrimary, setTransition } from '../utils';
+import { colorPrimary, setTransition } from 'design/utils';
 
 const LABEL_MODIFIERS = {
 	huge: () => `

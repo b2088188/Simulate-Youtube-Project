@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { setFlex, setFlexWidth, setMargin, setSize, media } from '../utils';
+import { setFlex, setFlexWidth, setMargin, setSize, media } from 'design/utils';
 
 const CONTAINER_MODIFIERS = {
    small: () => `

@@ -1,9 +1,9 @@
 import styled from 'styled-components/macro';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorGrey, colorPrimary, setFlex, media } from '../utils';
-import { Title } from '../components/Title';
-import { Button } from '../components/Button';
-import { Link } from '../components/Link';
+import { colorGrey, setFlex, media } from 'design/utils';
+import { Title } from 'design/components/Title';
+import { Button } from 'design/components/Button';
+import { Link } from 'design/components/Link';
 
 export const Form = styled.form`
    flex: 0 0 50%;

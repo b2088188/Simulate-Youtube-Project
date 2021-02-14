@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { setFlexWidth, media } from '../utils';
+import { setFlexWidth, media } from 'design/utils';
 
 export const Navigation = styled.nav`
    // flex-basis
