@@ -23,11 +23,7 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
     next();
 });
-// app.use(function (req, res, next) {
-//     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-//     res.header('Access-Control-Allow-Credentials', true);
-//     next();
-// });
+
 if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
 //Body parser, reading data from body into req.body
