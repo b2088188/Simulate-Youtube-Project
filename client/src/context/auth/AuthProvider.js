@@ -3,7 +3,7 @@ import { AuthStateProvider, AuthActionProvider } from './authContext';
 import { useAsync } from 'utils/hooks';
 import { useQueryClient } from 'react-query';
 import { Row } from 'design/components';
-import { Spinner } from 'components/Spinner';
+import { FullPageSpinner } from 'components/Spinner';
 import { authRequest, userRequest } from 'apis/backend';
 
 const AuthProvider = ({ children }) => {
@@ -99,12 +99,7 @@ const AuthProvider = ({ children }) => {
       [login, signup, logout, setData, setError]
    );
 
-   if (isIdle || isLoading)
-      return (
-         <Row>
-            <Spinner modifiers='dark' />
-         </Row>
-      );
+   if (isIdle || isLoading) return <FullPageSpinner />;
 
    return (
       <AuthStateProvider value={value}>
