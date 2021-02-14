@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors';
 import compression from 'compression';
 import cookieParser from 'cookie-parser'
+
 // Secure
 //import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
@@ -13,21 +14,21 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-app.enable('trust proxy');
-app.use(
-    cors({
-        origin: 'https://app0529-7b508.web.app',
-        credentials: true
-    })
-);
-app.options('*', cors());
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'https://app0529-7b508.web.app');
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-    next();
-});
+// app.enable('trust proxy');
+// app.use(
+//     cors({
+//         origin: 'https://app0529-7b508.web.app',
+//         credentials: true
+//     })
+// );
+// app.options('*', cors());
+// app.use(function (req, res, next) {
+//     res.header('Access-Control-Allow-Origin', 'https://app0529-7b508.web.app');
+//     res.header('Access-Control-Allow-Credentials', true);
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+//     next();
+// });
 if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
 //Body parser, reading data from body into req.body
