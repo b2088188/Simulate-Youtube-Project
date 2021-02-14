@@ -32,6 +32,7 @@ body {
     min-height: 100vh;
       color: ${colorGrey.dark2};
     background-color: ${colorGrey.light1};  
+    
 }
 
 
@@ -67,6 +68,22 @@ $bp-medium: 56.25em;
 $bp-small: 37.5em;
 //500px
 $bp-tiny: 31.5em;
+
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.item-exit {
+  opacity: 1;
+}
+.item-exit-active {
+  opacity: 0;
+ // transition: opacity 500ms ease-in;
+}
+
 `;
 
 export default GlobalStyle;

@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { Link } from '../components/Link';
-import { Span } from '../components';
-import { Title } from '../components/Title';
+import styled from 'styled-components/macro';
+import { Link } from 'design/components/Link';
+import { Span } from 'design/components';
+import { Title } from 'design/components/Title';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
 const CARDLINK_MODIFIERS = {

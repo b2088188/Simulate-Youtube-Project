@@ -17,6 +17,7 @@ export const createLike = catchAsync(async (req, res, next) => {
 export const getLikes = catchAsync(async (req, res, next) => {
     const userId = req.params.userId ? req.params.userId : req.user._id;
     const likes = await Like.find({ user: userId });
+
     res.status(200).json({
         status: 'success',
         data: {

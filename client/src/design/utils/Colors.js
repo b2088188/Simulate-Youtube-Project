@@ -24,3 +24,9 @@ export const colorGrey = {
    dark2: '#777',
    dark3: '#999'
 };
+
+export const colorNatural = {
+   light: '#55c57a',
+   default: '#20bf6b',
+   dark: '#28b487'
+};

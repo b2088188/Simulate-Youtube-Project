@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import {
    colorGrey,
    colorNormal,
@@ -7,7 +7,7 @@ import {
    setTransition,
    setPadding,
    media
-} from '../utils';
+} from 'design/utils';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
 const BUTTON_MODIFIERS = {

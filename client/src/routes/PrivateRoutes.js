@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useAuthState } from '../stores/auth/authStateContext';
+import useAuth from 'context/auth/authContext';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-   const { user } = useAuthState();
+   const [{ user }] = useAuth();
    return (
       <Route
          {...rest}

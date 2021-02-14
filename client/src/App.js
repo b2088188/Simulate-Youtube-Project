@@ -1,80 +1,76 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import GlobalStyle from './design/GlobalStyle';
-import { StylesProvider } from '@material-ui/styles';
-import { Container, Row } from './design/components';
-import AuthStore from './stores/auth/AuthStore';
-import HomeStore from './stores/home/HomeStore';
-import LikeStore from './stores/likes/LikeStore';
-import SearchStore from './stores/search/SearchStore';
-import VideoStore from './stores/video/VideoStore';
-import CommentStore from './stores/comment/CommentStore';
-import ChannelStore from './stores/channel/ChannelStore';
-import SubscribeStore from './stores/subscriptions/SubscribeStore';
+import { Route, useLocation, Switch } from 'react-router-dom';
 import PrivateRoute from './routes/PrivateRoutes';
-import Home from './layout/home/Home';
+import Home from './screen/home/HomeView';
 import Header from './layout/header/Header';
 import Sidebar from './layout/sidebar/Sidebar';
-import Spinner from './design/elements/Spinner';
-const Signup = lazy(() => import('./components/auth/Signup'));
-const Login = lazy(() => import('./components/auth/Login'));
-const SearchView = lazy(() => import('./components/searchView/SearchView'));
-const VideoView = lazy(() => import('./components/videoView/VideoView'));
-const LikedView = lazy(() => import('./components/likedView/LikedView'));
-const ChannelView = lazy(() => import('./components/channelView/ChannelView'));
-const AccountView = lazy(() => import('./components/accountView/AccountView'));
+import { Container, Row } from './design/components';
+import { FullPageSpinner } from './components/Spinner';
+import { QueryErrorResetBoundary } from 'react-query';
+import { ErrorBoundary } from 'react-error-boundary';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { ErrorFallback, ErrorNotFound } from './components/Error';
+
+const Signup = lazy(() => import('./screen/auth/Signup'));
+const Login = lazy(() => import('./screen/auth/Login'));
+const SearchView = lazy(() => import('./screen/search/SearchView'));
+const VideoView = lazy(() => import('./screen/video/VideoView'));
+const LikedView = lazy(() => import('./screen/like/LikedView'));
+const ChannelView = lazy(() => import('./screen/channel/ChannelView'));
+const AccountView = lazy(() => import('./screen/account/AccountView'));
 
 function App() {
    return (
-      <StylesProvider injectFirst>
-         <GlobalStyle />
-         <AuthStore>
-            <SubscribeStore>
-               <Suspense
-                  fallback={
-                     <Row>
-                        <Spinner modifiers='dark' />
-                     </Row>
-                  }
-               >
-                  <Router>
-                     <Header />
-                     <Container>
-                        <Row
-                           direction={{
-                              desktop: 'row',
-                              tabport: 'column'
-                           }}
-                        >
-                           <Sidebar />
-                           <Route exact path='/signup' component={Signup} />
-                           <Route exact path='/login' component={Login} />
-                           <HomeStore>
-                              <Route exact path='/' component={Home} />
-                           </HomeStore>
-                           <PrivateRoute exact path='/accounts' component={AccountView} />
-                           <SearchStore>
-                              <Route exact path='/results' component={SearchView} />
-                           </SearchStore>
-                           <LikeStore>
-                              <PrivateRoute exact path='/likelist' component={LikedView} />
-                              <VideoStore>
-                                 <CommentStore>
-                                    <Route exact path='/watch/:videoId' component={VideoView} />
-                                 </CommentStore>
-                              </VideoStore>
-                           </LikeStore>
-                           <ChannelStore>
-                              <Route exact path='/channel/:channelId' component={ChannelView} />
-                           </ChannelStore>
-                        </Row>
-                     </Container>
-                  </Router>
-               </Suspense>
-            </SubscribeStore>
-         </AuthStore>
-      </StylesProvider>
+      <Suspense fallback={<FullPageSpinner />}>
+         <Header />
+         <Container>
+            <Row
+               direction={{
+                  desktop: 'row',
+                  tabport: 'column'
+               }}
+            >
+               <Sidebar />
+               <QueryErrorResetBoundary>
+                  {({ reset }) => (
+                     <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+                        <AppRoutes />
+                     </ErrorBoundary>
+                  )}
+               </QueryErrorResetBoundary>
+            </Row>
+         </Container>
+      </Suspense>
    );
 }
+
+const AppRoutes = () => {
+   const location = useLocation();
+   return (
+      <TransitionGroup component={null}>
+         <CSSTransition
+            timeout={{
+               appear: 250,
+               enter: 250,
+               exit: 250
+            }}
+            classNames='item'
+            key={location.key}
+         >
+            <Switch location={location}>
+               <Route exact path='/' component={Home} />
+               <Route path='/signup' component={Signup} />
+               <Route path='/login' component={Login} />
+               <PrivateRoute path='/accounts' component={AccountView} />
+               <Route path='/results' component={SearchView} />
+               <PrivateRoute path='/likelist' component={LikedView} />
+               <Route path='/watch/:videoId' component={VideoView} />
+               <Route path='/channel/:channelId' component={ChannelView} />
+               <Route path='*' component={ErrorNotFound} />
+            </Switch>
+         </CSSTransition>
+      </TransitionGroup>
+   );
+};
 
 export default App;

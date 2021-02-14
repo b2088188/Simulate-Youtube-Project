@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorPrimary, colorSecondary } from '../utils';
+import { colorPrimary, colorSecondary } from 'design/utils';
 
 const SPAN_MODIFIERS = {
 	huge: () => `

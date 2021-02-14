@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { colorGrey, setPadding, setMargin, setFlex, setFlexWidth, media } from '../utils';
+import styled from 'styled-components/macro';
+import { colorGrey, setPadding, setMargin, setFlex, setFlexWidth, media } from 'design/utils';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
 const LINK_MODIFIERS = {

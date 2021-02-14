@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { setFlex, setBorder, setFlexWidth, setMargin, setPadding, media } from '../utils';
+import styled from 'styled-components/macro';
+import { setFlex, setBorder, setFlexWidth, setMargin, setPadding, media } from 'design/utils';
 
 export const ListGroup = styled.div`
    padding: 0.75rem 1.25rem;

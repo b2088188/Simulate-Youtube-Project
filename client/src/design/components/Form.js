@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { applyStyleModifiers } from 'styled-components-modifiers';
-import { colorGrey, setFlex, media } from '../utils';
-import { Title } from '../components/Title';
-import { Button } from '../components/Button';
-import { Link } from '../components/Link';
+import { colorGrey, setFlex, media } from 'design/utils';
+import { Title } from 'design/components/Title';
+import { Button } from 'design/components/Button';
+import { Link } from 'design/components/Link';
 
 export const Form = styled.form`
    flex: 0 0 50%;
@@ -41,6 +41,7 @@ const INPUT_MODIFIERS = {
    transparent: () => `
         background: none;
         border-bottom: solid .1rem #999;
+        border-radius: 0;
     `,
    grey: () => `
   &::-webkit-input-placeholder {
@@ -48,20 +49,21 @@ const INPUT_MODIFIERS = {
     color: ${colorGrey.light4};
   }
   `,
-   outline: () => `
-    border: solid .1rem ${colorGrey.light4};
-    color: inherit;
-  `
+   round: () => `
+    border-radius: 10rem;
+    `
 };
 
 export const Input = styled.input`
    padding: 1rem;
    font-family: inherit;
-   font-size: inherit;
+   font-size: 1.7rem;
    color: inherit;
    background-color: ${colorGrey.light2};
    border: none;
+   border-radius: 0.5rem;
    transition: all 0.25s;
+   position: relative;
    &:focus {
       outline: none;
       background-color: ${colorGrey.light3};
@@ -101,26 +103,6 @@ const FormLabel = styled.label`
    ${applyStyleModifiers(FORMLABEL_MODIFIERS)}
 `;
 Form.Label = FormLabel;
-
-//Form Input
-const FORMINPUT_MODIFIERS = {
-   radio: () => `
-    &:focus {
-            outline: none;
-        }
-    `,
-   round: () => `
-    border-radius: 10rem;
-    `,
-   transparent: () => `
-        background: none;
-        border-bottom: solid .1rem #999;
-    `
-};
-const FormInput = styled(Input)`
-   ${applyStyleModifiers(FORMINPUT_MODIFIERS)}
-`;
-Form.Input = FormInput;
 
 //Form Button
 const FormButton = styled(Button)``;

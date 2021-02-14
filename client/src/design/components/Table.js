@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
 //table
