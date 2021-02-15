@@ -4,6 +4,7 @@ import AppError from '../utils/appError.js'
 const globalError = (err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
+    console.log(err)
     if(process.env.NODE_ENV === 'development')      
       return sendErrorDev(err, req, res);
     let error = {...err};

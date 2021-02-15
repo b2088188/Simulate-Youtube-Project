@@ -66,7 +66,8 @@ export const deleteComment = catchAsync(async (req, res, next) => {
         return next(new AppError('Comment not found', 404));
     if (comment.user._id.toString() != req.user._id)
         return next(new AppError('Not Authorized', 401));
-    await CommentLike.deleteMany({comment: comment._id});
+    if(comment.likes > 0)
+        await CommentLike.deleteMany({comment: comment._id});
     await Comment.findByIdAndRemove(comment._id);
     
     res.status(204).json({
