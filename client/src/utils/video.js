@@ -84,21 +84,6 @@ function setQueryDataForVideoInfo(video) {
 	queryClient.setQueryData(['videoInfo', { videoId: video.videoId }], video);
 }
 
-function setQueryDataForVideoSubscribe(videoId, type) {
-	const prevVideoInfo = queryClient.getQueryData(['videoInfo', { videoId }]);
-	queryClient.setQueryData(['videoInfo', { videoId }], (oldData) => {
-		const { channel } = oldData;
-		return {
-			...oldData,
-			channel: {
-				...channel,
-				subscribes: type === 'create' ? channel.subscribes + 1 : channel.subscribes - 1
-			}
-		};
-	});
-	return prevVideoInfo;
-}
-
 // function refetchVideoSearchQuery() {
 // 	// remove old video search query
 // 	queryClient.remoQueries('videoSearch');
@@ -106,10 +91,4 @@ function setQueryDataForVideoSubscribe(videoId, type) {
 // 	queryClient.prefetchQuery();
 // }
 
-export {
-	useVideoSearch,
-	useVideoInfo,
-	useHomeVideoSearch,
-	setQueryDataForVideoInfo,
-	setQueryDataForVideoSubscribe
-};
+export { useVideoSearch, useVideoInfo, useHomeVideoSearch, setQueryDataForVideoInfo };

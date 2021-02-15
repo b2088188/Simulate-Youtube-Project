@@ -1,56 +1,48 @@
-import React, { useState, useContext, useRef, createContext, cloneElement } from 'react';
-import { MenuList, MenuItem, Grow, Paper, Popper, ClickAwayListener } from '@material-ui/core';
+import React, { useState, useContext, useRef, createContext, Children, cloneElement } from 'react';
+import { Menu as MaterialMenu, MenuItem } from '@material-ui/core';
 
 const MenuContext = createContext();
 
 const Menu = ({ children }) => {
-   const [isOpen, setIsOpen] = useState(false);
-   const anchorRef = useRef(null);
-   const value = { isOpen, setIsOpen, anchorRef };
+   const [anchorEl, setAnchorEl] = useState(null);
+
+   function getMenuOpenProps({ onClick } = {}) {
+      return {
+         onClick: callAll((e) => setAnchorEl(e.currentTarget), onClick),
+         'aria-controls': 'simple-menu',
+         'aria-haspopup': 'true'
+      };
+   }
+
+   function getMenuProps() {
+      return {
+         id: 'simple-menu',
+         anchorEl,
+         keepMounted: null,
+         open: Boolean(anchorEl),
+         onClose: () => setAnchorEl(null)
+      };
+   }
+   const value = { anchorEl, setAnchorEl, getMenuProps, getMenuOpenProps };
    return <MenuContext.Provider value={value}>{children}</MenuContext.Provider>;
 };
 
 const MenuOpenButton = ({ children: child }) => {
-   const { setIsOpen, anchorRef } = useContext(MenuContext);
-   return cloneElement(child, {
-      onClick: callAll(() => setIsOpen(true), child.props.onClick),
-      ref: anchorRef
-   });
+   const { getMenuOpenProps } = useContext(MenuContext);
+   return cloneElement(child, getMenuOpenProps({ onClick: child.props.onClick }));
 };
 
-const MenuCloseButton = ({ children: child }) => {
-   const { setIsOpen, anchorRef } = useContext(MenuContext);
-   return cloneElement(child, {
-      onClick: callAll(() => setIsOpen(false), child.props.onClick),
-      ref: anchorRef
-   });
-};
-
-const MenuContent = ({ children, className }) => {
-   const { isOpen, setIsOpen, anchorRef } = useContext(MenuContext);
-
-   const handleClose = (event) => {
-      if (anchorRef.current && anchorRef.current.contains(event.target)) return;
-      setIsOpen(false);
-   };
+const MenuContent = ({ children, onClick }) => {
+   const { getMenuProps, setAnchorEl } = useContext(MenuContext);
 
    return (
-      <Popper open={isOpen} anchorEl={anchorRef.current} transition>
-         {({ TransitionProps, placement }) => (
-            <Grow
-               {...TransitionProps}
-               style={{
-                  transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'
-               }}
-            >
-               <Paper>
-                  <ClickAwayListener onClickAway={handleClose}>
-                     <MenuList autoFocusItem={isOpen}>{children}</MenuList>
-                  </ClickAwayListener>
-               </Paper>
-            </Grow>
-         )}
-      </Popper>
+      <MaterialMenu {...getMenuProps()}>
+         {Children.map(children, (child) => {
+            return cloneElement(child, {
+               onClick: callAll(() => setAnchorEl(null), child.props.onClick)
+            });
+         })}
+      </MaterialMenu>
    );
 };
 
@@ -62,4 +54,4 @@ function callAll(...fns) {
    };
 }
 
-export { Menu, MenuItem, MenuOpenButton, MenuCloseButton, MenuContent };
+export { Menu, MenuItem, MenuOpenButton, MenuContent };

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import momentTimezone from 'moment-timezone';
 
 export function formatShortTitle(title) {
    let wordsArr = title.split(' ');
@@ -15,5 +16,5 @@ export function formatShortTitle(title) {
 }
 
 export function formatDate(dateString) {
-   return moment(dateString, 'YYYYMMDD').fromNow();
+   return moment(dateString).tz('Asia/Taipei').fromNow();
 }

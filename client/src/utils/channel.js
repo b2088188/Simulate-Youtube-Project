@@ -37,15 +37,4 @@ function useChannelVideos(channelId) {
    return { ...result, channelVideos: result.data };
 }
 
-function setQueryDataForChannelSubscribe(channelId, type) {
-   const prevChannelInfo = queryClient.getQueryData(['channelInfo', { channelId }]);
-   queryClient.setQueryData(['channelInfo', { channelId }], (oldData) => {
-      return {
-         ...oldData,
-         subscribes: type === 'create' ? oldData.subscribes + 1 : oldData.subscribes - 1
-      };
-   });
-   return prevChannelInfo;
-}
-
-export { useChannelInfo, useChannelVideos, setQueryDataForChannelSubscribe };
+export { useChannelInfo, useChannelVideos };

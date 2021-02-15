@@ -26,6 +26,32 @@ function useSubscribeItem(channelId) {
    return subscribeItems.find((el) => el.channel._id === channelId) ?? null;
 }
 
+function useDefaultMutationOptionsInVideo(videoId) {
+   const queryClient = useQueryClient();
+   return {
+      onSettled: () => {
+         queryClient.invalidateQueries('subscribe-items');
+         queryClient.invalidateQueries(['videoInfo', { videoId }]);
+      },
+      onError: (err, variables, recover) => {
+         if (typeof recover === 'function') recover(); // () => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
+      }
+   };
+}
+
+function useDefaultMutationOptionsInChannel(channelId) {
+   const queryClient = useQueryClient();
+   return {
+      onSettled: () => {
+         queryClient.invalidateQueries('subscribe-items');
+         queryClient.invalidateQueries(['channelInfo', { channelId }]);
+      },
+      onError: (err, variables, recover) => {
+         if (typeof recover === 'function') recover(); //() => setQueryData(['channelInfo', { channelId }], prevChannelInfo);
+      }
+   };
+}
+
 function useCreateSubscribeItemInVideo(videoId) {
    const [{ user }] = useAuth();
    const queryClient = useQueryClient();
@@ -33,13 +59,7 @@ function useCreateSubscribeItemInVideo(videoId) {
    const mutation = useMutation(
       ({ channel }) => userRequest.post(`/${user?._id}/subscriptions`, { channel }),
       {
-         onSettled: () => {
-            queryClient.invalidateQueries('subscribe-items');
-            queryClient.invalidateQueries(['videoInfo', { videoId }]);
-         },
-         onError: (err, variables, recover) => {
-            if (typeof recover === 'function') recover(); // () => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
-         },
+         ...useDefaultMutationOptionsInVideo(videoId),
          onMutate: () => {
             const prevVideoInfo = queryClient.getQueryData(['videoInfo', { videoId }]);
             queryClient.setQueryData(['videoInfo', { videoId }], (oldData) => {
@@ -60,19 +80,13 @@ function useCreateSubscribeItemInChannel(channelId) {
    const mutation = useMutation(
       ({ channel }) => userRequest.post(`/${user?._id}/subscriptions`, { channel }),
       {
-         onSettled: () => {
-            queryClient.invalidateQueries('subscribe-items');
-            queryClient.invalidateQueries(['channelInfo', { channelId }]);
-         },
+         ...useDefaultMutationOptionsInChannel(channelId),
          onMutate: () => {
             const prevChannelInfo = queryClient.getQueryData(['channelInfo', { channelId }]);
             queryClient.setQueryData(['channelInfo', { channelId }], (oldData) => {
                return { ...oldData, subscribes: oldData.subscribes + 1 };
             });
             return () => setQueryData(['channelInfo', { channelId }], prevChannelInfo);
-         },
-         onError: (err, variables, recover) => {
-            if (typeof recover === 'function') recover(); //() => setQueryData(['channelInfo', { channelId }], prevChannelInfo);
          }
       }
    );
@@ -86,13 +100,7 @@ function useRemoveSubscribeItemInVideo(videoId) {
    const mutation = useMutation(
       ({ channelId }) => userRequest.delete(`/${user?._id}/subscriptions/${channelId}`),
       {
-         onSettled: () => {
-            queryClient.invalidateQueries('subscribe-items');
-            queryClient.invalidateQueries(['videoInfo', { videoId }]);
-         },
-         onError: (err, variables, recover) => {
-            if (typeof recover === 'function') recover(); // () => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
-         },
+         ...useDefaultMutationOptionsInVideo(videoId),
          onMutate: () => {
             const prevVideoInfo = queryClient.getQueryData(['videoInfo', { videoId }]);
             queryClient.setQueryData(['videoInfo', { videoId }], (oldData) => {
@@ -113,19 +121,13 @@ function useRemoveSubscribeItemInChannel(channelId) {
    const mutation = useMutation(
       ({ channelId }) => userRequest.delete(`/${user?._id}/subscriptions/${channelId}`),
       {
-         onSettled: () => {
-            queryClient.invalidateQueries('subscribe-items');
-            queryClient.invalidateQueries(['channelInfo', { channelId }]);
-         },
+         ...useDefaultMutationOptionsInChannel(channelId),
          onMutate: () => {
             const prevChannelInfo = queryClient.getQueryData(['channelInfo', { channelId }]);
             queryClient.setQueryData(['channelInfo', { channelId }], (oldData) => {
                return { ...oldData, subscribes: oldData.subscribes - 1 };
             });
             return () => setQueryData(['channelInfo', { channelId }], prevChannelInfo);
-         },
-         onError: (err, variables, recover) => {
-            if (typeof recover === 'function') recover(); //() => setQueryData(['channelInfo', { channelId }], prevChannelInfo);
          }
       }
    );

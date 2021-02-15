@@ -1,14 +1,25 @@
 import Comment from '../models/commentModel.js'
+import CommentLike from '../models/commentLikeModel.js';
 import Video from '../models/videoModel.js';
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
+import APIFeatures from '../utils/apiFeatures.js';
 import {createOne, getAllByParam} from './handlerFactory.js'
 
-export const getComments = getAllByParam(Comment, 'videoId', {
-        path: 'user',
-        select: 'name photo'
-    });
 
+
+ 
+export const getComments = catchAsync(async (req, res, next) => {
+    const features = new APIFeatures(Comment.find({videoId: req.params.videoId}), req.query).sort();
+    features.query = features.query.populate({path: 'user', select: 'name photo'});    
+    const doc = await features.query
+     res.status(200).json({
+      status: 'success',
+      data: {
+         doc
+      }
+   })
+})
 
 
 export const addComment = catchAsync(async (req, res, next) => {     
@@ -55,7 +66,9 @@ export const deleteComment = catchAsync(async (req, res, next) => {
         return next(new AppError('Comment not found', 404));
     if (comment.user._id.toString() != req.user._id)
         return next(new AppError('Not Authorized', 401));
+    await CommentLike.deleteMany({comment: comment._id});
     await Comment.findByIdAndRemove(comment._id);
+    
     res.status(204).json({
         status: 'success'
     })

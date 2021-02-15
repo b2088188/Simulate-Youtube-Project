@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useVideoInfo } from 'utils/video';
 import {
    useSubscribeItem,
@@ -28,9 +28,10 @@ import CommentView from 'screen/comment/CommentView';
 import { ThumbUp } from '@material-ui/icons';
 import { AreaSpinner, Spinner } from 'components/Spinner';
 
-const VideoView = ({ history, className }) => {
-   const [{ user }] = useAuth();
+const VideoView = ({ className }) => {
    const { videoId } = useParams();
+   const history = useHistory();
+   const [{ user }] = useAuth();
    const { video, isIdle, isLoading, isSuccess } = useVideoInfo(videoId);
    const likeItem = useLikeItem(videoId);
    const {

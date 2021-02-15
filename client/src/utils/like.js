@@ -26,10 +26,32 @@ function useLikeItem(videoId) {
 	return likeItems.find((el) => el.videoId === videoId) ?? null;
 }
 
+function useDefaultMutationOptionsInVideo(videoId, userId) {
+	return {
+		onSettled: () => {
+			queryClient.invalidateQueries(['like-items', userId]);
+			queryClient.invalidateQueries(['videoInfo', { videoId }]);
+		},
+		onError: (err, variables, recover) => {
+			if (typeof recover === 'function') recover(); // () => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
+		}
+	};
+}
+
+function useDefaultMutationOptions(userId) {
+	return {
+		onSettled: () => {
+			queryClient.invalidateQueries(['like-items', userId]);
+		},
+		onError: (err, variables, recover) => {
+			if (typeof recover === 'function') recover(); // () => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
+		}
+	};
+}
+
 function useCreateLikeItemInVideo(videoId) {
 	const [{ user }] = useAuth();
 	const queryClient = useQueryClient();
-	//const defaultOptions = useDefaultMutationOptions(user?._id, videoId);
 	const mutation = useMutation(
 		(video) =>
 			userRequest.post(`/${user?._id}/likes`, {
@@ -40,16 +62,7 @@ function useCreateLikeItemInVideo(videoId) {
 				publishedAt: video.publishedAt
 			}),
 		{
-			onSettled: () => {
-				queryClient.invalidateQueries(['like-items', user?._id]);
-				queryClient.invalidateQueries(['videoInfo', { videoId }]);
-			},
-			onError: (err, variables, recover) => {
-				if (typeof recover === 'function') {
-					//() => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
-					recover();
-				}
-			},
+			...useDefaultMutationOptionsInVideo(videoId, user?._id),
 			onMutate: () => {
 				const prevVideoInfo = queryClient.getQueryData(['videoInfo', { videoId }]);
 				queryClient.setQueryData(['videoInfo', { videoId }], (oldData) => {
@@ -65,16 +78,10 @@ function useCreateLikeItemInVideo(videoId) {
 function useRemoveLikeItem() {
 	const [{ user }] = useAuth();
 	const queryClient = useQueryClient();
-	//const defaultOptions = useDefaultMutationOptions(user?._id, videoId);
 	const mutation = useMutation(
 		({ videoId }) => userRequest.delete(`/${user?._id}/likes/${videoId}`),
 		{
-			onSettled: () => {
-				queryClient.invalidateQueries(['like-items', user?._id]);
-			},
-			onError: (err, variables, recover) => {
-				if (typeof recover === 'function') recover(); //() => queryClient.setQueryData(['like-items', user?._id], prevLikeItems);
-			},
+			...useDefaultMutationOptions(user?._id),
 			onMutate: ({ videoId }) => {
 				const prevLikeItems = queryClient.getQueryData(['like-items', user?._id]);
 				queryClient.setQueryData(['like-items', user?._id], (oldData) => {
@@ -89,22 +96,11 @@ function useRemoveLikeItem() {
 
 function useRemoveLikeItemInVideo(videoId) {
 	const [{ user }] = useAuth();
-
 	const queryClient = useQueryClient();
-	//const defaultOptions = useDefaultMutationOptions(user?._id, videoId);
 	const mutation = useMutation(
 		({ videoId }) => userRequest.delete(`/${user?._id}/likes/${videoId}`),
 		{
-			onSettled: () => {
-				queryClient.invalidateQueries(['like-items', user?._id]);
-				queryClient.invalidateQueries(['videoInfo', { videoId }]);
-			},
-			onError: (err, variables, recover) => {
-				if (typeof recover === 'function') {
-					() => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
-					recover();
-				}
-			},
+			...useDefaultMutationOptionsInVideo(videoId, user?._id),
 			onMutate: () => {
 				const prevVideoInfo = queryClient.getQueryData(['videoInfo', { videoId }]);
 				queryClient.setQueryData(['videoInfo', { videoId }], (oldData) => {
