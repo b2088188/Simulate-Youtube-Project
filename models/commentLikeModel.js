@@ -62,13 +62,13 @@ commentLikeSchema.post('save', async function() {
 })
 
 //Run before query executing
-commentLikeSchema.pre(/^delete/i, async function(next) {	
+commentLikeSchema.pre(/^delete/, async function(next) {	
 	this.c = await this.findOne();
 	next();
 })
 
 //Run after query finishing
-commentLikeSchema.post(/^delete/i, async function() {
+commentLikeSchema.post(/^delete/, async function() {
 	const comment = await Comment.findById(this.c.comment);
 	comment.likes -= 1;
 	await comment.save();

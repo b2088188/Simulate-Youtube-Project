@@ -21,15 +21,11 @@ export const createCommentLike = catchAsync(async (req, res, next) => {
 })
 
 export const removeCommentLike = catchAsync(async function (req, res, next) {
-	await CommentLike.findByIdAndRemove(req.params.likeId);
+	const commentLike = await CommentLike.deleteOne({_id: req.params.likeId});
+	if(!commentLike)
+		return next(new AppError('No commentLike found with that Id', 404));
 	res.status(204).json({
 		status: 'success'
 	})
 })
 
-export const removeAllCommentLikeForComment = catchAsync(async (req, res, next) => {
-	await CommentLike.deleteMany({comment: req.params.commentId});
-	res.status(204).json({
-		status: 'success'
-	})
-})

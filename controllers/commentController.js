@@ -58,7 +58,7 @@ export const updateComment = catchAsync(async (req, res, next) => {
             comment
         }
     })
-});
+}); 
 
 export const deleteComment = catchAsync(async (req, res, next) => {
     const comment = await Comment.findById(req.params.commentId);
