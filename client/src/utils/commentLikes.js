@@ -16,26 +16,26 @@ function useDefaultMutationOptions(videoId, sort, userId) {
 	};
 }
 
-/* eslint-disable */
 function useCommentLikeItems() {
 	const [{ user }] = useAuth();
-	if (!user) return;
 	const userId = user?._id;
 	const result = useQuery({
 		queryKey: ['commentLikeItems', { userId }],
-		queryFn: () =>
-			userRequest
-				.get(`/${userId}/commentlikes`)
-				.then(({ data: { data } }) => data.commentLikes)
-				.catch(({ response: { data } }) => {
-					throw data;
-				})
+		queryFn: () => {
+			if (user)
+				return userRequest
+					.get(`/${userId}/commentlikes`)
+					.then(({ data: { data } }) => data.commentLikes)
+					.catch(({ response: { data } }) => {
+						throw data;
+					});
+		}
 	});
-	return { ...result, commentLikes: result.data };
+	return { ...result, commentLikes: result.data ?? [] };
 }
 
 function useCommentLikeItem(commentId) {
-	const { commentLikes } = useCommentLikeItems() ?? {};
+	const { commentLikes } = useCommentLikeItems();
 	return commentLikes?.find((el) => el.comment === commentId) || null;
 }
 

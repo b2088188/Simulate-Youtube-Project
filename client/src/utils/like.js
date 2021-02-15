@@ -7,26 +7,26 @@ function useLikeItems() {
 	const [{ user }] = useAuth();
 	const result = useQuery({
 		queryKey: ['like-items', user?._id],
-		queryFn: () =>
-			userRequest
-				.get(`/${user?._id}/likes`)
-				.then(({ data: { data } }) => data.likes)
-				.catch(({ response: { data } }) => {
-					throw data;
-				})
+		queryFn: () => {
+			if (user)
+				return userRequest
+					.get(`/${user?._id}/likes`)
+					.then(({ data: { data } }) => data.likes)
+					.catch(({ response: { data } }) => {
+						throw data;
+					});
+		}
 	});
 	return { ...result, likeItems: result.data ?? [] };
 }
 
-/* eslint-disable */
 function useLikeItem(videoId) {
-	const [{ user }] = useAuth();
-	if (!user) return null;
 	const { likeItems } = useLikeItems();
 	return likeItems.find((el) => el.videoId === videoId) ?? null;
 }
 
 function useDefaultMutationOptionsInVideo(videoId, userId) {
+	const queryClient = useQueryClient();
 	return {
 		onSettled: () => {
 			queryClient.invalidateQueries(['like-items', userId]);
@@ -39,6 +39,7 @@ function useDefaultMutationOptionsInVideo(videoId, userId) {
 }
 
 function useDefaultMutationOptions(userId) {
+	const queryClient = useQueryClient();
 	return {
 		onSettled: () => {
 			queryClient.invalidateQueries(['like-items', userId]);

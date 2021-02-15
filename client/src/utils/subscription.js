@@ -7,23 +7,22 @@ function useSubscribeItems() {
 
    const result = useQuery({
       queryKey: ['subscribe-items', user?._id],
-      queryFn: () =>
-         userRequest
-            .get(`/${user?._id}/subscriptions`)
-            .then(({ data: { data } }) => data.subscribes)
-            .catch(({ response: { data } }) => {
-               throw data;
-            })
+      queryFn: () => {
+         if (user)
+            return userRequest
+               .get(`/${user?._id}/subscriptions`)
+               .then(({ data: { data } }) => data.subscribes)
+               .catch(({ response: { data } }) => {
+                  throw data;
+               });
+      }
    });
    return { ...result, subscribeItems: result.data ?? [] };
 }
 
-/* eslint-disable */
 function useSubscribeItem(channelId) {
-   const [{ user }] = useAuth();
-   if (!user) return null;
    const { subscribeItems } = useSubscribeItems();
-   return subscribeItems.find((el) => el.channel._id === channelId) ?? null;
+   return subscribeItems?.find((el) => el.channel._id === channelId) || null;
 }
 
 function useDefaultMutationOptionsInVideo(videoId) {
@@ -86,7 +85,7 @@ function useCreateSubscribeItemInChannel(channelId) {
             queryClient.setQueryData(['channelInfo', { channelId }], (oldData) => {
                return { ...oldData, subscribes: oldData.subscribes + 1 };
             });
-            return () => setQueryData(['channelInfo', { channelId }], prevChannelInfo);
+            return () => queryClient.setQueryData(['channelInfo', { channelId }], prevChannelInfo);
          }
       }
    );
@@ -127,7 +126,7 @@ function useRemoveSubscribeItemInChannel(channelId) {
             queryClient.setQueryData(['channelInfo', { channelId }], (oldData) => {
                return { ...oldData, subscribes: oldData.subscribes - 1 };
             });
-            return () => setQueryData(['channelInfo', { channelId }], prevChannelInfo);
+            return () => queryClient.setQueryData(['channelInfo', { channelId }], prevChannelInfo);
          }
       }
    );
