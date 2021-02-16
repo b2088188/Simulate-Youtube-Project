@@ -23,6 +23,7 @@ export const getComments = catchAsync(async (req, res, next) => {
 
 
 export const addComment = catchAsync(async (req, res, next) => {     
+
     const video = await Video.find({videoId: req.params.videoId});    
     if(video.length<1)
         return next(new AppError('No comment found with that Id', 404));

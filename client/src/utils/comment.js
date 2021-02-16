@@ -1,5 +1,4 @@
 import * as R from 'ramda';
-import { queryClient } from '../context';
 import { videoRequest } from '../apis/backend';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import useAuth from 'context/auth/authContext';

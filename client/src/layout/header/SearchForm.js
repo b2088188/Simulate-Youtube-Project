@@ -41,6 +41,8 @@ const SearchForm = ({ className }) => {
             <Button
                modifiers='transparent'
                css={`
+                  position: relative;
+                  z-index: 1;
                   margin-left: -5rem;
                   ${media.phone(`
                   margin-left: 0;

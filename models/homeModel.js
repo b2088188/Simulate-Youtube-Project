@@ -21,7 +21,7 @@ const homeSchema = new mongoose.Schema({
     channelImage: String,
     createdDate: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
         selected: false
     }
 })

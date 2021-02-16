@@ -4,7 +4,7 @@ import User from '../models/userModel.js'
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 import {getOne} from './handlerFactory.js'
-
+ 
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {

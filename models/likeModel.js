@@ -22,7 +22,7 @@ const likeSchema = new mongoose.Schema({
     publishAt: Date,
     createdAt: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
         selected: false
     }
 })

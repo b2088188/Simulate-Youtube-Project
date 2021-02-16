@@ -1,7 +1,6 @@
 import { channelRequest } from 'apis/backend';
 import { setQueryDataForVideoInfo } from './video';
 import { useQuery } from 'react-query';
-import { queryClient } from 'context';
 
 function useChannelInfo(channelId) {
    const result = useQuery({
