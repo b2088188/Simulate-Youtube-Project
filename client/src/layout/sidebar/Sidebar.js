@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Col, List, Link as SLink, Span, Button, Icon } from 'design/components';
 import { setFlex, colorGrey, colorPrimary } from 'design/utils';
 import { ThumbUp, Home } from '@material-ui/icons';
@@ -22,10 +22,16 @@ const Sidebar = ({ className }) => {
    function renderSignIn() {
       return (
          <div className='sign'>
-            <Span modifiers={['medium', 'light']} className='info'>
+            <Span modifiers={['medium', 'light']}>
                Sign in to like videos, comment, and subscribe.
             </Span>
-            <Button className='signin' modifiers='outline' onClick={() => history.push('/login')}>
+            <Button
+               css={`
+                  color: ${colorGrey.light1};
+               `}
+               modifiers='outline'
+               onClick={() => history.push('/login')}
+            >
                Sign In
             </Button>
          </div>
@@ -46,7 +52,13 @@ const Sidebar = ({ className }) => {
             {user ? <SubscribeView /> : null}
             {!user ? renderSignIn() : null}
             <div className='legal'>
-               <Span modifiers='small' className='info'>
+               <Span
+                  modifiers='small'
+                  css={`
+                     color: ${colorGrey.light1};
+                     margin-bottom: 1rem;
+                  `}
+               >
                   &copy; 2020 by Shunze Lin
                </Span>
             </div>
@@ -58,7 +70,14 @@ const Sidebar = ({ className }) => {
 function SideBarItem({ to, icon, text }) {
    return (
       <List.Item flow={{ color: colorPrimary.light }}>
-         <SLink as={Link} to={to} pdxy={{ x: '3rem', y: '1.5rem' }} className='link'>
+         <SLink
+            as={Link}
+            to={to}
+            css={`
+               padding: 1.5rem 3rem;
+            `}
+            className='link'
+         >
             <Icon as={icon} modifiers='medium' />
             <Span modifiers='medium'>{text}</Span>
          </SLink>
@@ -86,15 +105,6 @@ export default styled(Sidebar)`
       @media only screen and (max-width: 56.25em) {
          margin: 2rem 0;
       }
-   }
-
-   .info {
-      color: ${colorGrey.light1};
-      margin-bottom: 1rem;
-   }
-
-   .signin {
-      color: ${colorGrey.light1};
    }
 
    //Legal
