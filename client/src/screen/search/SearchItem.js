@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import {
    Link as SLink,
    Paragraph,
@@ -10,14 +10,18 @@ import {
    ImageContainer,
    ListGroup
 } from 'design/components';
-import { media } from 'design/utils';
+import { media, setFlex } from 'design/utils';
 import { formatDate, formatShortTitle } from 'utils/format';
 
 const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
    return (
       <List.Item className={className} ref={isLast ? lastSearchElementRef : null}>
          <SLink as={Link} to={`/watch/${result.videoId}`} className='search__link'>
-            <ImageContainer flexWidth='35'>
+            <ImageContainer
+               css={`
+                  flex: 0 0 35%;
+               `}
+            >
                <Image src={result.images} alt={result.title} />
             </ImageContainer>
             <div className='search__descriptionbox'>
@@ -25,8 +29,18 @@ const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
                <Paragraph modifiers='tini'>
                   {result.views} views • {formatDate(result.createdAt)}
                </Paragraph>
-               <ListGroup flexy='center' pd={{ x: '0', y: '0' }}>
-                  <ImageContainer size={{ width: '3rem', height: '3rem' }}>
+               <ListGroup
+                  css={`
+                     padding: 0;
+                     ${setFlex({ y: 'center' })}
+                  `}
+               >
+                  <ImageContainer
+                     css={`
+                        width: 3rem;
+                        height: 3rem;
+                     `}
+                  >
                      <Image src={result.channel?.image} modifiers='round' />
                   </ImageContainer>
                   <Title as='h3' modifiers={['small', 'light']}>
