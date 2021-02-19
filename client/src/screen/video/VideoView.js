@@ -8,7 +8,7 @@ import {
 } from 'utils/subscription';
 import { useLikeItem, useCreateLikeItemInVideo, useRemoveLikeItemInVideo } from 'utils/like';
 import { useAsync } from 'utils/hooks';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import {
    Col,
    ImageContainer,
@@ -28,7 +28,7 @@ import CommentView from 'screen/comment/CommentView';
 import { ThumbUp } from '@material-ui/icons';
 import { AreaSpinner, Spinner } from 'components/Spinner';
 
-const VideoView = ({ className }) => {
+const VideoView = () => {
    const { videoId } = useParams();
    const history = useHistory();
    const [{ user }] = useAuth();
@@ -64,12 +64,35 @@ const VideoView = ({ className }) => {
       );
    if (isSuccess)
       return (
-         <Col width='10' className={className}>
-            <div className='video'>
-               <div className='video__videobox'>
+         <Col width='10'>
+            <div
+               css={`
+                  width: 80%;
+                  margin: 0 auto;
+                  padding: 2rem 0rem;
+                  ${media.tabport(`
+                  width: 90%;
+                  `)}
+               `}
+            >
+               <div
+                  css={`
+                     box-shadow: var(--shadow-dark-shallow);
+                     height: 37.5vw;
+                     ${media.tabport(`
+                        height: 45vw;
+                        `)}
+                  `}
+               >
                   <Video src={videoSrc} title='video player' />
                </div>
-               <ListGroup flexy='center' className='video__titlebox'>
+               <ListGroup
+                  flexy='center'
+                  css={`
+                     border-bottom: solid 0.1rem #000;
+                     padding: 2rem 1rem;
+                  `}
+               >
                   <ListGroup.Item width='70'>
                      <Title modifiers='medium'>{video.title}</Title>
                      <Paragraph modifiers='small'>
@@ -84,7 +107,9 @@ const VideoView = ({ className }) => {
                   <ListGroup.Item flexy='center'>
                      <Button
                         modifiers='transparent'
-                        pd='0'
+                        css={`
+                           padding: 0;
+                        `}
                         onClick={
                            user
                               ? !likeItem
@@ -101,7 +126,10 @@ const VideoView = ({ className }) => {
                      ) : (
                         <Button
                            modifiers={[`${subscribeItem ? 'disable' : 'primary'}`]}
-                           className='video__subscribebtn'
+                           css={`
+                              flex: 0 0 15%;
+                              margin-left: 2.5%;
+                           `}
                            onClick={
                               user
                                  ? !subscribeItem
@@ -119,9 +147,26 @@ const VideoView = ({ className }) => {
                      )}
                   </ListGroup.Item>
                </ListGroup>
-               <ListGroup modifiers='vertical' className='video__info'>
-                  <ListGroup.Item flexy='center' mb='0.5rem'>
-                     <SLink as={Link} flexwidth='5' mr='1rem' to={`/channel/${video.channel._id}`}>
+               <ListGroup
+                  css={`
+                     padding: 2rem 0;
+                     border-bottom: solid 0.1rem #000;
+                  `}
+               >
+                  <ListGroup.Item
+                     flexy='center'
+                     css={`
+                        margin-bottom: 0.5rem;
+                     `}
+                  >
+                     <SLink
+                        as={Link}
+                        css={`
+                           flex: 0 0 5%;
+                           margin-right: 1rem;
+                        `}
+                        to={`/channel/${video.channel._id}`}
+                     >
                         <ImageContainer>
                            <Image modifiers='round' src={video.channel.image} alt='Author image' />
                         </ImageContainer>
@@ -151,36 +196,4 @@ const VideoView = ({ className }) => {
       );
 };
 
-export default styled(VideoView)`
-   .video {
-      width: 80%;
-      margin: 0 auto;
-      padding: 2rem 0rem;
-      ${media.tabport(`
-      width: 90%;
-      `)}
-
-      &__videobox {
-         box-shadow: var(--shadow-dark-shallow);
-         height: 37.5vw;
-         ${media.tabport(`
-      height: 45vw;
-      `)}
-      }
-
-      &__titlebox {
-         border-bottom: solid 0.1rem #000;
-         padding: 2rem 1rem;
-      }
-
-      &__subscribebtn {
-         flex: 0 0 15%;
-         margin-left: 2.5%;
-      }
-
-      &__info {
-         padding: 2rem 0;
-         border-bottom: solid 0.1rem #000;
-      }
-   }
-`;
+export default VideoView;
