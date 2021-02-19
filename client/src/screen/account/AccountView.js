@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import {
    Col,
    FormContainer,
@@ -86,12 +86,28 @@ const AccountView = ({ className }) => {
                      ref={register}
                      id='photo'
                      name='photo'
-                     className='form__file'
+                     css={`
+                        display: none;
+                     `}
                   />
-                  <Label modifiers='bottomfill' className='form__filelabel' htmlFor='photo'>
+                  <Label
+                     modifiers='bottomfill'
+                     css={`
+                        align-self: center;
+                        margin-left: 2rem;
+                        padding: 1rem;
+                        margin-right: auto;
+                     `}
+                     htmlFor='photo'
+                  >
                      Choose New Photo
                   </Label>
-                  <Button modifiers={['gradient', 'round']} className='form__submitbtn'>
+                  <Button
+                     modifiers={['gradient', 'round']}
+                     css={`
+                        align-self: center;
+                     `}
+                  >
                      Save Settings
                   </Button>
                </Form.Group>
@@ -101,19 +117,4 @@ const AccountView = ({ className }) => {
    );
 };
 
-export default styled(AccountView)`
-   .form {
-      &__file {
-         display: none;
-      }
-      &__filelabel {
-         align-self: center;
-         margin-left: 2rem;
-         padding: 1rem;
-         margin-right: auto;
-      }
-      &__submitbtn {
-         align-self: center;
-      }
-   }
-`;
+export default AccountView;

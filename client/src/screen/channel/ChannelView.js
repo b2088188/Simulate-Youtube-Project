@@ -7,7 +7,7 @@ import {
    useRemoveSubscribeItemInChannel
 } from 'utils/subscription';
 import { useAsync } from 'utils/hooks';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import {
    Col,
    FlexWrapper,
@@ -79,13 +79,31 @@ const ChannelView = ({ className }) => {
 
    if (isChannelSuccess)
       return (
-         <Col width='10' className={className}>
-            <div className='channel__info'>
+         <Col
+            width='10'
+            css={`
+               color: #fff;
+            `}
+         >
+            <div
+               css={`
+                  ${setFlex({ x: 'space-between', y: 'center' })}
+                  background-image: linear-gradient(to right bottom, var(--color-primary-light), var(--color-primary-dark));
+                  padding: 2rem 20%;
+                  ${media.phone(`
+                     padding: .5rem 1rem;
+                `)}
+               `}
+            >
                <FlexWrapper y='center'>
                   <ImageContainer width='7.5rem'>
                      <Image modifiers='round' src={channel.image} />
                   </ImageContainer>
-                  <div className='channel__titlebox'>
+                  <div
+                     css={`
+                        margin-left: 0.5rem;
+                     `}
+                  >
                      <Title modifiers={['medium', 'light']}>{channel.title}</Title>
                      <Span modifiers={['medium', 'exlight']}>{channel.subscribes} subscribers</Span>
                   </div>
@@ -120,19 +138,4 @@ const ChannelView = ({ className }) => {
       );
 };
 
-export default styled(ChannelView)`
-   color: #fff;
-   .channel {
-      &__info {
-         ${setFlex({ x: 'space-between', y: 'center' })}
-         background-image: linear-gradient(to right bottom, var(--color-primary-light), var(--color-primary-dark));
-         padding: 2rem 20%;
-         ${media.phone(`
-            padding: .5rem 1rem;
-            `)}
-      }
-      &__titlebox {
-         margin-left: 0.5rem;
-      }
-   }
-`;
+export default ChannelView;
