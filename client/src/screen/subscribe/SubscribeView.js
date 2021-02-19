@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { useSubscribeItems } from 'utils/subscription';
 import { Title, List } from 'design/components';
 import { colorGrey, media } from 'design/utils';
@@ -21,11 +21,24 @@ const SubscribeView = ({ className }) => {
    if (isSuccess)
       return (
          <div className={className}>
-            <Title as='h2' className='subscribe__title'>
+            <Title
+               as='h2'
+               css={`
+                  color: ${colorGrey.light1};
+               `}
+            >
                Subscriptions
             </Title>
             <nav>
-               <List className='subscribe__list'>{renderSubscriptions(subscribeItems)}</List>
+               <List
+                  css={`
+                     ${media.tabport(`
+                      display: flex;
+                     `)}
+                  `}
+               >
+                  {renderSubscriptions(subscribeItems)}
+               </List>
             </nav>
          </div>
       );
@@ -38,14 +51,4 @@ export default styled(SubscribeView)`
    ${media.tabport(`
    padding: 1rem;
       `)}
-   .subscribe {
-      &__list {
-         ${media.tabport(`
-       display: flex;
-      `)}
-      }
-      &__title {
-         color: ${colorGrey.light1};
-      }
-   }
 `;

@@ -13,7 +13,7 @@ import {
    Button,
    Span
 } from 'design/components';
-import { colorGrey } from 'design/utils';
+import { colorGrey, setFlex } from 'design/utils';
 import { Close, Delete } from '@material-ui/icons';
 import { Modal, ModalOpenButton, ModalCloseButton, ModalContent } from 'components/Modal';
 import { useRemoveLikeItem } from 'utils/like';
@@ -25,24 +25,37 @@ const LikedItem = ({ like, className }) => {
       <List.Item className={className}>
          <Modal>
             <ModalOpenButton>
-               <Button modifiers='transparent' className='like__portalbtn'>
+               <Button
+                  modifiers='transparent'
+                  css={`
+                     position: absolute;
+                     top: 0.5rem;
+                     right: 0.5rem;
+                  `}
+               >
                   <Icon as={Close} />
                </Button>
             </ModalOpenButton>
             <ModalContent>
-               <FlexWrapper direction='column' y='center'>
+               <div
+                  css={`
+                     ${setFlex({ direction: 'column', y: 'center' })}
+                  `}
+               >
                   <Title>Are you sure you want to remove this item?</Title>
                   <ModalCloseButton>
                      <Button
                         modifiers='outline'
-                        className='like__deletebtn'
+                        css={`
+                           color: ${colorGrey.dark2};
+                        `}
                         onClick={() => removeLike({ videoId: like.videoId })}
                      >
                         <Icon as={Delete} />
                         <Span>Remove</Span>
                      </Button>
                   </ModalCloseButton>
-               </FlexWrapper>
+               </div>
             </ModalContent>
          </Modal>
          <SLink as={Link} to={`/watch/${like.videoId}`}>
@@ -72,24 +85,5 @@ export default styled(LikedItem)`
    transition: background 0.25s;
    &:hover {
       background: var(--color-grey-light-3);
-   }
-
-   .like {
-      &__window {
-         text-align: center;
-      }
-
-      &__windowtitle {
-         font-size: 1.7rem !important;
-      }
-
-      &__portalbtn {
-         position: absolute;
-         top: 0.5rem;
-         right: 0.5rem;
-      }
-      &__deletebtn {
-         color: ${colorGrey.dark2};
-      }
    }
 `;

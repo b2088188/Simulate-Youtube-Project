@@ -69,7 +69,7 @@ const VideoView = () => {
                css={`
                   width: 80%;
                   margin: 0 auto;
-                  padding: 2rem 0rem;
+                  padding: 2rem 0;
                   ${media.tabport(`
                   width: 90%;
                   `)}

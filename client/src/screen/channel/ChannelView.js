@@ -125,7 +125,11 @@ const ChannelView = ({ className }) => {
                   <Spinner />
                )}
             </div>
-            <ListGroup flexy='center' wrap='true'>
+            <ListGroup
+               css={`
+                  ${setFlex({ y: 'center', wrap: 'wrap' })}
+               `}
+            >
                {isChannelVideosIdle || isChannelVideosLoading ? (
                   <AreaSpinner />
                ) : isChannelVideosError && errorChannelVideos ? (
