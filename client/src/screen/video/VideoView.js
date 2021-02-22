@@ -34,7 +34,6 @@ const VideoView = () => {
    const history = useHistory();
    const [{ user }] = useAuth();
    const { video, isIdle, isLoading, isSuccess } = useVideoInfo(videoId);
-   const likeItem = useLikeItem(videoId);
    const {
       isLoading: isMutateLoading,
       //isError: isMutateError,
@@ -43,11 +42,12 @@ const VideoView = () => {
       //  reset
    } = useAsync();
 
+   const subscribeItem = useSubscribeItem(video?.channel?._id || null);
    const { createSubscribe } = useCreateSubscribeItemInVideo(videoId);
    const { removeSubscribe } = useRemoveSubscribeItemInVideo(videoId);
+   const likeItem = useLikeItem(videoId);
    const { createLike } = useCreateLikeItemInVideo(videoId);
    const { removeLike } = useRemoveLikeItemInVideo(videoId);
-   const subscribeItem = useSubscribeItem(video?.channel?._id || null);
    const [descriptionShow, setDescriptionShow] = useState(false);
 
    function handleSubscribeClick(clickCB) {
