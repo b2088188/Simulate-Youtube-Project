@@ -102,13 +102,19 @@ function useRemoveLikeItemInVideo(videoId) {
 		({ videoId }) => userRequest.delete(`/${user?._id}/likes/${videoId}`),
 		{
 			...useDefaultMutationOptionsInVideo(videoId, user?._id),
-			onMutate: () => {
+			onMutate: ({ videoId }) => {
 				const prevVideoInfo = queryClient.getQueryData(['videoInfo', { videoId }]);
+				const prevLikeItems = queryClient.getQueryData(['like-items', user?._id]);
 				queryClient.setQueryData(['videoInfo', { videoId }], (oldData) => {
-					if (!oldData) return;
 					return { ...oldData, likes: oldData.likes - 1 };
 				});
-				return () => queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
+				queryClient.setQueryData(['like-items', user?._id], (oldData) => {
+					return R.reject((el) => el.videoId === videoId, oldData);
+				});
+				return () => {
+					queryClient.setQueryData(['videoInfo', { videoId }], prevVideoInfo);
+					queryClient.setQueryData(['like-items', user?._id], prevLikeItems);
+				};
 			}
 		}
 	);

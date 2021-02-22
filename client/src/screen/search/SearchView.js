@@ -21,9 +21,7 @@ const SearchView = ({ className }) => {
       fetchNextPage,
       isSuccess,
       isFetching,
-      isFetchingNextPage,
-      isError,
-      error
+      isFetchingNextPage
    } = useVideoSearch(q, sortBy);
    const lastSearchElementRef = useCallback(
       (node) => {
@@ -63,12 +61,7 @@ const SearchView = ({ className }) => {
             <Message text='No video found, please try another search.' />
          </Col>
       );
-   if (isError && error)
-      return (
-         <Col width='10'>
-            <Message severity='error' text={error.message} />
-         </Col>
-      );
+
    return (
       <Col width='10' className={className}>
          <Navigation flexwidth={{ desktop: '60', tabland: '70', tabport: '90' }}>

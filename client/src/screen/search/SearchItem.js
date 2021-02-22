@@ -10,7 +10,7 @@ import {
    ImageContainer,
    ListGroup
 } from 'design/components';
-import { media, setFlex } from 'design/utils';
+import { media, setFlex, colorNormal, colorGrey } from 'design/utils';
 import { formatDate, formatShortTitle } from 'utils/format';
 
 const SearchItem = ({ result, className, isLast, lastSearchElementRef }) => {
@@ -63,10 +63,10 @@ export default styled(SearchItem)`
    .search {
       &__link {
          text-decoration: none;
-         color: var(--color-grey-dark);
+         color: ${colorGrey.dark2};
          width: 100%;
          height: 100%;
-         background-color: #fff;
+         background-color: ${colorNormal.white};
          box-shadow: var(--shadow-light);
          display: flex;
 
@@ -77,9 +77,9 @@ export default styled(SearchItem)`
 
       &__descriptionbox {
          flex: 1;
-         padding: 2rem 2rem;
+         padding: 2rem;
          ${media.tabport(`
-            padding: 1rem 1rem;
+            padding: 1rem;
             `)}
       }
 

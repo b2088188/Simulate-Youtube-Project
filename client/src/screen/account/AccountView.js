@@ -41,7 +41,7 @@ const AccountView = ({ className }) => {
    }, [user, isUpdateSuccess]);
 
    return (
-      <Col width='12' className={className}>
+      <Col width='12'>
          {isUpdateSuccess && showAlert ? (
             <CoverMessage text='Update Successfully' severity='success' fade={showAlert} />
          ) : null}

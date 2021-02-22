@@ -22,7 +22,7 @@ import {
    Image,
    Span
 } from 'design/components';
-import { media } from 'design/utils';
+import { media, setFlex } from 'design/utils';
 import useAuth from 'context/auth/authContext';
 import CommentView from 'screen/comment/CommentView';
 import { ThumbUp } from '@material-ui/icons';
@@ -30,6 +30,7 @@ import { AreaSpinner, Spinner } from 'components/Spinner';
 
 const VideoView = () => {
    const { videoId } = useParams();
+   const videoSrc = `https://www.youtube.com/embed/${videoId}`;
    const history = useHistory();
    const [{ user }] = useAuth();
    const { video, isIdle, isLoading, isSuccess } = useVideoInfo(videoId);
@@ -48,7 +49,6 @@ const VideoView = () => {
    const { removeLike } = useRemoveLikeItemInVideo(videoId);
    const subscribeItem = useSubscribeItem(video?.channel?._id || null);
    const [descriptionShow, setDescriptionShow] = useState(false);
-   const videoSrc = `https://www.youtube.com/embed/${videoId}`;
 
    function handleSubscribeClick(clickCB) {
       return function () {
@@ -87,8 +87,8 @@ const VideoView = () => {
                   <Video src={videoSrc} title='video player' />
                </div>
                <ListGroup
-                  flexy='center'
                   css={`
+                     ${setFlex({ y: 'center' })}
                      border-bottom: solid 0.1rem #000;
                      padding: 2rem 1rem;
                   `}
@@ -154,9 +154,9 @@ const VideoView = () => {
                   `}
                >
                   <ListGroup.Item
-                     flexy='center'
                      css={`
                         margin-bottom: 0.5rem;
+                        ${setFlex({ y: 'center' })}
                      `}
                   >
                      <SLink
