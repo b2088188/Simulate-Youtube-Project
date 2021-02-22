@@ -12,17 +12,17 @@ const Sidebar = ({ className }) => {
    const [{ user }] = useAuth();
    let location = useLocation();
    let history = useHistory();
-   if (
-      location.pathname === '/signup' ||
-      location.pathname === '/login' ||
-      location.pathname === '/accounts'
-   )
-      return null;
 
    function renderSignIn() {
       return (
          <div className='sign'>
-            <Span modifiers={['medium', 'light']}>
+            <Span
+               css={`
+                  color: ${colorGrey.light1};
+                  margin-bottom: 1rem;
+               `}
+               modifiers={['medium', 'light']}
+            >
                Sign in to like videos, comment, and subscribe.
             </Span>
             <Button
@@ -37,6 +37,13 @@ const Sidebar = ({ className }) => {
          </div>
       );
    }
+
+   if (
+      location.pathname === '/signup' ||
+      location.pathname === '/login' ||
+      location.pathname === '/accounts'
+   )
+      return null;
 
    return (
       <Col width='2'>
