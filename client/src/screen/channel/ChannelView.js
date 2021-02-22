@@ -95,7 +95,11 @@ const ChannelView = ({ className }) => {
                 `)}
                `}
             >
-               <FlexWrapper y='center'>
+               <div
+                  css={`
+                     ${setFlex({ y: 'center' })}
+                  `}
+               >
                   <ImageContainer width='7.5rem'>
                      <Image modifiers='round' src={channel.image} />
                   </ImageContainer>
@@ -107,7 +111,7 @@ const ChannelView = ({ className }) => {
                      <Title modifiers={['medium', 'light']}>{channel.title}</Title>
                      <Span modifiers={['medium', 'exlight']}>{channel.subscribes} subscribers</Span>
                   </div>
-               </FlexWrapper>
+               </div>
                {!isMutateLoading ? (
                   <Button
                      modifiers={['light', `${subscribeItem ? 'disable' : 'outline'}`]}

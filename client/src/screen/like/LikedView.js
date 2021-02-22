@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components/macro';
 import { Col, CenterWrapper, List } from 'design/components';
 import { AreaSpinner } from 'components/Spinner';
 import { useLikeItems } from 'utils/like';
@@ -21,8 +22,13 @@ const LikedView = ({ className }) => {
       );
    if (isSuccess)
       return (
-         <Col width='10' className={className}>
-            <CenterWrapper width={{ desktop: '60', tabland: '70', tabport: '90' }} my='2'>
+         <Col width='10'>
+            <CenterWrapper
+               width={{ desktop: '60', tabland: '70', tabport: '90' }}
+               css={`
+                  margin: 2rem auto;
+               `}
+            >
                <nav>
                   <List>{renderLikeList(likeItems)}</List>
                </nav>

@@ -48,8 +48,8 @@ const CommentItem = ({ comment, setCurrentTypedComment, sortBy }) => {
 
    return (
       <ListGroup
-         flexy='center'
          css={`
+            ${setFlex({ y: 'center' })}
             &:not(:last-child) {
                margin-bottom: 3rem;
             }
