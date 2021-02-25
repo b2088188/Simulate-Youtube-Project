@@ -21,15 +21,14 @@ function useCommentLikeItems() {
 	const userId = user?._id;
 	const result = useQuery({
 		queryKey: ['commentLikeItems', { userId }],
-		queryFn: () => {
-			if (user)
-				return userRequest
-					.get(`/${userId}/commentlikes`)
-					.then(({ data: { data } }) => data.commentLikes)
-					.catch(({ response: { data } }) => {
-						throw data;
-					});
-		}
+		queryFn: () =>
+			userRequest
+				.get(`/${userId}/commentlikes`)
+				.then(({ data: { data } }) => data.commentLikes)
+				.catch(({ response: { data } }) => {
+					throw data;
+				}),
+		enabled: user ?? false
 	});
 	return { ...result, commentLikes: result.data ?? [] };
 }

@@ -7,15 +7,14 @@ function useSubscribeItems() {
 
    const result = useQuery({
       queryKey: ['subscribe-items', user?._id],
-      queryFn: () => {
-         if (user)
-            return userRequest
-               .get(`/${user?._id}/subscriptions`)
-               .then(({ data: { data } }) => data.subscribes)
-               .catch(({ response: { data } }) => {
-                  throw data;
-               });
-      }
+      queryFn: () =>
+         userRequest
+            .get(`/${user?._id}/subscriptions`)
+            .then(({ data: { data } }) => data.subscribes)
+            .catch(({ response: { data } }) => {
+               throw data;
+            }),
+      enabled: user ?? false
    });
    return { ...result, subscribeItems: result.data ?? [] };
 }

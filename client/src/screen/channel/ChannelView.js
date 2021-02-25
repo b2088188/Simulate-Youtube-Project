@@ -18,7 +18,7 @@ import {
    ListGroup,
    Span
 } from 'design/components';
-import { setFlex, media } from 'design/utils';
+import { setFlex, media, colorNormal, colorPrimary } from 'design/utils';
 import useAuth from 'context/auth/authContext';
 import ChannelItem from './ChannelItem';
 import { AreaSpinner, Spinner } from 'components/Spinner';
@@ -32,16 +32,12 @@ const ChannelView = ({ className }) => {
       isIdle: isChannelIdle,
       isLoading: isChannelLoading,
       isSuccess: isChannelSuccess
-      // isError: isChannelError,
-      //error: errorChannel
    } = useChannelInfo(channelId);
    const {
       channelVideos,
       isIdle: isChannelVideosIdle,
       isLoading: isChannelVideosLoading,
-      isSuccess: isChannelVideosSuccess,
-      isError: isChannelVideosError,
-      error: errorChannelVideos
+      isSuccess: isChannelVideosSuccess
    } = useChannelVideos(channelId);
    const {
       isLoading: isMutateLoading,
@@ -82,13 +78,13 @@ const ChannelView = ({ className }) => {
          <Col
             width='10'
             css={`
-               color: #fff;
+               color: ${colorNormal.white};
             `}
          >
             <div
                css={`
                   ${setFlex({ x: 'space-between', y: 'center' })}
-                  background-image: linear-gradient(to right bottom, var(--color-primary-light), var(--color-primary-dark));
+                  background-image: linear-gradient(to right bottom, ${colorPrimary.light}, ${colorPrimary.dark});
                   padding: 2rem 20%;
                   ${media.phone(`
                      padding: .5rem 1rem;
@@ -100,7 +96,11 @@ const ChannelView = ({ className }) => {
                      ${setFlex({ y: 'center' })}
                   `}
                >
-                  <ImageContainer width='7.5rem'>
+                  <ImageContainer
+                     css={`
+                        width: 7.5rem;
+                     `}
+                  >
                      <Image modifiers='round' src={channel.image} />
                   </ImageContainer>
                   <div
@@ -136,8 +136,6 @@ const ChannelView = ({ className }) => {
             >
                {isChannelVideosIdle || isChannelVideosLoading ? (
                   <AreaSpinner />
-               ) : isChannelVideosError && errorChannelVideos ? (
-                  <Message severity='error' text={errorChannelVideos.message} />
                ) : isChannelVideosSuccess ? (
                   renderChannelVideos(channelVideos)
                ) : null}

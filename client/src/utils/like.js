@@ -7,15 +7,14 @@ function useLikeItems() {
 	const [{ user }] = useAuth();
 	const result = useQuery({
 		queryKey: ['like-items', user?._id],
-		queryFn: () => {
-			if (user)
-				return userRequest
-					.get(`/${user?._id}/likes`)
-					.then(({ data: { data } }) => data.likes)
-					.catch(({ response: { data } }) => {
-						throw data;
-					});
-		}
+		queryFn: () =>
+			userRequest
+				.get(`/${user?._id}/likes`)
+				.then(({ data: { data } }) => data.likes)
+				.catch(({ response: { data } }) => {
+					throw data;
+				}),
+		enabled: user ?? false
 	});
 	return { ...result, likeItems: result.data ?? [] };
 }

@@ -4,6 +4,7 @@ import AuthProvider from './auth/AuthProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import GlobalStyle from 'design/GlobalStyle';
 import { StylesProvider } from '@material-ui/styles';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 export const queryClient = new QueryClient({
    defaultOptions: {
@@ -24,6 +25,7 @@ export const queryClient = new QueryClient({
 const AppProviders = ({ children }) => {
    return (
       <QueryClientProvider client={queryClient}>
+         <ReactQueryDevtools initialIsOpen={false} />
          <StylesProvider injectFirst>
             <GlobalStyle />
             <Router>
