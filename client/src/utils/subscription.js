@@ -15,14 +15,16 @@ function useSubscribeItems() {
                .catch(({ response: { data } }) => {
                   throw data;
                });
-      }
+      },
+      placeholderData: []
    });
-   return { ...result, subscribeItems: result.data ?? [] };
+
+   return { ...result, subscribeItems: result.data };
 }
 
 function useSubscribeItem(channelId) {
    const { subscribeItems } = useSubscribeItems();
-   return subscribeItems?.find((el) => el.channel._id === channelId) || null;
+   return subscribeItems.find((el) => el.channel._id === channelId) || null;
 }
 
 function useDefaultMutationOptionsInVideo(videoId) {
