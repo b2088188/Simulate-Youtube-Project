@@ -28,14 +28,15 @@ function useCommentLikeItems() {
 				.catch(({ response: { data } }) => {
 					throw data;
 				}),
-		enabled: user ?? false
+		enabled: user ?? false,
+		placeholderData: []
 	});
-	return { ...result, commentLikes: result.data ?? [] };
+	return { ...result, commentLikes: result.data };
 }
 
 function useCommentLikeItem(commentId) {
 	const { commentLikes } = useCommentLikeItems();
-	return commentLikes?.find((el) => el.comment === commentId) || null;
+	return commentLikes.find((el) => el.comment === commentId);
 }
 
 function useCreateCommentLike(videoId, sort) {

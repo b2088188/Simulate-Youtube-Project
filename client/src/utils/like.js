@@ -14,14 +14,15 @@ function useLikeItems() {
 				.catch(({ response: { data } }) => {
 					throw data;
 				}),
-		enabled: user ?? false
+		enabled: user ?? false,
+		placeholderData: []
 	});
-	return { ...result, likeItems: result.data ?? [] };
+	return { ...result, likeItems: result.data };
 }
 
 function useLikeItem(videoId) {
 	const { likeItems } = useLikeItems();
-	return likeItems.find((el) => el.videoId === videoId) ?? null;
+	return likeItems.find((el) => el.videoId === videoId);
 }
 
 function useDefaultMutationOptionsInVideo(videoId, userId) {
