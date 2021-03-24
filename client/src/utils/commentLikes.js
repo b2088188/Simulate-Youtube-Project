@@ -28,7 +28,7 @@ function useCommentLikeItems() {
 				.catch(({ response: { data } }) => {
 					throw data;
 				}),
-		enabled: user ?? false,
+		enabled: user ? true : false,
 		placeholderData: []
 	});
 	return { ...result, commentLikes: result.data };

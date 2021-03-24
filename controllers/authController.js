@@ -1,4 +1,5 @@
 import  User from '../models/userModel.js'
+import Like from '../models/likeModel.js';
 import  catchAsync from '../utils/catchAsync.js'
 import  AppError from '../utils/appError.js'
 import  jwt from 'jsonwebtoken'
@@ -74,10 +75,12 @@ export const isLoggedIn = catchAsync(async (req, res, next) => {
     const currentUser = await User.findById(decoded.id);
     if (!currentUser)
         return next(new AppError('The user belonging to this token does no longer exist', 401));
+    const likes = await Like.find({user:currentUser._id});
     res.status(200).json({
         status: 'success',
         data: {
-            user: currentUser
+            user: currentUser,
+            likes
         }
     })
 })

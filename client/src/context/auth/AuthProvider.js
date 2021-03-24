@@ -1,12 +1,28 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
 import { AuthStateProvider, AuthActionProvider } from './authContext';
 import { useAsync } from 'utils/hooks';
-import { useQueryClient } from 'react-query';
 import { FullPageSpinner } from 'components/Spinner';
-import { authRequest } from 'apis/backend';
+import { authRequest, userRequest } from 'apis/backend';
+import { queryClient } from 'context';
+
+async function getInitialAuth() {
+   try {
+      const {
+         data: { data }
+      } = await authRequest.get('/');
+      // Getting the user data and user's like items
+      // Inserting like items into cache
+      queryClient.setQueryData('like-items', data.likes);
+      return data.user;
+   } catch (err) {
+      return;
+   }
+}
+
+// Start fetching user data before component mounted,
+const userPromise = getInitialAuth();
 
 const AuthProvider = ({ children }) => {
-   const queryClient = useQueryClient();
    const {
       data: user,
       error,
@@ -19,20 +35,9 @@ const AuthProvider = ({ children }) => {
       setError
    } = useAsync();
 
-   const getInitialAuth = useCallback(async function () {
-      try {
-         const {
-            data: { data }
-         } = await authRequest.get('/');
-         return data.user;
-      } catch (err) {
-         return;
-      }
-   }, []);
-
    useEffect(() => {
-      run(getInitialAuth());
-   }, [getInitialAuth, run]);
+      run(userPromise);
+   }, [run]);
 
    const login = useCallback(
       async function (values) {

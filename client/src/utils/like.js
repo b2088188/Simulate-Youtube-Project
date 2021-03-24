@@ -14,7 +14,7 @@ function useLikeItems() {
 				.catch(({ response: { data } }) => {
 					throw data;
 				}),
-		enabled: user ?? false,
+		enabled: user ? true : false,
 		placeholderData: []
 	});
 	return { ...result, likeItems: result.data };

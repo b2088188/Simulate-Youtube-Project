@@ -14,7 +14,7 @@ function useSubscribeItems() {
             .catch(({ response: { data } }) => {
                throw data;
             }),
-      enabled: user ?? false,
+      enabled: user ? true : false,
       placeholderData: []
    });
    return { ...result, subscribeItems: result.data };
